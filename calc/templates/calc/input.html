@@ -14,7 +14,7 @@
 <body>
     <!-- navbar-light bg-light -->
     <!-- <div class="d-flex justify-content-between hidden-lg-up"> -->
-    <nav class="navbar navbar-inverse navbar-static-top" role="navigation" id="navbar_header">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="navbar_header">
       <div>
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -50,69 +50,120 @@
     </div>
 </header>
 
-<section id="info-1">
-    <div class="text-center">
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-            {% block 'content1' %}
-            {{ input_form.non_field_errors }}
-
-            <form action="" method = "post">
-                {% csrf_token %}
-
-                <table cellspacing="0">
-                    {% if formtitle %}
-                        <tr><td colspan="2"><strong>{{ formtitle }}</strong></td></tr>
-                    {% endif %}
-
-                    {% for field in input_form %}
-                            {% if field.errors %}
-                                <tr><td colspan="2">{{ field.errors }}</td></tr>
-                            {% endif %}
-                            <tr><td>{{ field.label_tag }}</td><td>{{ field }}</td></tr>
-                    {% endfor %}
-
-                    <tr><td colspan="2"><input class="submit" type="submit" value="Next" /></td></tr>
-                </table>
-            </form>
+<style>
+.container {
+  margin-top: 50px;
+}
+</style>
+<div>
+{% block 'content1' %}
+{{ input_form.non_field_errors }}
+<form action="" method = "post">
+    {% csrf_token %}
+    <div class="container col-sm-0 col-md-4 col-lg-4"></div>
+    <div class="container">
+        <div class="col-sm-4 col-md-4 col-lg-4">
+            <div id="basic_questions" class="container">
+                <div id="basic_info_panel">
+<!--                 <div class="form_title no_print">Tell us a little bit about your household</div>
+                <div class="explanation no_print sub_heading">We will not save your data.</div> -->
+                    <div class="form-adults">
+                        <label for="adults">How many adults (age 18+) live in your home?</label>
+                        <a data-toggle="modal" data-target="#houseSizeDetails" class="explanation_prompt">Explain this</a>
+                        <p>{{ input_form.adults.label_tag }}{{ input_form.adults }}</p>
+                    </div> 
+                    <div class="form-children">
+                        <label for="children">How many children live in your home?</label>
+                        <a data-toggle="modal" data-target="#houseSizeDetails" class="explanation_prompt">Explain this</a>
+                        <p>{{ input_form.children.label_tag }}{{ input_form.children }}</p>
+                    </div> 
+                    <div class="form-fee">
+                        <label for="fee">How many adults (age 18+) live in your home?</label>
+                    <a data-toggle="modal" data-target="#houseSizeDetails" class="explanation_prompt">Explain this</a>
+                    <p>{{ input_form.fee.label_tag }}{{ input_form.fee }}</p>
+                    </div> 
+                <div class="form-rebate">
+                    <label for="rebate">How many adults (age 18+) live in your home?</label>
+                    <a data-toggle="modal" data-target="#houseSizeDetails" class="explanation_prompt">Explain this</a>
+                    <p>{{ input_form.rebate_portion.label_tag }}{{ input_form.rebate_portion }}</p>
+                </div> 
+                </div>
+            </div>
         </div>
     </div>
-    {% endblock %}
-</div>
-</section>
+    <div class="container col-sm-0 col-md-4 col-lg-4"></div>
 
-
-<!-- <section id="info-2">
-    <div class="text-center">
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-            {% block 'content2' %}
-            {{ input_form.non_field_errors }}
-
-            <form action="" method = "post">
-                {% csrf_token %}
-
-                <table cellspacing="0">
-                    {% if formtitle %}
-                        <tr><td colspan="2"><strong>{{ formtitle }}</strong></td></tr>
-                    {% endif %}
-
-                    {% for field in input_form %}
-                            {% if field.errors %}
-                                <tr><td colspan="2">{{ field.errors }}</td></tr>
-                            {% endif %}
-                            <tr><td>{{ field.label_tag }}</td><td>{{ field }}</td></tr>
-                    {% endfor %}
-
-                    <tr><td colspan="2"><input class="submit" type="submit" value="Submit" /></td></tr>
-                </table>
-            </form>
+    <div class="container"></div>
+    <div class="container">
+        <div class="col-sm-12 col-md-4 col-lg-4">
+            <div id="gas_panel">
+<!--                 <div class="form_title no_print">Please tell us about your gasoline usage</div>-->
+                <div class="form-gas-type">
+                    <label for="gas-type">What type of gasoline do you normally use?</label>
+                    <a data-toggle="modal" data-target="#houseSizeDetails" class="explanation_prompt">Explain this</a>
+                    <p>{{ input_form.gasoline_type.label_tag }}{{ input_form.gasoline_type }}</p>
+                </div> 
+                <div class="form-gas-amt">
+                    <label for="gas-amt">How much gasoline do you use in a month?</label>
+                    <a data-toggle="modal" data-target="#houseSizeDetails" class="explanation_prompt">Explain this</a>
+                    <p>{{ input_form.gasoline_amt.label_tag }}{{ input_form.gasoline_amt }}</p>
+                </div> 
+                <div class="form-gas-amt">
+                    <label for="gas-amt">How much gasoline do you use in a month?</label>
+                    <a data-toggle="modal" data-target="#houseSizeDetails" class="explanation_prompt">Explain this</a>
+                    <p>{{ input_form.gasoline_unit.label_tag }}{{ input_form.gasoline_unit }}</p>
+                </div> 
+            </div>
+        </div>
+<!--     <div class="col-sm-12 visible-sm"> </div>
+ -->    <div class="col-sm-12 col-md-4 col-lg-4">
+            <div id="heat_panel">
+<!--                 <div class="form-heat-type">Please tell us about your heat usage</div> -->
+                <div class="heat-type">
+                    <label for="adults">What do you use to heat your house?</label>
+                    <a data-toggle="modal" data-target="#houseSizeDetails" class="explanation_prompt">Explain this</a>
+                    <p>{{ input_form.heating_type.label_tag }}{{ input_form.heating_type }}</p>
+                </div> 
+                <div class="form-heat-amt">
+                    <label for="children">How much gasoline do you use in a month?</label>
+                    <a data-toggle="modal" data-target="#houseSizeDetails" class="explanation_prompt">Explain this</a>
+                    <p>{{ input_form.heating_amt.label_tag }}{{ input_form.heating_amt }}</p>
+                </div> 
+                <div class="form-heat-amt">
+                    <label for="children">How much gasoline do you use in a month?</label>
+                    <a data-toggle="modal" data-target="#houseSizeDetails" class="explanation_prompt">Explain this</a>
+                    <p>{{ input_form.heating_unit.label_tag }}{{ input_form.heating_unit }}</p>
+                </div> 
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-4 col-lg-4">
+            <div id="gas_panel">
+<!--                 <div class="form_title no_print">Please tell us about your electricity usage</div>-->               
+                <div class="form-adults">
+                    <label for="adults">What is the source of electricity in your household?</label>
+                    <a data-toggle="modal" data-target="#houseSizeDetails" class="explanation_prompt">Explain this</a>
+                    <p>{{ input_form.elec_type.label_tag }}{{ input_form.elec_type }}</p>
+                </div> 
+                <div class="form-children">
+                    <label for="children">How much electricity o you use?</label>
+                    <a data-toggle="modal" data-target="#houseSizeDetails" class="explanation_prompt">Explain this</a>
+                    <p>{{ input_form.elec_amt.label_tag }}{{ input_form.elec_amt }}</p>
+                </div> 
+                <div class="form-children">
+                    <label for="children">How much electricity o you use?</label>
+                    <a data-toggle="modal" data-target="#houseSizeDetails" class="explanation_prompt">Explain this</a>
+                    <p>{{ input_form.elec_unit.label_tag }}{{ input_form.elec_unit }}</p>
+                </div> 
+            </div>
         </div>
     </div>
-    {% endblock %}
+    <div class = "container text-center">
+        <input class="submit btn btn-default btn-lg" type="submit" value="Next"/>
+    </div>
+    <div class="container"></div>
+</form>
+{% endblock %}
 </div>
-</section> -->
-
 
 </body>
 </html>
