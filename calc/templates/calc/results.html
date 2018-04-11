@@ -176,44 +176,184 @@ var myChart = new Chart(ctx, {
     }
 </style>
 
-<script>
-    $( function() {
-        var scaleFactor = .01;
-        var minVal = -120;
-        var maxVal = 120;
-        var stepVal = 1
-        var handle = $( "#custom-handle" );
-        var unit = " min"
+<!--<script>-->
+    <!--$( function() {-->
+        <!--var scaleFactor = .01;-->
+        <!--var minVal = -120;-->
+        <!--var maxVal = 120;-->
+        <!--var stepVal = 1-->
+        <!--var handle = $( "#custom-handle" );-->
+        <!--var unit = " min"-->
 
-        $( "#slider" ).slider({
-            create: function() {
-                handle.text( $( this ).slider( "value" ) + unit );
-                },
-            value: 0,
-            min: minVal,
-            max: maxVal,
-            step: stepVal,
-            slide: function( event, ui ) {
-                var value = ui.value;
-                handle.text( value + unit );
-                myChart.data.datasets[0].data[0] = $("#slider").slider("option","value")*scaleFactor;
-                myChart.update();
-            }
-        });
-    });
-</script>
+        <!--$( "#slider" ).slider({-->
+            <!--create: function() {-->
+                <!--handle.text( $( this ).slider( "value" ) + unit );-->
+                <!--},-->
+            <!--value: 0,-->
+            <!--min: minVal,-->
+            <!--max: maxVal,-->
+            <!--step: stepVal,-->
+            <!--slide: function( event, ui ) {-->
+                <!--var value = ui.value;-->
+                <!--handle.text( value + unit );-->
+                <!--myChart.data.datasets[0].data[0] = $("#slider").slider("option","value")*scaleFactor;-->
+                <!--myChart.update();-->
+            <!--}-->
+        <!--});-->
+    <!--});-->
+<!--</script>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<p>-->
+    <!--Turn off the lights more each day:-->
+<!--</p>-->
+
+<!--<div id="slider">-->
+  <!--<div id="custom-handle" class="ui-slider-handle"></div>-->
+<!--</div>-->
+
+<style>
+.slidecontainer {
+    width: 50%;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+}
+</style>
 </head>
 <body>
 
-<p>
-    Turn off the lights more each day:
-</p>
+<h1>Actions</h1>
+<p>I will turn off <b>n</b> lights which are <b>w</b> watts each for <b>h</b> hours a day.</p>
 
-<div id="slider">
-  <div id="custom-handle" class="ui-slider-handle"></div>
+<div class="slidecontainer">
+  <input type="range" min="0" max="10" value="0" class="slider" id="myRange">
+  <p><b>n</b>: <span id="demo"></span></p>
 </div>
 
+<div class="slidecontainer">
+  <input type="range" min="5" max="150" value="50" class="slider" id="myRange1">
+  <p><b>w</b>: <span id="demo1"></span></p>
+</div>
 
+<div class="slidecontainer">
+  <input type="range" min="1" max="24" value="4" class="slider" id="myRange2">
+  <p><b>h</b>: <span id="demo2"></span></p>
+</div>
+
+<p>Money saved on lighting: <span id="lights"></span> </p>
+
+<br><br><br>
+
+<div class="slidecontainer">
+  <input type="range" min="1" max="100" value="50" class="slider" id="myRange3">
+  <p>Value: <span id="demo3"></span></p>
+</div>
+
+<div class="slidecontainer">
+  <input type="range" min="1" max="100" value="50" class="slider" id="myRange4">
+  <p>Value: <span id="demo4"></span></p>
+</div>
+
+<script>
+
+var slider = document.getElementById("myRange");
+var output = document.getElementById("demo");
+output.innerHTML = slider.value;
+
+var slider1 = document.getElementById("myRange1");
+var output1 = document.getElementById("demo1");
+output1.innerHTML = slider1.value;
+
+var slider2 = document.getElementById("myRange2");
+var output2 = document.getElementById("demo2");
+output2.innerHTML = slider2.value;
+
+var lights_result = document.getElementById("lights");
+
+calculate_light = function() {
+    var val = slider.value * slider1.value * slider2.value * 365/1000 * .1572;
+    lights_result.innerHTML = val;
+    myChart.data.datasets[0].data[0] = val;
+}
+
+calculate_tot = function() {
+    var tot = 0;
+    var i;
+    for (i = 0; i < 3; i++) {
+        tot += myChart.data.datasets[0].data[i];
+    }
+    myChart.data.datasets[0].data[3] = tot;
+    myChart.update();
+}
+
+calculate_light()
+calculate_tot()
+
+slider.oninput = function() {
+  calculate_tot();
+  calculate_light();
+  output.innerHTML = this.value;
+}
+
+slider1.oninput = function() {
+  calculate_tot()
+  calculate_light()
+  output1.innerHTML = this.value;
+}
+
+slider2.oninput = function() {
+  calculate_tot()
+  calculate_light()
+  output2.innerHTML = this.value;
+}
+
+var slider3 = document.getElementById("myRange3");
+var output3 = document.getElementById("demo3");
+output3.innerHTML = slider3.value;
+
+slider3.oninput = function() {
+  output3.innerHTML = this.value;
+}
+
+var slider4 = document.getElementById("myRange4");
+var output4 = document.getElementById("demo4");
+output4.innerHTML = slider4.value;
+
+slider4.oninput = function() {
+  output4.innerHTML = this.value;
+}
+
+</script>
 
 </body>
 </html>
