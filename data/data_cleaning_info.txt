@@ -1,0 +1,11 @@
+DATA CLEANING INFO
+
+To create zip_code_data_nj.txt
+1) Extract zip code sheet from the original data sheet from Berkeley
+2) Remove all rows whose state is NOT NJ
+3) There should now be 4 zip codes which have a 0-value for FUELOIL: 7428, We need to clean these values.
+7428 is filled with 489 based on the county data for SUSSEX (city data for MC AFEE not available)
+7608 is filled with 108 based on the county data for BERGEN (city data for TETERBORO not available)
+8248 and 8252 were filled with 98 based on county data for CAPE MAY (city data for STRATHMERE and WHITESBORO not available)
+
+TODO: add data from other states’ zip codes and clean that data too
