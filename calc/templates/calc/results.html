@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<meta name="viewport" content="width = device-width, initial-scale = 1">
+<title>Carbon Dividend Calculator</title>
+
+
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Carbon Dividend Calculator</title>
+
+<link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+   rel = "stylesheet">
+<script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.4.5/js/mdb.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<!-- 
+    <script type="text/javascript" src="//www.shieldui.com/shared/components/latest/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="//www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
+     -->
+</head>
+
+<style>
+.table {
+    border-radius: 5px;
+    width: 30%;
+    margin: 0px auto;
+    float: none;
+}
+</style>
+
+<body class="theme-light">
+
+    <!-- navbar-light bg-light -->
+    <!-- <div class="d-flex justify-content-between hidden-lg-up"> -->
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation" id="navbar_header">
+      <div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/calc/" id="navbar-title">Carbon Dividend Calculator</a>
+        </div>
+
+        <!-- this div hides the items from the navigation bar for smaller screens -->
+          <div id="navbar" class="collapse navbar-collapse">
+            <!-- navbar-right -->
+              <ul class="nav navbar-nav">
+                  <li>
+                    <a href="/calc/">Home</a>
+                  </li>
+                  <li class="active">
+                    <a href="/calc/input">Calculator</a>
+                  </li>
+                  <li>
+                    <a href="/calc/about">About</a>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </nav>
+
+<header class="bg-primary text-white">
+    <div class="container text-center">
+        <h1>Carbon Dividend Calculator</h1>
+        <p class="lead">Carbon fee and dividend puts a price on carbon and returns the money to households and businesses</p>
+    </div>
+</header>
+
+
+<section id="info">
+    <div class="">
+{% block 'content' %}
+
+<table class="table table-striped table-bordered">
+    <thread>
+    <tr><td>Benefit</td><td>${{ up.benefit|stringformat:".2f" }}</td></tr>
+    <tr><td>Elec Cost</td><td>${{ up.elec_cost|stringformat:".2f" }}</td></tr>
+    <tr><td>Gasoline Cost</td><td>${{ up.gasoline_cost|stringformat:".2f" }}</td></tr>
+    <tr><td>Heating Cost</td><td>${{ up.heating_cost|stringformat:".2f" }}</td></tr>
+    <tr><td>Total Cost</td><td>${{ up.total_cost|stringformat:".2f" }}</td></tr>
+    <tr><td>Net</td><td>${{ up.net|stringformat:".2f" }}</td></tr>
+</thread>
+
+</table>
+
+{% endblock %}
+    </div>
+</div>
+
+<div class="col-md-5">
+    <canvas id="myChart" ></canvas>
+</div>
+
+<script>
+var ctx = document.getElementById("myChart").getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ["Electricity", "Gasoline", "Heating", "Total"],
+        datasets: [{
+            label: 'Monthly cost increase in dollars',
+            data: [{{ up.elec_cost }}, {{ up.gasoline_cost }}, {{ up.heating_cost }}, {{ up.total_cost }}],
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                // 'rgba(255, 206, 86, 0.2)',
+                // 'rgba(75, 192, 192, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(75, 255, 192, 0.2)'
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                // 'rgba(75, 192, 192, 1)',
+                // 'rgba(153, 102, 255, 1)',
+                'rgba(75, 192, 192, 1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+</script>
+
+<style>
+#slider {
+    width: 50%;
+    margin: 2em auto;
+}
+</style>
+
+<style>
+    #slider label {
+        position: absolute;
+        width: 20px;
+        margin-top: 20px;
+        margin-left: -10px;
+        text-align: center;
+    }
+</style>
+
+<style>
+    #custom-handle {
+        width: 5em;
+        height: 1.6em;
+        top: 50%;
+        margin-top: -.8em;
+        text-align: center;
+        line-height: 1.6em;
+    }
+</style>
+
+<script>
+    $( function() {
+        var scaleFactor = .01;
+        var minVal = -120;
+        var maxVal = 120;
+        var stepVal = 1
+        var handle = $( "#custom-handle" );
+        var unit = " min"
+
+        $( "#slider" ).slider({
+            create: function() {
+                handle.text( $( this ).slider( "value" ) + unit );
+                },
+            value: 0,
+            min: minVal,
+            max: maxVal,
+            step: stepVal,
+            slide: function( event, ui ) {
+                var value = ui.value;
+                handle.text( value + unit );
+                myChart.data.datasets[0].data[0] = $("#slider").slider("option","value")*scaleFactor;
+                myChart.update();
+            }
+        });
+    });
+</script>
+</head>
+<body>
+
+<p>
+    Turn off the lights more each day:
+</p>
+
+<div id="slider">
+  <div id="custom-handle" class="ui-slider-handle"></div>
+</div>
+
+
+
+</body>
+</html>
