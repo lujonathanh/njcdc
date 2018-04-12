@@ -9,30 +9,61 @@
     <meta charset="UTF-8">
     <title>Carbon Dividend Calculator</title>
 
-<link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
-   rel = "stylesheet">
-<script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
-<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.4.5/js/mdb.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.4.5/js/mdb.min.js"></script> 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-<!-- 
-    <script type="text/javascript" src="//www.shieldui.com/shared/components/latest/js/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="//www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
-     -->
+    <style>
+    .table {
+        border-radius: 5px;
+        width: 30%;
+        margin: 0px auto;
+        float: none;
+    }
+
+    .container {
+        margin-top: 50px;
+    }
+
+    .slidecontainer {
+        margin: auto;
+        width: 75%;
+    }
+
+    .slider {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 25px;
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+    }
+
+    .slider:hover {
+        opacity: 1;
+    }
+
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        background: #4CAF50;
+        cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        background: #4CAF50;
+        cursor: pointer;
+    }
+    </style>
+
 </head>
-
-<style>
-.table {
-    border-radius: 5px;
-    width: 30%;
-    margin: 0px auto;
-    float: none;
-}
-
-</style>
 
 <body>
     <!-- navbar-light bg-light -->
@@ -73,14 +104,6 @@
     </div>
 </header>
 
-<style>
-.container {
-  margin-top: 50px;
-}
-</style>
-
-
-
 <section id="info">
     <div class="">
 {% block 'content' %}
@@ -102,158 +125,73 @@
 
 {% endblock %}
     </div>
-</div>
 
-<div class="col-md-5">
-    <canvas id="myChart" ></canvas>
-</div>
+<body>
+    <div style="margin: auto; width: 50%;">
+        <canvas id="myChart"></canvas>
+    </div>
+</body>
 
 <script>
-var ctx = document.getElementById("myChart").getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ["Electricity", "Gasoline", "Heating", "Total"],
-        datasets: [{
-            label: 'Monthly cost increase in dollars',
-            data: [{{ up.elec_cost }}, {{ up.gasoline_cost }}, {{ up.heating_cost }}, {{ up.total_cost }}],
-            backgroundColor: [
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                // 'rgba(255, 206, 86, 0.2)',
-                // 'rgba(75, 192, 192, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(75, 255, 192, 0.2)'
-            ],
-            borderColor: [
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                // 'rgba(75, 192, 192, 1)',
-                // 'rgba(153, 102, 255, 1)',
-                'rgba(75, 192, 192, 1)',
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["Electricity", "Gasoline", "Heating", "Total"],
+            datasets: [
+            {
+                label: 'Monthly cost increase with actions',
+                data: [{{ up.elec_cost }}, {{ up.gasoline_cost }}, {{ up.heating_cost }}, {{ up.total_cost }}],
+                backgroundColor: [
+                    'rgba(250,128,114, 0.2)',
+                    'rgba(250,128,114, 0.2)',
+                    'rgba(250,128,114, 0.2)',
+                    'rgba(250,128,114, 0.5)',
+                ],
+                borderColor: [
+                    'rgba(250,128,114, 1)',
+                    'rgba(250,128,114, 1)',
+                    'rgba(250,128,114, 1)',
+                    'rgba(250,128,114, 1)',
+                ],
+                borderWidth: 1
+            },
+            {
+                label: 'Monthly cost increase without actions',
+                data: [{{ up.elec_cost }}, {{ up.gasoline_cost }}, {{ up.heating_cost }}, {{ up.total_cost }}],
+                backgroundColor: [
+                    'rgba(54, 162, 235, .2)',
+                    'rgba(54, 162, 235, .2)',
+                    'rgba(54, 162, 235, .2)',
+                    'rgba(54, 162, 235, .5)',
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                ],
+                borderWidth: 1
             }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
         }
-    }
-});
+    });
 </script>
 
-<style>
-#slider {
-    width: 50%;
-    margin: 2em auto;
-}
-</style>
-
-<style>
-    #slider label {
-        position: absolute;
-        width: 20px;
-        margin-top: 20px;
-        margin-left: -10px;
-        text-align: center;
-    }
-</style>
-
-<style>
-    #custom-handle {
-        width: 5em;
-        height: 1.6em;
-        top: 50%;
-        margin-top: -.8em;
-        text-align: center;
-        line-height: 1.6em;
-    }
-</style>
-
-<!--<script>-->
-    <!--$( function() {-->
-        <!--var scaleFactor = .01;-->
-        <!--var minVal = -120;-->
-        <!--var maxVal = 120;-->
-        <!--var stepVal = 1-->
-        <!--var handle = $( "#custom-handle" );-->
-        <!--var unit = " min"-->
-
-        <!--$( "#slider" ).slider({-->
-            <!--create: function() {-->
-                <!--handle.text( $( this ).slider( "value" ) + unit );-->
-                <!--},-->
-            <!--value: 0,-->
-            <!--min: minVal,-->
-            <!--max: maxVal,-->
-            <!--step: stepVal,-->
-            <!--slide: function( event, ui ) {-->
-                <!--var value = ui.value;-->
-                <!--handle.text( value + unit );-->
-                <!--myChart.data.datasets[0].data[0] = $("#slider").slider("option","value")*scaleFactor;-->
-                <!--myChart.update();-->
-            <!--}-->
-        <!--});-->
-    <!--});-->
-<!--</script>-->
-<!--</head>-->
-<!--<body>-->
-
-<!--<p>-->
-    <!--Turn off the lights more each day:-->
-<!--</p>-->
-
-<!--<div id="slider">-->
-  <!--<div id="custom-handle" class="ui-slider-handle"></div>-->
-<!--</div>-->
-
-<style>
-.slidecontainer {
-    width: 50%;
-}
-
-.slider {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 25px;
-    background: #d3d3d3;
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
-}
-
-.slider:hover {
-    opacity: 1;
-}
-
-.slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 25px;
-    height: 25px;
-    background: #4CAF50;
-    cursor: pointer;
-}
-
-.slider::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    background: #4CAF50;
-    cursor: pointer;
-}
-</style>
-</head>
 <body>
 
-<h1>Actions</h1>
-<p>I will turn off <b>n</b> lights which are <b>w</b> watts each for <b>h</b> hours a day.</p>
+<div>
+    <h1>Actions</h1>
+    <p>I will turn off <b>n</b> lights which are <b>w</b> watts each for <b>h</b> hours a day.</p>
+</div>
 
 <div class="slidecontainer">
   <input type="range" min="0" max="10" value="0" class="slider" id="myRange">
@@ -272,8 +210,6 @@ var myChart = new Chart(ctx, {
 
 <p>Money saved on lighting: <span id="lights"></span> </p>
 
-<br><br><br>
-
 <div class="slidecontainer">
   <input type="range" min="1" max="100" value="50" class="slider" id="myRange3">
   <p>Value: <span id="demo3"></span></p>
@@ -285,75 +221,74 @@ var myChart = new Chart(ctx, {
 </div>
 
 <script>
+    var slider = document.getElementById("myRange");
+    var output = document.getElementById("demo");
+    output.innerHTML = slider.value;
 
-var slider = document.getElementById("myRange");
-var output = document.getElementById("demo");
-output.innerHTML = slider.value;
+    var slider1 = document.getElementById("myRange1");
+    var output1 = document.getElementById("demo1");
+    output1.innerHTML = slider1.value;
 
-var slider1 = document.getElementById("myRange1");
-var output1 = document.getElementById("demo1");
-output1.innerHTML = slider1.value;
+    var slider2 = document.getElementById("myRange2");
+    var output2 = document.getElementById("demo2");
+    output2.innerHTML = slider2.value;
 
-var slider2 = document.getElementById("myRange2");
-var output2 = document.getElementById("demo2");
-output2.innerHTML = slider2.value;
+    var lights_result = document.getElementById("lights");
 
-var lights_result = document.getElementById("lights");
-
-calculate_light = function() {
-    var val = slider.value * slider1.value * slider2.value * 365/1000 * .1572;
-    lights_result.innerHTML = val;
-    myChart.data.datasets[0].data[0] = val;
-}
-
-calculate_tot = function() {
-    var tot = 0;
-    var i;
-    for (i = 0; i < 3; i++) {
-        tot += myChart.data.datasets[0].data[i];
+    calculate_light = function() {
+        var val = slider.value * slider1.value * slider2.value * 365/1000 * .1572 / 12;
+        lights_result.innerHTML = val;
+        myChart.data.datasets[1].data[0] = {{ up.elec_cost }} - val;
+        myChart.update();
     }
-    myChart.data.datasets[0].data[3] = tot;
-    myChart.update();
-}
 
-calculate_light()
-calculate_tot()
+    calculate_tot = function() {
+        var tot = 0;
+        var i;
+        for (i = 0; i < 3; i++) {
+            tot += myChart.data.datasets[1].data[i];
+        }
+        myChart.data.datasets[1].data[3] = tot;
+        myChart.update();
+    }
 
-slider.oninput = function() {
-  calculate_tot();
-  calculate_light();
-  output.innerHTML = this.value;
-}
+    calculate_light();
+    calculate_tot();
 
-slider1.oninput = function() {
-  calculate_tot()
-  calculate_light()
-  output1.innerHTML = this.value;
-}
+    slider.oninput = function() {
+      calculate_light();
+      calculate_tot();
+      output.innerHTML = this.value;
+    }
 
-slider2.oninput = function() {
-  calculate_tot()
-  calculate_light()
-  output2.innerHTML = this.value;
-}
+    slider1.oninput = function() {
+      calculate_light();
+      calculate_tot();
+      output1.innerHTML = this.value;
+    }
 
-var slider3 = document.getElementById("myRange3");
-var output3 = document.getElementById("demo3");
-output3.innerHTML = slider3.value;
+    slider2.oninput = function() {
+      calculate_light();
+      calculate_tot();
+      output2.innerHTML = this.value;
+    }
 
-slider3.oninput = function() {
-  output3.innerHTML = this.value;
-}
+    var slider3 = document.getElementById("myRange3");
+    var output3 = document.getElementById("demo3");
+    output3.innerHTML = slider3.value;
 
-var slider4 = document.getElementById("myRange4");
-var output4 = document.getElementById("demo4");
-output4.innerHTML = slider4.value;
+    slider3.oninput = function() {
+      output3.innerHTML = this.value;
+    }
 
-slider4.oninput = function() {
-  output4.innerHTML = this.value;
-}
+    var slider4 = document.getElementById("myRange4");
+    var output4 = document.getElementById("demo4");
+    output4.innerHTML = slider4.value;
 
+    slider4.oninput = function() {
+      output4.innerHTML = this.value;
+    }
 </script>
-
 </body>
+
 </html>
