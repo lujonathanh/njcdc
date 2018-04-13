@@ -29,7 +29,7 @@ def validate_leq20(value):
                               params={'value': value},
                               )
 
-PERIOD_CHOICES = (('month', 'Per Month'), ('year', 'Per Year'))
+PERIOD_CHOICES = (('month', 'Per Month'), )
 
 ELEC_CHOICES = ( ('pseg', 'PSE&G'), ('rockland', 'Orange Rockland Electric'),
                  ('jcpl', 'Jersey Central Power & Light'), ('atlantic', 'Atlantic City Electric'))
@@ -282,7 +282,8 @@ class UserProfile(models.Model):
     ##############    GASOLINE    ##############
 
     # the fundamental unit: gasoline in gallons per month
-    gasoline_amt = models.FloatField(default=1.0, validators=[validate_nonnegative])
+    # we set the 200 gall/month based on average across zipcodes in NJ: 198 gall/month, see data/zipcode_data_nj.txt
+    gasoline_amt = models.FloatField(default=200.0, validators=[validate_nonnegative])
     gasoline_type = models.CharField(choices=GASOLINE_CHOICES, default='e10', max_length=40)
     gasoline_unit = models.CharField(choices=GASOLINE_UNIT_CHOICES, default=get_possible_gasoline_units('e10')[0],
                                     max_length=40)
