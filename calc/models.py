@@ -233,7 +233,7 @@ def get_heating_co2_conversion(heating_type, heating_unit, elec_type=None):
     # Simply return CO2 content of electricity
     elif heating_type == 'elec':
         if heating_unit == 'kWh':
-            heating_co2_conversion = get_elec_co2_conversion(elec_type)
+            heating_co2_conversion = get_elec_co2_conversion(elec_type, heating_unit) # modified CW 4/12/18
         else:
             raise ValueError("Heating Unit " + str(heating_unit) + " not allowed for heating type " + str(heating_type))
 
