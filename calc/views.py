@@ -26,6 +26,12 @@ def about(request):
     return HttpResponse(template.render(context, request))
 
 def input(request):
+    # request.session["blah"] = "blarg"  # session test code from Changyan
+    # request.session.modified = True
+    # s = request.session
+    # m = s.modified
+    # i = s.items()
+    # meth = request.method
     if request.method == 'POST':
         input_form = InputForm(request.POST)
 
@@ -33,7 +39,7 @@ def input(request):
             user = input_form.save(commit=False)
             request.session["user"] = user
             messages.success(request, "Thank you for entering")
-
+            request.session.modified = True
             return HttpResponseRedirect(reverse('results'))
 
         messages.error(request, 'There were errors. Please try again.')
@@ -45,6 +51,10 @@ def input(request):
     return HttpResponse(template.render(context, request))
 
 def results(request):
+    # s = request.session  # session test code from Changyan
+    # m = s.modified
+    # i = s.items()
+    # up = s["user"]
     up = request.session["user"]
 
     up.calculate_net()
