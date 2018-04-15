@@ -27,15 +27,19 @@
     }
 
     .sticky {
-        <!--position: fixed;-->
-        <!--top: 0;-->
-        margin: auto;
-        width: 100%;
+        position: fixed;
+        top: 0;
+        width: 50%;
+        <!--margin: auto;-->
     }
 
     .chartcontainer{
-        margin: auto;
+        <!--margin: auto;-->
         width: 50%;
+    }
+
+    .sticky + .chartcontainer {
+        margin: auto;
     }
 
     .slidecontainer {
@@ -203,7 +207,6 @@
 
     window.onscroll = function() {
         if (window.pageYOffset >= sticky) {
-            chartcont.classList.remove("chartcontainer");
             chartcont.classList.add("sticky");
         } else {
             chartcont.classList.remove("sticky");
