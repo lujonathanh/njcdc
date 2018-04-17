@@ -37,6 +37,10 @@
         margin: auto;
         width: 50%;
     }
+    .chartcontainer.large{
+        margin: auto;
+        width: 80%;
+    }
 
     .slidecontainer {
         margin: auto;
@@ -140,10 +144,40 @@
     </div>
 
 <body>
-    <div class="chartcontainer" id="chartcont">
-        <canvas id="myChart"></canvas>
+  <div class="row ">
+    <div class="col-sm-6 chartcontainer">
+     <canvas id="Net_chart"></canvas>
     </div>
-</body>
+    <div class="col-sm-6 chartcontainer">
+        <canvas id="myChart"></canvas>   
+    </div>
+  </div>
+<!--     <div class="chartcontainer large hidden-sm hidden-xs" id="chartcont">
+        <table style="width:100%">
+            <tr>
+                <th>
+                    <canvas id="Net_chart"></canvas>
+                </th>
+                <th>
+                    <canvas id="myChart"></canvas>   
+                </th>   
+            </tr>
+        </table>      
+    </div> -->
+
+<!--     <div class="chartcontainer hidden-lg hidden-md" id="chartcont">
+        <table style="width:100%">
+            <th>
+                <tr>
+                    <canvas id="Net_chart"></canvas>
+                </tr>
+                <tr>
+                    <canvas id="myChart"></canvas>   
+                </tr>   
+            </th>
+        </table>      
+    </div> -->
+
 
 <script>
     var ctx = document.getElementById("myChart").getContext('2d');
@@ -154,7 +188,7 @@
             datasets: [
             {
                 label: 'Monthly cost increase without actions',
-                data: [{{ up.elec_cost }}, {{ up.gasoline_cost }}, {{ up.heating_cost }}, {{ up.total_cost }}],
+                data: [{{ up.elec_cost|stringformat:".2f" }}, {{ up.gasoline_cost|stringformat:".2f" }}, {{ up.heating_cost|stringformat:".2f" }}, {{ up.total_cost|stringformat:".2f" }}],
                 backgroundColor: [
                     'rgba(250,128,114, 0.2)',
                     'rgba(250,128,114, 0.2)',
@@ -171,7 +205,7 @@
             },
             {
                 label: 'Monthly cost increase with actions',
-                data: [{{ up.elec_cost }}, {{ up.gasoline_cost }}, {{ up.heating_cost }}, {{ up.total_cost }}],
+                data: [{{ up.elec_cost|stringformat:".2f" }}, {{ up.gasoline_cost|stringformat:".2f" }}, {{ up.heating_cost|stringformat:".2f" }}, {{ up.total_cost|stringformat:".2f" }}],
                 backgroundColor: [
                     'rgba(54, 162, 235, .2)',
                     'rgba(54, 162, 235, .2)',
@@ -197,7 +231,55 @@
             }
         }
     });
-
+    var ctx1 = document.getElementById("Net_chart").getContext('2d');
+    var Net_chart = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+            labels:[''],
+            datasets: [{
+                label: 'Monthly cost',
+                data: [{{ up.total_cost_minus|stringformat:".2f" }}],
+                backgroundColor: [
+                    'rgba(235, 162, 54, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(235, 162, 54, 1)'
+                ],
+                borderWidth: 1
+            },
+            {
+                label: 'Monthly benefit',
+                data: [{{ up.benefit|stringformat:".2f" }}],
+                backgroundColor: [
+                    'rgba(54, 235, 162, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(54, 235, 162, 1)'
+                ],
+                borderWidth: 1
+            },
+            {
+                label: 'Net gain',
+                data: [{{ up.net|stringformat:".2f" }}],
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)'
+                ],
+                borderWidth: 1
+            },]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
     <!--var chartcont = document.getElementById("chartcont");-->
     <!--var sticky = chartcont.offsetTop;-->
 
@@ -210,12 +292,12 @@
     <!--};-->
 </script>
 
-<body>
 
-<div>
+
+<div class="container">
     <h1>Actions</h1>
     <p>I will turn off <b>n</b> lights which are <b>w</b> watts each for <b>h</b> hours a day.</p>
-</div>
+
 
 <div class="slidecontainer">
   <input type="range" min="0" max="10" value="0" class="slider" id="myRange">
@@ -277,7 +359,9 @@
 </div>
 
 <p style="text-align:center;"> Money saved on heating: <span id="heating"></span> </p>
-
+</div>
+<br/>
+<br/>
 <script>
 
     ELEC_PRICE = .1572;
@@ -290,28 +374,28 @@
         for (i = 0; i < 3; i++) {
             tot += myChart.data.datasets[1].data[i];
         }
-        myChart.data.datasets[1].data[3] = tot;
+        myChart.data.datasets[1].data[3] = parseFloat(tot).toFixed(2);
         myChart.update();
     }
 
     calculate_light = function() {
         var val = slider.value * slider1.value * slider2.value * 365/1000 * ELEC_PRICE / 12;
         lights_result.innerHTML = val;
-        myChart.data.datasets[1].data[0] = {{ up.elec_cost }} - val;
+        myChart.data.datasets[1].data[0] = parseFloat({{ up.elec_cost }} - val).toFixed(2);
         myChart.update();
     }
 
     calculate_driving = function() {
         var val = (1/slider3.value - 1/slider4.value) * slider5.value * GAS_PRICE * 4.25;
         driving_result.innerHTML = val;
-        myChart.data.datasets[1].data[1] = {{ up.gasoline_cost }} - val;
+        myChart.data.datasets[1].data[1] = parseFloat({{ up.gasoline_cost }} - val).toFixed(2);
         myChart.update();
     }
 
     calculate_heating = function() {
         var val = (slider6.value*(10/24) + slider7.value*(8/24))*HEAT_MULTIPLIER*slider8.value / 12;
         heating_result.innerHTML = val;
-        myChart.data.datasets[1].data[2] = {{ up.heating_cost }} - val;
+        myChart.data.datasets[1].data[2] = parseFloat({{ up.heating_cost }} - val).toFixed(2);
         myChart.update();
     }
 
