@@ -77,20 +77,19 @@
     <div class="container">
         <div class="col-sm-4 col-md-4 col-lg-4">
                 <div id="basic_info_panel">
-<!--                 <div class="form_title no_print">Tell us a little bit about your household</div>
-                <div class="explanation no_print sub_heading">We will not save your data.</div> -->
                     <div>
-                        <label for="adults" class="text-center">How many adults (age 18+) live in your home?</label>
+                        <label class="text-center">How many adults (age 18+) live in your home?</label>
                         <div class="text-center">{{ input_form.adults }}
                             <a href="#" data-toggle="tooltip" data-placement="top" title="The number of adults helps us determine the default values of your carbon emissions, based on other families of a similar size"><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                         </div>
                     </div>
                     <br/>
                     <div>
-                        <label for="children">How many children live in your home?</label>
+                        <label>How many children live in your home?</label>
                         <div class="text-center">{{ input_form.children }}
                             <a href="#" data-toggle="tooltip" data-placement="top" title="The number of children helps us determine the default values of your carbon emissions, based on other families of a similar size"><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                         </div>
+
                     </div>
                     <!--<div class="form-fee">-->
                         <!--<label for="fee">What is the policy's fee per ton of carbon?</label>-->
@@ -104,6 +103,9 @@
                 <!--</div> -->
 
                 </div>
+
+                    </div> 
+
         </div>
     </div>
     <div class="container col-sm-0 col-md-4 col-lg-4"></div>
@@ -111,19 +113,18 @@
     <div class="container"></div>
     <div class="container">
         <div class="col-sm-12 col-md-4 col-lg-4">
-            <div id="gas_panel">
-<!--                 <div class="form_title no_print">Please tell us about your gasoline usage</div>-->
+            <div>
                 <h1>Gasoline Usage</h1>
                 </br>
-                <div class="form-gas-type">
-                    <label for="gas-type">What type of gasoline do you normally use?</label>
+                <div>
+                    <label>What type of gasoline do you normally use?</label>
                     <div class="text-center">{{ input_form.gasoline_type }}
                         <a href="#" data-toggle="tooltip" data-placement="top" title="Different gasoline types produce different amounts of carbon emissions when burned."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
                 <br/>
-                <div class="form-gas-amt">
-                    <label for="gas-amt">How much gasoline do you use in a month?</label>
+                <div>
+                    <label>How much gasoline do you use in a month?</label>
                     <div class="text-center">{{ input_form.gasoline_amt }}{{ input_form.gasoline_unit }}
                         <a href="#" data-toggle="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
@@ -137,15 +138,15 @@
 <!--                 <div class="form-heat-type">Please tell us about your heat usage</div> -->
                <h1>Heating</h1>
            </br>
-                <div class="heat-type">
-                    <label for="adults">What do you use to heat your house?</label>
+                <div >
+                    <label>What do you use to heat your house?</label>
                     <div class="text-center">{{ input_form.heating_type }}
                         <a href="#" data-toggle="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
                 </br>
-                <div class="form-heat-amt">
-                    <label for="children">How much gasoline do you use in a month?</label>
+                <div>
+                    <label>How much gasoline do you use in a month?</label>
                     <div class="text-center">{{ input_form.heating_amt }}{{ input_form.heating_unit }}
                         <a href="#" data-toggle="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
@@ -158,15 +159,15 @@
 <!--                  <div class="form_title no_print">Electricity Usage</div> -->
                <h1>Electricity Usage</h1>
                </br>
-               <div class="form-adults">
-                    <label for="adults">What is the source of electricity in your household?</label>
+               <div>
+                    <label>What is the source of electricity in your household?</label>
                     <div class="text-center">{{ input_form.elec_type }}
                         <a href="#" data-toggle="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
                 </br>
-                <div class="form-children">
-                    <label for="children">How much electricity do you use?</label>
+                <div>
+                    <label>How much electricity do you use?</label>
                     <div class="text-center">{{ input_form.elec_amt }}{{ input_form.elec_unit }}
                         <a href="#" data-toggle="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
