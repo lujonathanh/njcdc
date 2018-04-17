@@ -71,7 +71,7 @@
 <div>
 {% block 'content1' %}
 {{ input_form.non_field_errors }}
-<form action="" method = "post">
+<form action="" method = "post" id="userProfile" load-gasoline-units-url="{% url 'ajax_load_gasoline_units' %}" novalidate>
     {% csrf_token %}
     <div class="container col-sm-0 col-md-4 col-lg-4"></div>
     <div class="container">
@@ -91,22 +91,18 @@
                         <div class="text-center">{{ input_form.children }}
                             <a href="#" data-toggle="tooltip" data-placement="top" title="The number of children helps us determine the default values of your carbon emissions, based on other families of a similar size"><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                         </div>
-                    </div> 
-                    <br/>
-                    <div class="form-fee ">
-                        <label for="fee">Choose a carbon fee</label>
-                        <div class="text-center">{{ input_form.fee }}
-                            <a href="#" data-toggle="tooltip" data-placement="top" title="The carbon fee is the price paid in taxes for each metric ton of CO2."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
-                        </div>
-                    </div> 
-                    <br/>
-                    <div>
-                    <label for="rebate">Choose a rebate portion</label>
-                        <div class="text-center">{{ input_form.rebate_portion }}
-                        <a href="#" data-toggle="tooltip" data-placement="top" title="The rebate is the portion of the tax that would be returned back
-                        to households in the form of a check in the mail. 
-                        The rest of the money would be invested in local businesses."><img src="{% static "calc/question.png" %}" width="15" height="15"></a></div>
-                    </div> 
+                    </div>
+                    <!--<div class="form-fee">-->
+                        <!--<label for="fee">What is the policy's fee per ton of carbon?</label>-->
+                    <!--<a data-toggle="modal" data-target="#houseSizeDetails" class="explanation_prompt">Explain this</a>-->
+                    <!--<p>{{ input_form.fee.label_tag }}{{ input_form.fee }}</p>-->
+                    <!--</div> -->
+                <!--<div class="form-rebate">-->
+                    <!--<label for="rebate">What is the policy's estimated annual rebate?</label>-->
+                    <!--<a data-toggle="modal" data-target="#houseSizeDetails" class="explanation_prompt">Explain this</a>-->
+                    <!--<p>{{ input_form.rebate_portion.label_tag }}{{ input_form.rebate_portion }}</p>-->
+                <!--</div> -->
+
                 </div>
         </div>
     </div>
@@ -183,6 +179,27 @@
     </div>
     <div class="container"></div>
 </form>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    $("#gasoline_unit").change(function () {
+      var url = $("#personForm").attr("load-gasoline-units-url");  // get the url of the `load_gasoline_units` view
+      var countryId = $(this).val();  // get the selected country ID from the HTML input
+
+      $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'country': countryId       // add the country id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          $("#id_city").html(data);  // replace the contents of the city input with the data that came from the server
+        }
+      });
+
+    });
+  </script>
+
+
 {% endblock %}
 </div>
 
