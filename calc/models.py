@@ -354,6 +354,7 @@ class UserProfile(models.Model):
 
 
         self.total_cost = self.gasoline_cost + self.elec_cost + self.heating_cost
+        self.total_cost_minus = -1*self.total_cost
 
         self.net = self.benefit - self.total_cost
 
