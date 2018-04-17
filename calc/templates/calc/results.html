@@ -38,10 +38,6 @@
         width: 50%;
     }
 
-    .sticky + .chartcontainer {
-        margin: auto;
-    }
-
     .slidecontainer {
         margin: auto;
         width: 75%;
@@ -313,7 +309,7 @@
     }
 
     calculate_heating = function() {
-        var val = (slider6.value*(10/24) + slider7.value*(8/24))*HEAT_MULTIPLIER*slider8.value;
+        var val = (slider6.value*(10/24) + slider7.value*(8/24))*HEAT_MULTIPLIER*slider8.value / 12;
         heating_result.innerHTML = val;
         myChart.data.datasets[1].data[2] = {{ up.heating_cost }} - val;
         myChart.update();
