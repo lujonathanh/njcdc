@@ -184,11 +184,11 @@
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ["Electricity", "Gasoline", "Heating", "Total"],
+            labels: ["Gasoline", "Electricity", "Heating", "Total"],
             datasets: [
             {
                 label: 'Monthly cost increase without actions',
-                data: [{{ up.elec_cost|stringformat:".2f" }}, {{ up.gasoline_cost|stringformat:".2f" }}, {{ up.heating_cost|stringformat:".2f" }}, {{ up.total_cost|stringformat:".2f" }}],
+                data: [{{ up.gasoline_cost|stringformat:".2f" }}, {{ up.elec_cost|stringformat:".2f" }}, {{ up.heating_cost|stringformat:".2f" }}, {{ up.total_cost|stringformat:".2f" }}],
                 backgroundColor: [
                     'rgba(250,128,114, 0.2)',
                     'rgba(250,128,114, 0.2)',
@@ -205,7 +205,7 @@
             },
             {
                 label: 'Monthly cost increase with actions',
-                data: [{{ up.elec_cost|stringformat:".2f" }}, {{ up.gasoline_cost|stringformat:".2f" }}, {{ up.heating_cost|stringformat:".2f" }}, {{ up.total_cost|stringformat:".2f" }}],
+                data: [{{ up.gasoline_cost|stringformat:".2f" }}, {{ up.elec_cost|stringformat:".2f" }}, {{ up.heating_cost|stringformat:".2f" }}, {{ up.total_cost|stringformat:".2f" }}],
                 backgroundColor: [
                     'rgba(54, 162, 235, .2)',
                     'rgba(54, 162, 235, .2)',
@@ -381,14 +381,14 @@
     calculate_light = function() {
         var val = slider.value * slider1.value * slider2.value * 365/1000 * ELEC_PRICE / 12;
         lights_result.innerHTML = val;
-        myChart.data.datasets[1].data[0] = parseFloat({{ up.elec_cost }} - val).toFixed(2);
+        myChart.data.datasets[1].data[1] = parseFloat({{ up.elec_cost }} - val).toFixed(2);
         myChart.update();
     }
 
     calculate_driving = function() {
         var val = (1/slider3.value - 1/slider4.value) * slider5.value * GAS_PRICE * 4.25;
         driving_result.innerHTML = val;
-        myChart.data.datasets[1].data[1] = parseFloat({{ up.gasoline_cost }} - val).toFixed(2);
+        myChart.data.datasets[1].data[0] = parseFloat({{ up.gasoline_cost }} - val).toFixed(2);
         myChart.update();
     }
 
