@@ -384,7 +384,7 @@
     calculate_light = function() {
         var val = slider.value * slider1.value * slider2.value * 365/1000 * ELEC_PRICE / 12;
         lights_result.innerHTML = val;
-        myChart.data.datasets[1].data[1] = parseFloat({{ up.elec_cost }} - val).toFixed(2);
+        myChart.data.datasets[1].data[2] = parseFloat({{ up.elec_cost }} - val).toFixed(2);
         myChart.update();
     }
 
@@ -398,7 +398,7 @@
     calculate_heating = function() {
         var val = (slider6.value*(10/24) + slider7.value*(8/24))*HEAT_MULTIPLIER*slider8.value / 12;
         heating_result.innerHTML = val;
-        myChart.data.datasets[1].data[2] = parseFloat({{ up.heating_cost }} - val).toFixed(2);
+        myChart.data.datasets[1].data[1] = parseFloat({{ up.heating_cost }} - val).toFixed(2);
         myChart.update();
     }
 
