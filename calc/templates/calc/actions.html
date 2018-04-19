@@ -225,7 +225,10 @@
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero:true
+                        beginAtZero:true,
+                        callback: function(value, index, values) {
+                            return '$' + value;
+                        }
                     }
                 }]
             }
@@ -276,6 +279,9 @@
                     ticks: {
                         beginAtZero:true,
                         callback: function(value, index, values) {
+                            if (value < 0) {
+                                return '-$' + (-1 * value);
+                            }
                             return '$' + value;
                         }
                     }
