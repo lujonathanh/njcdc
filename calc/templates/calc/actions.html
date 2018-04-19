@@ -184,11 +184,11 @@
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ["Gasoline", "Electricity", "Heating", "Total"],
+            labels: ["Gasoline", "Heating", "Electricity", "Total"],
             datasets: [
             {
                 label: 'Monthly cost increase without actions',
-                data: [{{ up.gasoline_cost|stringformat:".2f" }}, {{ up.elec_cost|stringformat:".2f" }}, {{ up.heating_cost|stringformat:".2f" }}, {{ up.total_cost|stringformat:".2f" }}],
+                data: [{{ up.gasoline_cost|stringformat:".2f" }}, {{ up.heating_cost|stringformat:".2f" }}, {{ up.elec_cost|stringformat:".2f" }}, {{ up.total_cost|stringformat:".2f" }}],
                 backgroundColor: [
                     'rgba(250,128,114, 0.2)',
                     'rgba(250,128,114, 0.2)',
@@ -205,7 +205,7 @@
             },
             {
                 label: 'Monthly cost increase with actions',
-                data: [{{ up.gasoline_cost|stringformat:".2f" }}, {{ up.elec_cost|stringformat:".2f" }}, {{ up.heating_cost|stringformat:".2f" }}, {{ up.total_cost|stringformat:".2f" }}],
+                data: [{{ up.gasoline_cost|stringformat:".2f" }}, {{ up.heating_cost|stringformat:".2f" }}, {{ up.elec_cost|stringformat:".2f" }}, {{ up.total_cost|stringformat:".2f" }}],
                 backgroundColor: [
                     'rgba(54, 162, 235, .2)',
                     'rgba(54, 162, 235, .2)',
