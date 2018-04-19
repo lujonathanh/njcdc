@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+
+<meta name="viewport" content="width = device-width, initial-scale = 1">
+<title>Carbon Dividend Calculator</title>
+
+
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Carbon Dividend Calculator</title>
+
+
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.4.5/js/mdb.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+    <style>
+    .table {
+        border-radius: 5px;
+        width: 30%;
+        margin: 0px auto;
+        float: none;
+    }
+
+    .container {
+        margin-top: 50px;
+    }
+
+    .sticky {
+        position: fixed;
+        top: 0;
+        width: 50%;
+        <!--margin: auto;-->
+    }
+
+    .chartcontainer{
+        margin: auto;
+        width: 50%;
+    }
+    .chartcontainer.large{
+        margin: auto;
+        width: 80%;
+    }
+
+    .slidecontainer {
+        margin: auto;
+        width: 75%;
+    }
+
+    .slider {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 25px;
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+    }
+
+    .slider:hover {
+        opacity: 1;
+    }
+
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        background: #4CAF50;
+        cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        background: #4CAF50;
+        cursor: pointer;
+    }
+
+    </style>
+
+</head>
+
+<body>
+    <!-- navbar-light bg-light -->
+    <!-- <div class="d-flex justify-content-between hidden-lg-up"> -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="navbar_header">
+      <div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/calc/" id="navbar-title">Carbon Dividend Calculator</a>
+        </div>
+
+        <!-- this div hides the items from the navigation bar for smaller screens -->
+          <div id="navbar" class="collapse navbar-collapse">
+            <!-- navbar-right -->
+              <ul class="nav navbar-nav">
+                  <li>
+                    <a href="/calc/">Home</a>
+                  </li>
+                  <li class="active">
+                    <a href="/calc/input">Calculator</a>
+                  </li>
+                  <li>
+                    <a href="/calc/about">About</a>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </nav>
+
+<header class="bg-primary text-white">
+    <div class="container text-center">
+        <h1>Carbon Dividend Calculator</h1>
+        <p class="lead">Carbon fee and dividend puts a price on carbon and returns the money to households and businesses</p>
+    </div>
+</header>
+
+<section id="info">
+    <div class="">
+{% block 'content' %}
+
+<div class = "container">
+
+<table class="table table-striped table-bordered">
+    <thread>
+    <tr><td>Benefit</td><td>${{ up.benefit|stringformat:".2f" }}</td></tr>
+    <tr><td>Elec Cost</td><td>${{ up.elec_cost|stringformat:".2f" }}</td></tr>
+    <tr><td>Gasoline Cost</td><td>${{ up.gasoline_cost|stringformat:".2f" }}</td></tr>
+    <tr><td>Heating Cost</td><td>${{ up.heating_cost|stringformat:".2f" }}</td></tr>
+    <tr><td>Total Cost</td><td>${{ up.total_cost|stringformat:".2f" }}</td></tr>
+    <tr><td>Net</td><td>${{ up.net|stringformat:".2f" }}</td></tr>
+</thread>
+</div>
+
+</table>
+
+{% endblock %}
+    </div>
+
+<body>
+  <div >
+    <div class="col-sm-6 chartcontainer">
+     <canvas id="Net_chart"></canvas>
+    </div>
+    <div class="col-sm-6 chartcontainer">
+        <canvas id="myChart"></canvas>
+    </div>
+  </div>
+<!--     <div class="chartcontainer large hidden-sm hidden-xs" id="chartcont">
+        <table style="width:100%">
+            <tr>
+                <th>
+                    <canvas id="Net_chart"></canvas>
+                </th>
+                <th>
+                    <canvas id="myChart"></canvas>
+                </th>
+            </tr>
+        </table>
+    </div> -->
+
+<!--     <div class="chartcontainer hidden-lg hidden-md" id="chartcont">
+        <table style="width:100%">
+            <th>
+                <tr>
+                    <canvas id="Net_chart"></canvas>
+                </tr>
+                <tr>
+                    <canvas id="myChart"></canvas>
+                </tr>
+            </th>
+        </table>
+    </div> -->
+
+
+<script>
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["Gasoline", "Electricity", "Heating", "Total"],
+            datasets: [
+            {
+                label: 'Monthly cost increase without actions',
+                data: [{{ up.gasoline_cost|stringformat:".2f" }}, {{ up.elec_cost|stringformat:".2f" }}, {{ up.heating_cost|stringformat:".2f" }}, {{ up.total_cost|stringformat:".2f" }}],
+                backgroundColor: [
+                    'rgba(250,128,114, 0.2)',
+                    'rgba(250,128,114, 0.2)',
+                    'rgba(250,128,114, 0.2)',
+                    'rgba(250,128,114, 0.5)',
+                ],
+                borderColor: [
+                    'rgba(250,128,114, 1)',
+                    'rgba(250,128,114, 1)',
+                    'rgba(250,128,114, 1)',
+                    'rgba(250,128,114, 1)',
+                ],
+                borderWidth: 1
+            },
+            {
+                label: 'Monthly cost increase with actions',
+                data: [{{ up.gasoline_cost|stringformat:".2f" }}, {{ up.elec_cost|stringformat:".2f" }}, {{ up.heating_cost|stringformat:".2f" }}, {{ up.total_cost|stringformat:".2f" }}],
+                backgroundColor: [
+                    'rgba(54, 162, 235, .2)',
+                    'rgba(54, 162, 235, .2)',
+                    'rgba(54, 162, 235, .2)',
+                    'rgba(54, 162, 235, .5)',
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+    var ctx1 = document.getElementById("Net_chart").getContext('2d');
+    var Net_chart = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+            labels:[''],
+            datasets: [{
+                label: 'Monthly cost',
+                data: [{{ up.total_cost_minus|stringformat:".2f" }}],
+                backgroundColor: [
+                    'rgba(235, 162, 54, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(235, 162, 54, 1)'
+                ],
+                borderWidth: 1
+            },
+            {
+                label: 'Monthly benefit',
+                data: [{{ up.benefit|stringformat:".2f" }}],
+                backgroundColor: [
+                    'rgba(54, 235, 162, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(54, 235, 162, 1)'
+                ],
+                borderWidth: 1
+            },
+            {
+                label: 'Net gain',
+                data: [{{ up.net|stringformat:".2f" }}],
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)'
+                ],
+                borderWidth: 1
+            },]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+    <!--var chartcont = document.getElementById("chartcont");-->
+    <!--var sticky = chartcont.offsetTop;-->
+
+    <!--window.onscroll = function() {-->
+        <!--if (window.pageYOffset >= sticky) {-->
+            <!--chartcont.classList.add("sticky");-->
+        <!--} else {-->
+            <!--chartcont.classList.remove("sticky");-->
+        <!--}-->
+    <!--};-->
+</script>
+
+
+
+<div class="container">
+    <h1>Actions</h1>
+    <p>I will turn off <b>n</b> lights which are <b>w</b> watts each for <b>h</b> hours a day.</p>
+
+
+<div class="slidecontainer">
+  <input type="range" min="0" max="10" value="0" class="slider" id="myRange">
+  <p><b>n</b>: <span id="demo"></span></p>
+</div>
+
+<div class="slidecontainer">
+  <input type="range" min="5" max="150" value="50" class="slider" id="myRange1">
+  <p><b>w</b>: <span id="demo1"></span></p>
+</div>
+
+<div class="slidecontainer">
+  <input type="range" min="1" max="24" value="4" class="slider" id="myRange2">
+  <p><b>h</b>: <span id="demo2"></span></p>
+</div>
+
+<p style="text-align:center;"> Money saved on lighting: <span id="lights"></span> </p>
+
+<div>
+    <p>My previous vehicle got <b>a</b> mpg, and will replace it with a vehicle that gets <b>b</b> mpg.
+        I will drive this vehicle for <b>m</b> miles/week.</p>
+</div>
+
+<div class="slidecontainer">
+  <input type="range" min="10" max="100" value="23" class="slider" id="myRange3">
+  <p>Value: <span id="demo3"></span></p>
+</div>
+
+<div class="slidecontainer">
+  <input type="range" min="10" max="100" value="50" class="slider" id="myRange4">
+  <p>Value: <span id="demo4"></span></p>
+</div>
+
+<div class="slidecontainer">
+  <input type="range" min="0" max="1500" value="0" class="slider" id="myRange5">
+  <p>Value: <span id="demo5"></span></p>
+</div>
+
+<p style="text-align:center;"> Money saved on driving: <span id="driving"></span> </p>
+
+<div>
+    <p>I will turn my heating down by <b>d</b> degrees during day and <b>n</b> degrees during night.
+        I spend <b>h</b> dollars on heating per year.</p>
+</div>
+
+<div class="slidecontainer">
+  <input type="range" min="0" max="10" value="0" class="slider" id="myRange6">
+  <p>Value: <span id="demo6"></span></p>
+</div>
+
+<div class="slidecontainer">
+  <input type="range" min="0" max="10" value="0" class="slider" id="myRange7">
+  <p>Value: <span id="demo7"></span></p>
+</div>
+
+<div class="slidecontainer">
+  <input type="range" min="0" max="1000" value="200" class="slider" id="myRange8">
+  <p>Value: <span id="demo8"></span></p>
+</div>
+
+<p style="text-align:center;"> Money saved on heating: <span id="heating"></span> </p>
+</div>
+<br/>
+<br/>
+<script>
+
+    ELEC_PRICE = .1572;
+    GAS_PRICE = 2.5;
+    HEAT_MULTIPLIER = .02;
+
+    calculate_tot = function() {
+        var tot = 0;
+        var i;
+        for (i = 0; i < 3; i++) {
+            tot += myChart.data.datasets[1].data[i];
+        }
+        myChart.data.datasets[1].data[3] = parseFloat(tot).toFixed(2);
+        myChart.update();
+    }
+
+    calculate_light = function() {
+        var val = slider.value * slider1.value * slider2.value * 365/1000 * ELEC_PRICE / 12;
+        lights_result.innerHTML = val;
+        myChart.data.datasets[1].data[1] = parseFloat({{ up.elec_cost }} - val).toFixed(2);
+        myChart.update();
+    }
+
+    calculate_driving = function() {
+        var val = (1/slider3.value - 1/slider4.value) * slider5.value * GAS_PRICE * 4.25;
+        driving_result.innerHTML = val;
+        myChart.data.datasets[1].data[0] = parseFloat({{ up.gasoline_cost }} - val).toFixed(2);
+        myChart.update();
+    }
+
+    calculate_heating = function() {
+        var val = (slider6.value*(10/24) + slider7.value*(8/24))*HEAT_MULTIPLIER*slider8.value / 12;
+        heating_result.innerHTML = val;
+        myChart.data.datasets[1].data[2] = parseFloat({{ up.heating_cost }} - val).toFixed(2);
+        myChart.update();
+    }
+
+    var slider = document.getElementById("myRange");
+    var output = document.getElementById("demo");
+    output.innerHTML = slider.value;
+
+    var slider1 = document.getElementById("myRange1");
+    var output1 = document.getElementById("demo1");
+    output1.innerHTML = slider1.value;
+
+    var slider2 = document.getElementById("myRange2");
+    var output2 = document.getElementById("demo2");
+    output2.innerHTML = slider2.value;
+
+    var slider3 = document.getElementById("myRange3");
+    var output3 = document.getElementById("demo3");
+    output3.innerHTML = slider3.value;
+
+    var slider4 = document.getElementById("myRange4");
+    var output4 = document.getElementById("demo4");
+    output4.innerHTML = slider4.value;
+
+    var slider5 = document.getElementById("myRange5");
+    var output5 = document.getElementById("demo5");
+    output5.innerHTML = slider5.value;
+
+    var slider6 = document.getElementById("myRange6");
+    var output6 = document.getElementById("demo6");
+    output6.innerHTML = slider6.value;
+
+    var slider7 = document.getElementById("myRange7");
+    var output7 = document.getElementById("demo7");
+    output7.innerHTML = slider7.value;
+
+    var slider8 = document.getElementById("myRange8");
+    var output8 = document.getElementById("demo8");
+    output8.innerHTML = slider8.value;
+
+    slider.oninput = function() {
+      calculate_light();
+      calculate_tot();
+      output.innerHTML = this.value;
+    }
+
+    slider1.oninput = function() {
+      calculate_light();
+      calculate_tot();
+      output1.innerHTML = this.value;
+    }
+
+    slider2.oninput = function() {
+      calculate_light();
+      calculate_tot();
+      output2.innerHTML = this.value;
+    }
+
+    slider3.oninput = function() {
+      calculate_driving();
+      calculate_tot();
+      output3.innerHTML = this.value;
+    }
+
+    slider4.oninput = function() {
+      calculate_driving();
+      calculate_tot();
+      output4.innerHTML = this.value;
+    }
+
+    slider5.oninput = function() {
+      calculate_driving();
+      calculate_tot();
+      output5.innerHTML = this.value;
+    }
+
+    slider6.oninput = function() {
+      calculate_heating();
+      calculate_tot();
+      output6.innerHTML = this.value;
+    }
+
+    slider7.oninput = function() {
+      calculate_heating();
+      calculate_tot();
+      output7.innerHTML = this.value;
+    }
+
+    slider8.oninput = function() {
+      calculate_heating();
+      calculate_tot();
+      output8.innerHTML = this.value;
+    }
+
+    var lights_result = document.getElementById("lights");
+    var driving_result = document.getElementById("driving");
+    var heating_result = document.getElementById("heating");
+
+    calculate_light();
+    calculate_driving();
+    calculate_heating();
+
+    calculate_tot();
+
+</script>
+</body>
+
+</html>

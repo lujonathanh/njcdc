@@ -78,7 +78,6 @@ def load_gasoline_units(request):
     context = {'units': possible_units}
     return HttpResponse(template.render(context, request))
 
-
 # def results(request):
 #     up = request.session["user"]
 
@@ -96,5 +95,16 @@ def results(request, id):
 
     return returner
 
+def actions(request, id):
+    up = UserProfile.objects.get(id=id)
 
-    
+    up.calculate_net()
+
+    template = loader.get_template('calc/results.html')
+    context = {'up' : up}
+
+    returner = HttpResponse(template.render(context, request))
+
+    UserProfile.objects.filter(id=id).delete()
+
+    return returner
