@@ -129,12 +129,12 @@
 
 <table class="table table-striped table-bordered">
     <thread>
-    <tr><td>Benefit</td><td>${{ up.benefit|stringformat:".2f" }}</td></tr>
-    <tr><td>Elec Cost</td><td>${{ up.elec_cost|stringformat:".2f" }}</td></tr>
-    <tr><td>Gasoline Cost</td><td>${{ up.gasoline_cost|stringformat:".2f" }}</td></tr>
-    <tr><td>Heating Cost</td><td>${{ up.heating_cost|stringformat:".2f" }}</td></tr>
-    <tr><td>Total Cost</td><td>${{ up.total_cost|stringformat:".2f" }}</td></tr>
-    <tr><td>Net</td><td>${{ up.net|stringformat:".2f" }}</td></tr>
+    <tr><td>Benefit</td><td>${{ benefit }}</td></tr>
+    <tr><td>Elec Cost</td><td>${{ elec }}</td></tr>
+    <tr><td>Gasoline Cost</td><td>${{ gas }}</td></tr>
+    <tr><td>Heating Cost</td><td>${{ heat }}</td></tr>
+    <tr><td>Total Cost</td><td> <p id="tot_cost"></p> </td></tr>
+    <tr><td>Net</td><td>$<p id="net"></p></td></tr>
 </thread>
 </div>
 
@@ -142,6 +142,13 @@
 
 {% endblock %}
     </div>
+
+<script>
+    var tot_cost = {{ heat }} + {{ gas }} + {{ elec }};
+    document.getElementById("tot_cost").innerHTML = tot_cost;
+    var net = {{ benefit }} - tot_cost;
+    document.getElementById("net").innerHTML = net;
+</script>
 
 <body>
   <div >
@@ -188,7 +195,7 @@
             datasets: [
             {
                 label: 'Monthly cost increase without actions',
-                data: [{{ up.gasoline_cost|stringformat:".2f" }}, {{ up.elec_cost|stringformat:".2f" }}, {{ up.heating_cost|stringformat:".2f" }}, {{ up.total_cost|stringformat:".2f" }}],
+                data: [{{ gas }}, {{ elec }}, {{ heat }}, tot_cost],
                 backgroundColor: [
                     'rgba(250,128,114, 0.2)',
                     'rgba(250,128,114, 0.2)',
@@ -205,7 +212,7 @@
             },
             {
                 label: 'Monthly cost increase with actions',
-                data: [{{ up.gasoline_cost|stringformat:".2f" }}, {{ up.elec_cost|stringformat:".2f" }}, {{ up.heating_cost|stringformat:".2f" }}, {{ up.total_cost|stringformat:".2f" }}],
+                data: [{{ gas }}, {{ elec }}, {{ heat }}, tot_cost],
                 backgroundColor: [
                     'rgba(54, 162, 235, .2)',
                     'rgba(54, 162, 235, .2)',
@@ -238,7 +245,7 @@
             labels:[''],
             datasets: [{
                 label: 'Monthly cost',
-                data: [{{ up.total_cost_minus|stringformat:".2f" }}],
+                data: [- tot_cost ],
                 backgroundColor: [
                     'rgba(235, 162, 54, 0.2)'
                 ],
@@ -249,7 +256,7 @@
             },
             {
                 label: 'Monthly benefit',
-                data: [{{ up.benefit|stringformat:".2f" }}],
+                data: [{{ benefit }}],
                 backgroundColor: [
                     'rgba(54, 235, 162, 0.2)'
                 ],
@@ -260,7 +267,7 @@
             },
             {
                 label: 'Net gain',
-                data: [{{ up.net|stringformat:".2f" }}],
+                data: [net],
                 backgroundColor: [
                     'rgba(54, 162, 235, 0.2)'
                 ],
@@ -381,21 +388,21 @@
     calculate_light = function() {
         var val = slider.value * slider1.value * slider2.value * 365/1000 * ELEC_PRICE / 12;
         lights_result.innerHTML = val;
-        myChart.data.datasets[1].data[1] = parseFloat({{ up.elec_cost }} - val).toFixed(2);
+        myChart.data.datasets[1].data[1] = parseFloat({{ elec }} - val).toFixed(2);
         myChart.update();
     }
 
     calculate_driving = function() {
         var val = (1/slider3.value - 1/slider4.value) * slider5.value * GAS_PRICE * 4.25;
         driving_result.innerHTML = val;
-        myChart.data.datasets[1].data[0] = parseFloat({{ up.gasoline_cost }} - val).toFixed(2);
+        myChart.data.datasets[1].data[0] = parseFloat({{ gas }} - val).toFixed(2);
         myChart.update();
     }
 
     calculate_heating = function() {
         var val = (slider6.value*(10/24) + slider7.value*(8/24))*HEAT_MULTIPLIER*slider8.value / 12;
         heating_result.innerHTML = val;
-        myChart.data.datasets[1].data[2] = parseFloat({{ up.heating_cost }} - val).toFixed(2);
+        myChart.data.datasets[1].data[2] = parseFloat({{ heat }} - val).toFixed(2);
         myChart.update();
     }
 
