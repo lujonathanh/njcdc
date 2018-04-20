@@ -40,11 +40,10 @@ def input(request):
             messages.success(request, "Thank you for entering")
 
             response = HttpResponseRedirect(reverse('results'))
-
-            response.set_cookie('elec', user.elec_cost)
-            response.set_cookie('gas', user.gasoline_cost)
-            response.set_cookie('heat', user.heating_cost)
-            response.set_cookie('benefit', user.benefit)
+            response.set_cookie('elec', round(user.elec_cost,2))
+            response.set_cookie('gas', round(user.gasoline_cost,2))
+            response.set_cookie('heat', round(user.heating_cost,2))
+            response.set_cookie('benefit', round(user.benefit,2))
 
             # delete user profile immediately
             UserProfile.objects.filter(id=user.id).delete()
