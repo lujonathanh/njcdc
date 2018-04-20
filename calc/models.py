@@ -29,6 +29,13 @@ def validate_leq20(value):
                               params={'value': value},
                               )
 
+# per ton CO2
+FEE = 30
+
+# amount going back to households
+REBATE_PORTION = 0.7
+
+
 PERIOD_CHOICES = (('month', 'Per Month'), )
 
 ELEC_CHOICES = ( ('pseg', 'PSE&G'), ('rockland', 'Orange Rockland Electric'),
@@ -40,7 +47,7 @@ HEATING_CHOICES = ( ('gas', 'Natural Gas'), ('fuel', 'Fuel Oil'), ('elec', 'Elec
 
 HEATING_UNIT_CHOICES = (('therm', 'therms'), ('gallon', 'gallons'), ('kWh', 'kWh'))
 
-GASOLINE_CHOICES = (('e10', '10% Ethanol'), ('e0', 'Pure Gasoline'), ('diesel', 'Diesel'), ('b20', '20% Biodiesel'))
+GASOLINE_CHOICES = (('e10', 'Regular Gasoline'), ('e0', 'Pure Gasoline'), ('diesel', 'Diesel'), ('b20', '20% Biodiesel'))
 
 GASOLINE_UNIT_CHOICES = (('gallon', 'gallons'), )
 # adding the
@@ -270,8 +277,8 @@ def get_heating_co2(heating_type, heating_amt, heating_unit):
 class UserProfile(models.Model):
     # eventually would be cool to load default from other models...
 
-    fee = models.FloatField(default=30., validators=[validate_nonnegative], help_text="Fee, dollars per ton of CO2.")
-    rebate_portion = models.FloatField(default=0.7, validators=[validate_0to1], help_text="Portion of total revenue. The rest goes to sustainableinvestment and relief for vulnerable businesses and communities.")
+    fee = models.FloatField(default=FEE, validators=[validate_nonnegative], help_text="Fee, dollars per ton of CO2.")
+    rebate_portion = models.FloatField(default=REBATE_PORTION, validators=[validate_0to1], help_text="Portion of total revenue. The rest goes to sustainableinvestment and relief for vulnerable businesses and communities.")
     period = models.CharField(choices=PERIOD_CHOICES, default='month', max_length=5, help_text="Time range for calculation.")
 
 

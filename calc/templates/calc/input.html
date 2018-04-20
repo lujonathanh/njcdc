@@ -1,22 +1,12 @@
-<!DOCTYPE html>
-
-<!-- Set the page to the width of the device and set the zoon level -->
-<meta name="viewport" content="width = device-width, initial-scale = 1">
-<title>Carbon Dividend Calculator</title>
+{% extends 'calc/base.html' %}
 
 
+{% block content %}
 
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>Carbon Dividend Calculator</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   {% load static %}
-</head>
-<body>
-    <!-- navbar-light bg-light -->
+<html>
+
+<!-- navbar-light bg-light -->
     <!-- <div class="d-flex justify-content-between hidden-lg-up"> -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="navbar_header">
       <div>
@@ -47,12 +37,12 @@
       </div>
   </nav>
 
-<header class="bg-primary text-white">
-    <div class="container text-center">
-        <h1>Carbon Dividend Calculator</h1>
-        <p class="lead">Carbon fee and dividend puts a price on carbon and returns the money to households and businesses</p>
-    </div>
-</header>
+<body>
+
+
+ <!--navbar-light bg-light-->
+ <!--<div class="d-flex justify-content-between hidden-lg-up">-->
+
 
 <style>
 .container {
@@ -64,12 +54,12 @@
 }
 .right {
        float:right;
-} 
+}
 
 .btn {
       background-color:#666666;
       color:white;
-}   
+}
 .center {
        float:center;
      }
@@ -82,7 +72,7 @@
   padding-bottom: 14px;
   padding-right: 14px;
   padding-left: 14px;
-} 
+}
 .jumbotron.vertical-center {
   margin-top:50px;
   margin-left:300px;
@@ -91,6 +81,7 @@
 }
 
 </style>
+
 <div>
 {% block 'content1' %}
 {{ input_form.non_field_errors }}
@@ -226,3 +217,5 @@ $(document).ready(function(){
 
 </body>
 </html>
+
+{% endblock %}
