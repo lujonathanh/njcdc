@@ -130,9 +130,9 @@
 <table class="table table-striped table-bordered">
     <thread>
     <tr><td>Benefit</td><td>${{ benefit }}</td></tr>
-    <tr><td>Elec Cost</td><td>${{ elec }}</td></tr>
     <tr><td>Gasoline Cost</td><td>${{ gas }}</td></tr>
     <tr><td>Heating Cost</td><td>${{ heat }}</td></tr>
+    <tr><td>Elec Cost</td><td>${{ elec }}</td></tr>
     <tr><td>Total Cost</td><td> <p id="tot_cost"></p> </td></tr>
     <tr><td>Net</td><td>$<p id="net"></p></td></tr>
 </thread>
@@ -159,32 +159,6 @@
         <canvas id="myChart"></canvas>
     </div>
   </div>
-<!--     <div class="chartcontainer large hidden-sm hidden-xs" id="chartcont">
-        <table style="width:100%">
-            <tr>
-                <th>
-                    <canvas id="Net_chart"></canvas>
-                </th>
-                <th>
-                    <canvas id="myChart"></canvas>
-                </th>
-            </tr>
-        </table>
-    </div> -->
-
-<!--     <div class="chartcontainer hidden-lg hidden-md" id="chartcont">
-        <table style="width:100%">
-            <th>
-                <tr>
-                    <canvas id="Net_chart"></canvas>
-                </tr>
-                <tr>
-                    <canvas id="myChart"></canvas>
-                </tr>
-            </th>
-        </table>
-    </div> -->
-
 
 <script>
     var ctx = document.getElementById("myChart").getContext('2d');
@@ -195,7 +169,7 @@
             datasets: [
             {
                 label: 'Monthly cost increase without actions',
-                data: [{{ gas }}, {{ elec }}, {{ heat }}, tot_cost],
+                data: [{{ gas }}, {{ heat }}, {{ elec }}, tot_cost],
                 backgroundColor: [
                     'rgba(250,128,114, 0.2)',
                     'rgba(250,128,114, 0.2)',
@@ -393,28 +367,28 @@
         for (i = 0; i < 3; i++) {
             tot += myChart.data.datasets[1].data[i];
         }
-        myChart.data.datasets[1].data[3] = parseFloat(tot).toFixed(2);
+        myChart.data.datasets[1].data[3] = tot;
         myChart.update();
     }
 
     calculate_light = function() {
         var val = slider.value * slider1.value * slider2.value * 365/1000 * ELEC_PRICE / 12;
         lights_result.innerHTML = val;
-        myChart.data.datasets[1].data[2] = parseFloat({{ elec }} - val).toFixed(2);
+        myChart.data.datasets[1].data[2] = {{ elec }} - val;
         myChart.update();
     }
 
     calculate_driving = function() {
         var val = (1/slider3.value - 1/slider4.value) * slider5.value * GAS_PRICE * 4.25;
         driving_result.innerHTML = val;
-        myChart.data.datasets[1].data[0] = parseFloat({{ gas }} - val).toFixed(2);
+        myChart.data.datasets[1].data[0] = {{ gas }} - val;
         myChart.update();
     }
 
     calculate_heating = function() {
         var val = (slider6.value*(10/24) + slider7.value*(8/24))*HEAT_MULTIPLIER*slider8.value / 12;
         heating_result.innerHTML = val;
-        myChart.data.datasets[1].data[1] = parseFloat({{ heat }} - val).toFixed(2);
+        myChart.data.datasets[1].data[1] = {{ heat }} - val;
         myChart.update();
     }
 
