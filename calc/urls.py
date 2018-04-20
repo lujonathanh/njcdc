@@ -8,9 +8,8 @@ urlpatterns = [
     # path('input/', views.updating_input, name='input'),
     path('plot/', views.plot, name='plot'),
 
-    path('actions/<int:id>', views.actions, name='actions'),
-    path('results/<int:id>', views.results, name='results'),
-    # path('results/', views.results, name='results'),
+    path('actions/', views.actions, name='actions'),
+    path('results/', views.results, name='results'),
 
     path('about/', views.about, name='about'),
     path('chart/', views.chart, name='chart'),

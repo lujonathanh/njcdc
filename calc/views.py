@@ -34,15 +34,22 @@ def input(request):
         if input_form.is_valid():
             user = input_form.save()
 
-
-            # FOR SESSIONS, UNCOMMENT THE BELOW
-            # user = input_form.save(commit=False)
+            user.calculate_net()
             # request.session["user"] = user
             # request.session.modified = True
             messages.success(request, "Thank you for entering")
 
+            response = HttpResponseRedirect(reverse('results'))
 
-            return HttpResponseRedirect(reverse('results', kwargs={'id': user.id}))
+            response.set_cookie('elec', user.elec_cost)
+            response.set_cookie('gas', user.gasoline_cost)
+            response.set_cookie('heat', user.heating_cost)
+            response.set_cookie('benefit', user.benefit)
+
+            # delete user profile immediately
+            UserProfile.objects.filter(id=user.id).delete()
+
+            return response
 
         messages.error(request, 'There were errors. Please try again.')
     else:
@@ -50,8 +57,8 @@ def input(request):
 
     template = loader.get_template('calc/input.html')
     context = {'input_form': input_form, 'formtitle': "Input"}
-    return HttpResponse(template.render(context, request))
-
+    response = HttpResponse(template.render(context, request))
+    return response
 
 # def updating_input(request):
 #     if request.method == 'POST':
@@ -81,30 +88,76 @@ def load_gasoline_units(request):
 # def results(request):
 #     up = request.session["user"]
 
-def results(request, id):
-    up = UserProfile.objects.get(id=id)
+def results(request):
+    context = {}
 
-    up.calculate_net()
+    if 'elec' in request.COOKIES:
+        elec = request.COOKIES['elec']
+        context['elec'] = elec
+
+    else:
+        context['elec'] = {}
+
+    if 'gas' in request.COOKIES:
+        gas = request.COOKIES['gas']
+        context['gas'] = gas
+
+    else:
+        context['gas'] = {}
+
+    if 'heat' in request.COOKIES:
+        heat = request.COOKIES['heat']
+        context['heat'] = heat
+
+    else:
+        context['heat'] = {}
+
+    if 'benefit' in request.COOKIES:
+        benefit = request.COOKIES['benefit']
+        context['benefit'] = benefit
+
+    else:
+        context['benefit'] = {}
 
     template = loader.get_template('calc/results.html')
-    context = {'up' : up}
 
     returner = HttpResponse(template.render(context, request))
-
-    UserProfile.objects.filter(id=id).delete()
 
     return returner
 
-def actions(request, id):
-    up = UserProfile.objects.get(id=id)
+def actions(request):
+    context = {}
 
-    up.calculate_net()
+    if 'elec' in request.COOKIES:
+        elec = request.COOKIES['elec']
+        context['elec'] = elec
 
-    template = loader.get_template('calc/results.html')
-    context = {'up' : up}
+    else:
+        context['elec'] = {}
+
+    if 'gas' in request.COOKIES:
+        gas = request.COOKIES['gas']
+        context['gas'] = gas
+
+    else:
+        context['gas'] = {}
+
+    if 'heat' in request.COOKIES:
+        heat = request.COOKIES['heat']
+        context['heat'] = heat
+
+    else:
+        context['heat'] = {}
+
+    if 'benefit' in request.COOKIES:
+        benefit = request.COOKIES['benefit']
+        context['benefit'] = benefit
+
+    else:
+        context['benefit'] = {}
+
+    template = loader.get_template('calc/actions.html')
 
     returner = HttpResponse(template.render(context, request))
-
-    UserProfile.objects.filter(id=id).delete()
 
     return returner
