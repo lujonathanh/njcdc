@@ -156,7 +156,7 @@
      <canvas id="Net_chart"></canvas>
     </div>
     <div class="col-sm-6 chartcontainer">
-        <canvas id="myChart"></canvas>   
+        <canvas id="myChart"></canvas>
     </div>
   </div>
 <!--     <div class="chartcontainer large hidden-sm hidden-xs" id="chartcont">
@@ -185,7 +185,6 @@
         </table>      
     </div> -->
 
-
 <script>
     var ctx = document.getElementById("myChart").getContext('2d');
     var myChart = new Chart(ctx, {
@@ -209,32 +208,28 @@
                     'rgba(250,128,114, 1)',
                 ],
                 borderWidth: 1
-            },
-            {
-                label: 'Monthly cost increase with actions',
-                data: [{{ gas }}, {{ elec }}, {{ heat }}, tot_cost],
-                backgroundColor: [
-                    'rgba(54, 162, 235, .2)',
-                    'rgba(54, 162, 235, .2)',
-                    'rgba(54, 162, 235, .2)',
-                    'rgba(54, 162, 235, .5)',
-                ],
-                borderColor: [
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                ],
-                borderWidth: 1
             }]
         },
         options: {
+            barPercentage: 0.6,
+            title: {
+                display: true,
+                fontSize: 15,
+                text: 'Change in Monthly Costs, by Area'
+            },
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero:true
+                        beginAtZero:true,
+                        callback: function(value, index, values) {
+                            if (value < 0) {
+                                return '-$' + (-1 * value);
+                            }
+                            return '$' + value;
+                        }
                     }
-                }]
+                }],
+                xAxes: [{barPercentage: 0.6}]
             }
         }
     });
@@ -278,12 +273,24 @@
             },]
         },
         options: {
+            title: {
+                display: true,
+                fontSize: 15,
+                text: 'Change in Monthly Costs and Benefits'
+            },
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero:true
+                        beginAtZero:true,
+                        callback: function(value, index, values) {
+                            if (value < 0) {
+                                return '-$' + (-1 * value);
+                            }
+                            return '$' + value;
+                        }
                     }
-                }]
+                }],
+                xAxes: [{barPercentage: 0.6}]
             }
         }
     });
@@ -299,8 +306,12 @@
     <!--};-->
 </script>
 
+<div class="container text-center">
+    <a href="/calc/actions" class = "btn btn-default btn-lg" role="button">Actions</a>
+    <br><br> <!-- hacky way to add white space at bottom -->
+</div>
 
-
+<!-- OLD ACTIONS STUFF (removed 4/18)
 <div class="container">
     <h1>Actions</h1>
     <p>I will turn off <b>n</b> lights which are <b>w</b> watts each for <b>h</b> hours a day.</p>
@@ -507,6 +518,7 @@
     calculate_tot();
 
 </script>
+-->
 </body>
 
 </html>

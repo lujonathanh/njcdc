@@ -283,26 +283,26 @@ class UserProfile(models.Model):
 
     # the fundamental unit: gasoline in gallons per month
     # we set the 200 gall/month based on average across zipcodes in NJ: 198 gall/month, see data/zipcode_data_nj.txt
-    gasoline_amt = models.FloatField(default=200.0, validators=[validate_nonnegative])
+    gasoline_amt = models.FloatField(default=70.0, validators=[validate_nonnegative])
     gasoline_type = models.CharField(choices=GASOLINE_CHOICES, default='e10', max_length=40)
     gasoline_unit = models.CharField(choices=GASOLINE_UNIT_CHOICES, default=get_possible_gasoline_units('e10')[0],
+                                    max_length=40)
+
+    ##############    HEATING    ##############
+
+    # the fundamental unit: therm for gas, gallons for fuel oil, kWh for elec
+    heating_amt = models.FloatField(default=164.0, validators=[validate_nonnegative])
+    heating_type = models.CharField(choices=HEATING_CHOICES, default='gas', max_length=40)
+    heating_unit = models.CharField(choices=HEATING_UNIT_CHOICES, default=get_possible_heating_units('gas')[0],
                                     max_length=40)
 
     ##############    ELECTRICITY    ##############
 
     # the fundamental unit: electricity in kWh per month
 
-    elec_amt = models.FloatField(default=1.0, validators=[validate_nonnegative])
+    elec_amt = models.FloatField(default=9000.0, validators=[validate_nonnegative])
     elec_type = models.CharField(choices=ELEC_CHOICES, default='pseg', max_length=40, help_text="Your electric utility provider.")
     elec_unit = models.CharField(choices=ELEC_UNIT_CHOICES, default=get_possible_elec_units('pseg')[0],
-                                    max_length=40)
-
-    ##############    HEATING    ##############
-
-    # the fundamental unit: therm for gas, gallons for fuel oil, kWh for elec
-    heating_amt = models.FloatField(default=1.0, validators=[validate_nonnegative])
-    heating_type = models.CharField(choices=HEATING_CHOICES, default='gas', max_length=40)
-    heating_unit = models.CharField(choices=HEATING_UNIT_CHOICES, default=get_possible_heating_units('gas')[0],
                                     max_length=40)
 
 

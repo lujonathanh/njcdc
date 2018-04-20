@@ -191,7 +191,7 @@
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ["Gasoline", "Electricity", "Heating", "Total"],
+            labels: ["Gasoline", "Heating", "Electricity", "Total"],
             datasets: [
             {
                 label: 'Monthly cost increase without actions',
@@ -232,7 +232,13 @@
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero:true
+                        beginAtZero:true,
+                        callback: function(value, index, values) {
+                            if (value < 0) {
+                                return '-$' + (-1 * value);
+                            }
+                            return '$' + value;
+                        }
                     }
                 }]
             }
@@ -281,7 +287,13 @@
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero:true
+                        beginAtZero:true,
+                        callback: function(value, index, values) {
+                            if (value < 0) {
+                                return '-$' + (-1 * value);
+                            }
+                            return '$' + value;
+                        }
                     }
                 }]
             }
@@ -388,7 +400,7 @@
     calculate_light = function() {
         var val = slider.value * slider1.value * slider2.value * 365/1000 * ELEC_PRICE / 12;
         lights_result.innerHTML = val;
-        myChart.data.datasets[1].data[1] = parseFloat({{ elec }} - val).toFixed(2);
+        myChart.data.datasets[1].data[2] = parseFloat({{ elec }} - val).toFixed(2);
         myChart.update();
     }
 
@@ -402,7 +414,7 @@
     calculate_heating = function() {
         var val = (slider6.value*(10/24) + slider7.value*(8/24))*HEAT_MULTIPLIER*slider8.value / 12;
         heating_result.innerHTML = val;
-        myChart.data.datasets[1].data[2] = parseFloat({{ heat }} - val).toFixed(2);
+        myChart.data.datasets[1].data[1] = parseFloat({{ heat }} - val).toFixed(2);
         myChart.update();
     }
 
