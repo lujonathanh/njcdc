@@ -22,24 +22,24 @@
         float: none;
     }
 
+    .actions {
+        position: static;
+        margin-top: 200px;
+    }
+
     .container {
         margin-top: 50px;
     }
 
     .sticky {
         position: fixed;
-        top: 0;
-        width: 50%;
-        <!--margin: auto;-->
+        <!--top: 51px;-->
     }
 
     .chartcontainer{
-        margin: auto;
-        width: 50%;
-    }
-    .chartcontainer.large{
-        margin: auto;
-        width: 80%;
+        z-index:10;
+        background-color: rgba(255,255,255,1.0);
+        width: 100%;
     }
 
     .slidecontainer {
@@ -90,8 +90,6 @@
 </head>
 
 <body>
-    <!-- navbar-light bg-light -->
-    <!-- <div class="d-flex justify-content-between hidden-lg-up"> -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="navbar_header">
       <div>
         <div class="navbar-header">
@@ -128,71 +126,29 @@
     </div>
 </header>
 
-<section id="info">
-<span id="tot_cost" class="white"></span>
-<span id="abs_net"></span>
-    <div class="container text-center">
-    <font size="4">Our calculations show that the current policy will cost/benefit <b id="effect"></b> you <b>$</b><b id="abs_net"></b>. 
+<div class="container text-center">
+    <font size="4">Our calculations show that the current policy will cost/benefit you <b>$</b><b id="abs_net"></b>.
         <br/>
         <br/>
         <p>Move the sliders below to see how changing your energy, gasoline and heating usage habits could help lower your tax.</p>
     </font>
 </div>
-    <div class="">
-{% block 'content' %}
-
-<div class = "container">
-
-
-</div>
-
-
-{% endblock %}
-    </div>
 
 <script>
     var tot_cost = {{ heat }} + {{ gas }} + {{ elec }};
-    document.getElementById("tot_cost").innerHTML = tot_cost;
     var net = {{ benefit }} - tot_cost;
-    document.getElementById("net").innerHTML = net;
     document.getElementById("abs_net").innerHTML = Math.abs(net);
 </script>
 
 <body>
-  <div >
-    <div class="col-sm-6 chartcontainer">
+  <div class = "chartcontainer" id="chartcont">
+    <div class="col-sm-6">
      <canvas id="Net_chart"></canvas>
     </div>
-    <div class="col-sm-6 chartcontainer">
+    <div class="col-sm-6">
         <canvas id="myChart"></canvas>
     </div>
   </div>
-<!--     <div class="chartcontainer large hidden-sm hidden-xs" id="chartcont">
-        <table style="width:100%">
-            <tr>
-                <th>
-                    <canvas id="Net_chart"></canvas>
-                </th>
-                <th>
-                    <canvas id="myChart"></canvas>
-                </th>
-            </tr>
-        </table>
-    </div> -->
-
-<!--     <div class="chartcontainer hidden-lg hidden-md" id="chartcont">
-        <table style="width:100%">
-            <th>
-                <tr>
-                    <canvas id="Net_chart"></canvas>
-                </tr>
-                <tr>
-                    <canvas id="myChart"></canvas>
-                </tr>
-            </th>
-        </table>
-    </div> -->
-
 
 <script>
     var ctx = document.getElementById("myChart").getContext('2d');
@@ -303,25 +259,27 @@ Chart.defaults.global.legend.display = false;
             }
         }
     });
-    <!--var chartcont = document.getElementById("chartcont");-->
-    <!--var sticky = chartcont.offsetTop;-->
 
-    <!--window.onscroll = function() {-->
-        <!--if (window.pageYOffset >= sticky) {-->
-            <!--chartcont.classList.add("sticky");-->
-        <!--} else {-->
-            <!--chartcont.classList.remove("sticky");-->
-        <!--}-->
-    <!--};-->
+    var chartcont = document.getElementById("chartcont");
+    var sticky = chartcont.offsetTop;
+
+    window.onscroll = function() {
+        if (window.pageYOffset + 51 >= sticky) {
+            chartcont.classList.add("sticky");
+        } else {
+            chartcont.classList.remove("sticky");
+        }
+    };
+
+    <!--&lt;!&ndash;document.querySelector('.chartcontainer').style.top = document.querySelector('.navbar').style.bottom + 'px';&ndash;&gt;-->
+    <!--document.querySelector('.chartcontainer').style.top = 1 + 'px';-->
+    <!--alert(document.querySelector('.navbar').style.top)-->
+
 </script>
 
+<div class="actions">
 
-<br/>
-<br/>
-<div class="container">
-    <h1>Actions</h1>
-
-
+<h1>Actions</h1>
 
 <div>
     <h1>Gasoline</h1>
