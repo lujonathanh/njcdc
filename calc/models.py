@@ -29,6 +29,13 @@ def validate_leq20(value):
                               params={'value': value},
                               )
 
+# per ton CO2
+FEE = 30
+
+# amount going back to households
+REBATE_PORTION = 0.7
+
+
 PERIOD_CHOICES = (('month', 'Per Month'), )
 
 ELEC_CHOICES = ( ('pseg', 'PSE&G'), ('rockland', 'Orange Rockland Electric'),
@@ -40,7 +47,7 @@ HEATING_CHOICES = ( ('gas', 'Natural Gas'), ('fuel', 'Fuel Oil'), ('elec', 'Elec
 
 HEATING_UNIT_CHOICES = (('therm', 'therms'), ('gallon', 'gallons'), ('kWh', 'kWh'))
 
-GASOLINE_CHOICES = (('e10', '10% Ethanol'), ('e0', 'Pure Gasoline'), ('diesel', 'Diesel'), ('b20', '20% Biodiesel'))
+GASOLINE_CHOICES = (('e10', 'Regular Gasoline'), ('e0', 'Pure Gasoline'), ('diesel', 'Diesel'), ('b20', '20% Biodiesel'))
 
 GASOLINE_UNIT_CHOICES = (('gallon', 'gallons'), )
 # adding the
@@ -85,16 +92,16 @@ def get_gasoline_co2_conversion(gasoline_type, gasoline_unit):
     # https://www.eia.gov/tools/faqs/faq.php?id=307&t=11
     # 'e10': 17.6/2204.6, 'e0': 19.6/2204.6, 'diesel': 22.4/2204.6, 'biodiesel': 17.9/2204.6
     if gasoline_type == 'e10':
-        if gasoline_unit == 'gallon':
+        if gasoline_unit == 'gallon' or (isinstance(gasoline_unit, tuple) and 'gallon' in gasoline_unit):
             return 17.6/2204.6
     elif gasoline_type == 'e0':
-        if gasoline_unit == 'gallon':
+        if gasoline_unit == 'gallon' or (isinstance(gasoline_unit, tuple) and 'gallon' in gasoline_unit):
             return 19.6/2204.6
     elif gasoline_type == 'diesel':
-        if gasoline_unit == 'gallon':
+        if gasoline_unit == 'gallon' or (isinstance(gasoline_unit, tuple) and 'gallon' in gasoline_unit):
             return 22.4/2204.6
     elif gasoline_type == 'b20':
-        if gasoline_unit == 'gallon':
+        if gasoline_unit == 'gallon' or (isinstance(gasoline_unit, tuple) and 'gallon' in gasoline_unit):
             return 17.9/2204.6
 
     raise ValueError("Gasoline Unit " + str(gasoline_unit) + " not allowed for gasoline type " + str(gasoline_type))
@@ -107,7 +114,7 @@ def get_elec_co2_conversion(elec_type, elec_unit):
     :return: elc_unit (the unit of electricity, e.g. therm),
             elec_co2_conversion (metric tons of CO2/unit)
     """
-    if elec_unit == 'kWh':
+    if elec_unit == 'kWh' or (isinstance(elec_unit, tuple) and 'kWh' in elec_unit):
         # tons of CO2 per elec_unit
         fuel_co2_conversions = {
             'coal': 10045./3412. * 0.0034095 * 26.05 * 11./3 * 0.001,
@@ -270,8 +277,8 @@ def get_heating_co2(heating_type, heating_amt, heating_unit):
 class UserProfile(models.Model):
     # eventually would be cool to load default from other models...
 
-    fee = models.FloatField(default=30., validators=[validate_nonnegative], help_text="Fee, dollars per ton of CO2.")
-    rebate_portion = models.FloatField(default=0.7, validators=[validate_0to1], help_text="Portion of total revenue. The rest goes to sustainableinvestment and relief for vulnerable businesses and communities.")
+    fee = models.FloatField(default=FEE, validators=[validate_nonnegative], help_text="Fee, dollars per ton of CO2.")
+    rebate_portion = models.FloatField(default=REBATE_PORTION, validators=[validate_0to1], help_text="Portion of total revenue. The rest goes to sustainableinvestment and relief for vulnerable businesses and communities.")
     period = models.CharField(choices=PERIOD_CHOICES, default='month', max_length=5, help_text="Time range for calculation.")
 
 
