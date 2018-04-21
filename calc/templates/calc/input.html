@@ -82,13 +82,32 @@
   padding-bottom: 14px;
   padding-right: 14px;
   padding-left: 14px;
+  margin-top:2em;
+  font-size:18px;
 } 
-.jumbotron.vertical-center {
-  margin-top:50px;
+@media (max-width: 768px) { 
+  .jumbotron {
+  margin-left:100px;
+  margin-right:100px;
+  }
+}
+@media (min-width: 769px) { 
+  .jumbotron {
+  margin-left:200px;
+  margin-right:200px;
+  }
+}
+
+@media (min-width: 992px) { 
+  .jumbotron {
   margin-left:300px;
   margin-right:300px;
-  font-size:18px;
+  }
 }
+
+}
+
+
 
 </style>
 <div>
@@ -96,7 +115,7 @@
 {{ input_form.non_field_errors }}
 <form action="" method = "post" id="userProfile" load-gasoline-units-url="{% url 'ajax_load_gasoline_units' %}" novalidate>
     {% csrf_token %}
-    <div class="jumbotron vertical-center text-center">
+    <div class="jumbotron jumbotron-small text-center">
       Welcome to the Carbon Dividend Calculator! To start, please tell us a little bit about your household, so we can help orient you by providing average expenditure for similar households.
      </div>
     <div class="container text-center">
@@ -127,7 +146,7 @@
         <div class="col-sm-12 col-md-4 col-lg-4">
           <div id="heat_panel" class="text-center">
             <div>
-                <h1><img src="{% static "calc/car.png" %}" width="30" height="30"> Gasoline Usage</h1>
+                <h1><img src="{% static "calc/car.png" %}" width="30" height="30"> Gasoline</h1>
                 </br>
                 <div>
                     <label>What type of gasoline do you normally use?</label>
@@ -171,7 +190,7 @@
             <div id="electricity_panel" class="text-center">
                
                <h1 ><img src="{% static "calc/electricity.png" %}" width="30" height="32">
-                  Electricity Usage</h1>
+                  Electricity </h1>
                </br>
                <div>
                     <label>What is the source of electricity in your household?</label>

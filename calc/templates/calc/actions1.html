@@ -50,8 +50,7 @@
     .slider {
         -webkit-appearance: none;
         width: 100%;
-        height: 10px;
-        border-radius: 5px;  
+        height: 25px;
         background: #d3d3d3;
         outline: none;
         opacity: 0.7;
@@ -63,24 +62,18 @@
         opacity: 1;
     }
 
-    .white {
-        color: white;
-    }
-
     .slider::-webkit-slider-thumb {
         -webkit-appearance: none;
         appearance: none;
         width: 25px;
         height: 25px;
-        border-radius: 50%; 
-        background: #2178c1;
+        background: #4CAF50;
         cursor: pointer;
     }
 
     .slider::-moz-range-thumb {
         width: 25px;
         height: 25px;
-        border-radius: 50%;
         background: #4CAF50;
         cursor: pointer;
     }
@@ -128,34 +121,33 @@
     </div>
 </header>
 
-<section id="info">
-<span id="tot_cost" class="white"></span>
-<span id="abs_net"></span>
+
     <div class="container text-center">
-    <font size="4">Our calculations show that the current policy will cost/benefit <b id="effect"></b> you <b>$</b><b id="abs_net"></b>. 
-        <br/>
-        <br/>
-        <p>Move the sliders below to see how changing your energy, gasoline and heating usage habits could help lower your tax.</p>
-    </font>
-</div>
-    <div class="">
-{% block 'content' %}
-
-<div class = "container">
-
-
-</div>
-
-
-{% endblock %}
+        <font size="4">Our calculations show that the current policy will <b id="effect"></b> you <b>$</b><b id="abs_net"></b>. 
+            <br/>
+            <p>Move the sliders below to see how changing your energy, gasoline and heating usage habits could help lower your tax.</p>
+             <br/>
+              <br/>
+        </font>
     </div>
 
 <script>
     var tot_cost = {{ heat }} + {{ gas }} + {{ elec }};
     document.getElementById("tot_cost").innerHTML = tot_cost;
     var net = {{ benefit }} - tot_cost;
+    var benefit = {{benefit}};
+    document.getElementById("benefit").innerHTML = benefit;
+    if (net<0) {
+        document.getElementById("effect").innerHTML = "cost";
+    } else { 
+        document.getElementById("effect").innerHTML = "earn";
+    }
     document.getElementById("net").innerHTML = net;
     document.getElementById("abs_net").innerHTML = Math.abs(net);
+    document.getElementById("heat_percent").innerHTML = parseFloat({{ heat }}/tot_cost*100).toFixed(2);
+    document.getElementById("gas_percent").innerHTML = parseFloat({{ gas }}/tot_cost*100).toFixed(2);
+    document.getElementById("elec_percent").innerHTML = parseFloat({{ elec }}/tot_cost*100).toFixed(2);
+
 </script>
 
 <body>
@@ -195,11 +187,12 @@
 
 
 <script>
+Chart.defaults.global.legend.display = false;
     var ctx = document.getElementById("myChart").getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ["Gasoline", "Heating", "Electricity", "Total"],
+            labels: ["Gasoline", "Electricity", "Heating", "Total"],
             datasets: [
             {
                 label: 'Monthly cost increase without actions',
@@ -217,26 +210,10 @@
                     'rgba(250,128,114, 1)',
                 ],
                 borderWidth: 1
-            },
-            {
-                label: 'Monthly cost increase with actions',
-                data: [{{ gas }}, {{ elec }}, {{ heat }}, tot_cost],
-                backgroundColor: [
-                    'rgba(54, 162, 235, .2)',
-                    'rgba(54, 162, 235, .2)',
-                    'rgba(54, 162, 235, .2)',
-                    'rgba(54, 162, 235, .5)',
-                ],
-                borderColor: [
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                ],
-                borderWidth: 1
             }]
         },
         options: {
+            barPercentage: 0.6,
             title: {
                 display: true,
                 fontSize: 15,
@@ -253,11 +230,11 @@
                             return '$' + value;
                         }
                     }
-                }]
+                }],
+                xAxes: [{barPercentage: 0.6}]
             }
         }
     });
-Chart.defaults.global.legend.display = false;
 
     var ctx1 = document.getElementById("Net_chart").getContext('2d');
     var Net_chart = new Chart(ctx1, {
@@ -265,7 +242,7 @@ Chart.defaults.global.legend.display = false;
         data: {
             labels:['Cost', 'Benefit', 'Net'],
             datasets: [{
-                label: 'Monthly cost increase without actions',
+
                 data: [- tot_cost, {{ benefit }}, net],
                 backgroundColor: [
                     'rgba(54, 162, 235, 0.2)',
@@ -299,7 +276,8 @@ Chart.defaults.global.legend.display = false;
                             return '$' + value;
                         }
                     }
-                }]
+                }],
+                xAxes: [{barPercentage: 0.6}]
             }
         }
     });
@@ -316,15 +294,30 @@ Chart.defaults.global.legend.display = false;
 </script>
 
 
-<br/>
-<br/>
+
 <div class="container">
     <h1>Actions</h1>
+    <p>I will turn off <b>n</b> lights which are <b>w</b> watts each for <b>h</b> hours a day.</p>
 
 
+<div class="slidecontainer">
+  <input type="range" min="0" max="10" value="0" class="slider" id="myRange">
+  <p><b>n</b>: <span id="demo"></span></p>
+</div>
+
+<div class="slidecontainer">
+  <input type="range" min="5" max="150" value="50" class="slider" id="myRange1">
+  <p><b>w</b>: <span id="demo1"></span></p>
+</div>
+
+<div class="slidecontainer">
+  <input type="range" min="1" max="24" value="4" class="slider" id="myRange2">
+  <p><b>h</b>: <span id="demo2"></span></p>
+</div>
+
+<p style="text-align:center;"> Money saved on lighting: <span id="lights"></span> </p>
 
 <div>
-    <h1>Gasoline</h1>
     <p>My previous vehicle got <b>a</b> mpg, and will replace it with a vehicle that gets <b>b</b> mpg.
         I will drive this vehicle for <b>m</b> miles/week.</p>
 </div>
@@ -347,7 +340,6 @@ Chart.defaults.global.legend.display = false;
 <p style="text-align:center;"> Money saved on driving: <span id="driving"></span> </p>
 
 <div>
-    <h1>Heating</h1>
     <p>I will turn my heating down by <b>d</b> degrees during day and <b>n</b> degrees during night.
         I spend <b>h</b> dollars on heating per year.</p>
 </div>
@@ -368,28 +360,6 @@ Chart.defaults.global.legend.display = false;
 </div>
 
 <p style="text-align:center;"> Money saved on heating: <span id="heating"></span> </p>
-
-<h1>Electricity</h1>
-    <p>I will turn off <b>n</b> lights which are <b>w</b> watts each for <b>h</b> hours a day.</p>
-
-
-
-<div class="slidecontainer">
-  <input type="range" min="0" max="10" value="0" class="slider" id="myRange">
-  <p><b>n</b>: <span id="demo"></span></p>
-</div>
-
-<div class="slidecontainer">
-  <input type="range" min="5" max="150" value="50" class="slider" id="myRange1">
-  <p><b>w</b>: <span id="demo1"></span></p>
-</div>
-
-<div class="slidecontainer">
-  <input type="range" min="1" max="24" value="4" class="slider" id="myRange2">
-  <p><b>h</b>: <span id="demo2"></span></p>
-</div>
-
-<p style="text-align:center;"> Money saved on lighting: <span id="lights"></span> </p>
 </div>
 <br/>
 <br/>

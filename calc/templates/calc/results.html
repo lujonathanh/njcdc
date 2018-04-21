@@ -17,7 +17,7 @@
     <style>
     .table {
         border-radius: 5px;
-        width: 30%;
+        width: 50%;
         margin: 0px auto;
         float: none;
     }
@@ -37,6 +37,41 @@
         margin: auto;
         width: 50%;
     }
+    @media (max-width: 500px) { 
+      .chartcontainer {
+        width: 100%;
+      }
+    }
+    @media (min-width: 501px) { 
+      .chartcontainer {
+        width: 80%;
+      }
+    }
+
+    @media (min-width: 992px) { 
+      .chartcontainer {
+        width: 50%;
+      }
+    }
+/*    @media (max-width: 992px) { 
+      .chartcontainer {
+      width: 100%;
+      margin-right:100px;
+      }
+    }*/
+/*    @media (min-width: 769px) { 
+      .jumbotron {
+      margin-left:200px;
+      margin-right:200px;
+      }
+    }
+
+    @media (min-width: 992px) { 
+      .jumbotron {
+      margin-left:300px;
+      margin-right:300px;
+      }
+    }*/
     .chartcontainer.large{
         margin: auto;
         width: 80%;
@@ -122,43 +157,90 @@
 </header>
 
 <section id="info">
-    <div class="">
-{% block 'content' %}
 
-<div class = "container">
 
-<table class="table table-striped table-bordered">
-    <thread>
-    <tr><td>Benefit</td><td>${{ benefit }}</td></tr>
-    <tr><td>Elec Cost</td><td>${{ elec }}</td></tr>
-    <tr><td>Gasoline Cost</td><td>${{ gas }}</td></tr>
-    <tr><td>Heating Cost</td><td>${{ heat }}</td></tr>
-    <tr><td>Total Cost</td><td> <p id="tot_cost"></p> </td></tr>
-    <tr><td>Net</td><td>$<p id="net"></p></td></tr>
-</thread>
+<div class="container text-center">
+    <font size="4">Our calculations show that the current policy will <b id="effect"></b> you <b>$</b><b id="abs_net"></b>.
+    </font>
 </div>
 
-</table>
 
-{% endblock %}
+<div class="container">
+    <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 container">
+        <br class="visible-md visible-lg"/>
+        <br class="visible-md visible-lg"/>
+        <font size="4">With the new tax, you would pay <b>$</b><b id="tot_cost"></b> more in taxes, but you would receive a <b>$</b><b id="benefit"></b> check in your mailbox every month.</font>
     </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 chartcontainer">
+        <canvas id="Net_chart"></canvas>
+    </div>
+    </div>
+</div>
+<br/>
+<div class="container">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 container">
+        <br class="visible-md visible-lg"/>
+        <br class="visible-md visible-lg"/>
+<!--         <font size="4">Based on your inputs, most of the tax you would be paying (<b>$</b><b id="first_cost_val"></b> ) would come from your <b id="first_cost"></b> spending. The second biggest part of your tax would be <b id="second_cost"></b> spending (<b>$</b><b id="second_cost_val"></b>). You would pay the least in tax for your <b id="third_cost"></b> spending (<b>$</b><b id="third_cost_val"></b>) spending. -->
+        <font size="4">Based on your inputs, <b id="gas_percent"></b><b>%</b> of your tax would come from
+        <b>Gasoline</b> spending, <b id="heat_percent"></b><b>%</b> would come from your <b>Heat</b> spending and <b id="elec_percent"></b><b>%</b> would come from your <b>Electricity</b> spending.</font>
+        </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 chartcontainer">
+        <canvas id="myChart"></canvas>
+    </div>
+</div>
+</div>
 
+
+<div>
+{% block 'content' %}
 <script>
     var tot_cost = {{ heat }} + {{ gas }} + {{ elec }};
     document.getElementById("tot_cost").innerHTML = tot_cost;
     var net = {{ benefit }} - tot_cost;
     document.getElementById("net").innerHTML = net;
 </script>
+    <div class = "container ">
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 container">
+            <br class="visible-md visible-lg"/>
+            <br class="visible-md visible-lg"/>
+            <font size="4">See the detailed breakdown of your new tax spending here.
+            </font>
+        </div>
 
-<body>
-  <div >
-    <div class="col-sm-6 chartcontainer">
-     <canvas id="Net_chart"></canvas>
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 container">
+            <table class=" table table-striped table-bordered">
+                <tr><td>Benefit</td><td>${{ benefit }}</td></tr>
+                <tr><td>Elec Cost</td><td>${{ elec }}</td></tr>
+                <tr><td>Gasoline Cost</td><td>${{ gas }}</td></tr>
+                <tr><td>Heating Cost</td><td>${{ heat }}</td></tr>
+                <tr><td>Total Cost</td><td>$<span id="tot_cost"></span></td></tr>
+                <tr><td><b>Net</b></td><td><b>$</b><b id="net"></b></td></tr>
+            </table>
+        </div>
     </div>
-    <div class="col-sm-6 chartcontainer">
-        <canvas id="myChart"></canvas>
-    </div>
-  </div>
+
+<script>
+    tot_cost = {{ heat }} + {{ gas }} + {{ elec }};
+    document.getElementById("tot_cost").innerHTML = tot_cost;
+    net = {{ benefit }} - tot_cost;
+    benefit = {{benefit}};
+    document.getElementById("benefit").innerHTML = benefit;
+    if (net<0) {
+        document.getElementById("effect").innerHTML = "cost";
+    } else { 
+        document.getElementById("effect").innerHTML = "earn";
+    }
+    document.getElementById("net").innerHTML = net;
+    document.getElementById("abs_net").innerHTML = Math.abs(net);
+    document.getElementById("heat_percent").innerHTML = parseFloat({{ heat }}/tot_cost*100).toFixed(2);
+    document.getElementById("gas_percent").innerHTML = parseFloat({{ gas }}/tot_cost*100).toFixed(2);
+    document.getElementById("elec_percent").innerHTML = parseFloat({{ elec }}/tot_cost*100).toFixed(2);
+
+</script>
+{% endblock %}
+</div>
 <!--     <div class="chartcontainer large hidden-sm hidden-xs" id="chartcont">
         <table style="width:100%">
             <tr>
@@ -186,6 +268,7 @@
     </div> -->
 
 <script>
+Chart.defaults.global.legend.display = false;
     var ctx = document.getElementById("myChart").getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'bar',
@@ -233,44 +316,29 @@
             }
         }
     });
+
     var ctx1 = document.getElementById("Net_chart").getContext('2d');
     var Net_chart = new Chart(ctx1, {
         type: 'bar',
         data: {
-            labels:[''],
+            labels:['Cost', 'Benefit', 'Net'],
             datasets: [{
-                label: 'Monthly cost',
-                data: [- tot_cost ],
+                label: 'Monthly cost increase without actions',
+                data: [- tot_cost, {{ benefit }}, net],
                 backgroundColor: [
-                    'rgba(235, 162, 54, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(235, 162, 54, 1)'
-                ],
-                borderWidth: 1
-            },
-            {
-                label: 'Monthly benefit',
-                data: [{{ benefit }}],
-                backgroundColor: [
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
                     'rgba(54, 235, 162, 0.2)'
+                    //red:'rgba(250,128,114, 0.2)'
+                    //green: 'rgba(54, 235, 162, 0.2)'
                 ],
                 borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
                     'rgba(54, 235, 162, 1)'
                 ],
                 borderWidth: 1
-            },
-            {
-                label: 'Net gain',
-                data: [net],
-                backgroundColor: [
-                    'rgba(54, 162, 235, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(54, 162, 235, 1)'
-                ],
-                borderWidth: 1
-            },]
+            }]
         },
         options: {
             title: {
@@ -307,6 +375,9 @@
 </script>
 
 <div class="container text-center">
+    <font size="4">Wondering what you can do to decrease your tax? Click below to see how changing your energy, gasoline and heating usage habits could help lower your tax.</font>
+    <br/>
+    <br/>
     <a href="/calc/actions" class = "btn btn-default btn-lg" role="button">Actions</a>
     <br><br> <!-- hacky way to add white space at bottom -->
 </div>
