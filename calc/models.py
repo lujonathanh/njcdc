@@ -222,7 +222,7 @@ def get_heating_co2_conversion(heating_type, heating_unit, elec_type=None):
     # Natural Gas CO2/therm: https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references
     # 0.0053 metric tons CO2/therm
     if heating_type == 'gas':
-        if heating_unit == 'therm':
+        if heating_unit == 'therm' or (isinstance(heating_unit, tuple) and 'therm' in heating_unit):
             heating_co2_conversion = 0.0053
         else:
             raise ValueError("Heating Unit " + str(heating_unit) + " not allowed for heating type " + str(heating_type))
@@ -230,7 +230,7 @@ def get_heating_co2_conversion(heating_type, heating_unit, elec_type=None):
     # Distillate Fuel Oil (Home Heating Fuel) https://www.eia.gov/environment/emissions/co2_vol_mass.php
     # 10.16 kg CO2/gallon * 0.001 metric tons/kg
     elif heating_type == 'fuel':
-        if heating_unit == 'gallon':
+        if heating_unit == 'gallon' or (isinstance(heating_unit, tuple) and 'gallon' in heating_unit):
             heating_co2_conversion = 10.16 * 0.001
         else:
             raise ValueError("Heating Unit " + str(heating_unit) + " not allowed for heating type " + str(heating_type))
@@ -239,7 +239,7 @@ def get_heating_co2_conversion(heating_type, heating_unit, elec_type=None):
     # Electricity
     # Simply return CO2 content of electricity
     elif heating_type == 'elec':
-        if heating_unit == 'kWh':
+        if heating_unit == 'kWh' or (isinstance(heating_unit, tuple) and 'kWh' in heating_unit):
             heating_co2_conversion = get_elec_co2_conversion(elec_type, heating_unit) # modified CW 4/12/18
         else:
             raise ValueError("Heating Unit " + str(heating_unit) + " not allowed for heating type " + str(heating_type))
