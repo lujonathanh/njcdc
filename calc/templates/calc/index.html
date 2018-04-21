@@ -1,54 +1,8 @@
-<!DOCTYPE html>
+{% extends 'calc/base.html' %}
 
-<!-- Set the page to the width of the device and set the zoon level -->
-<meta name="viewport" content="width = device-width, initial-scale = 1">
-<title>Carbon Dividend Calculator</title>
-<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
- <style>
-.container {
-  margin-top: 50px;
-}
-.jumbotron {
-  background-color:white;
-  color:black;
-/*  #background-color:#666666;
-*/  padding-top: 14px;
-  padding-bottom: 14px;
-  padding-right: 14px;
-  padding-left: 14px;
-  margin-top:0px;
-  margin-left:100px;
-  margin-right:100px;
+{% block content %}
 
-} 
-/*
-.jumbotron {
-  border-radius: 10px;
-  background-color:#555555;
-  color:white;
-  padding-top: 14px;
-  padding-bottom: 14px;
-  padding-right: 14px;
-  padding-left: 14px;
-} */
-.jumbotron.vertical-center {
-  margin-top:50px;
-  margin-left:300px;
-  margin-right:300px;
-  font-size:18px;
-}
-
-
-</style>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>Carbon Dividend Calculator</title>
-</head>
-<body>
-    <!-- navbar-light bg-light -->
-    <!-- <div class="d-flex justify-content-between hidden-lg-up"> -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="navbar_header">
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="navbar_header">
       <div>
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -77,17 +31,11 @@
       </div>
   </nav>
 
+<html>
+<body>
 
-<header class="bg-primary text-white">
-    <div class="container text-center">
-        <h1>Carbon Dividend Calculator</h1>
-        <p class="lead">Carbon fee and dividend puts a price on carbon and returns the money to households and businesses</p>
-    </div>
-</header>
-
-    <section id="about">
-      <div class="container">
-<div class="jumbotron">
+<!--   <div class="container">
+ --><div class="jumbotron jumbotron-small">
             <p>
                 The NJ legislature is currently considering a "carbon fee and dividend" policy which
                 puts a price on carbon and distributes most of the revenue evenly among NJ residents
@@ -99,7 +47,7 @@
             <p>
                 This calculator estimates the effect of the policy on <b>your</b> bottom line
             </p>
-    </div>
+</div>
         <div class="text-center">
               <h3>For more details, check out our <a href="about" style="color: #66666"> about</a> page</h3>
 
@@ -107,10 +55,12 @@
             </h4>
             <a href="input" class = "btn btn-default btn-lg" role="button">Begin</a>
           </div>
-          </div>
-
+<!--           </div>
+ -->
       </div>
     </section>
 
 </body>
 </html>
+
+{% endblock %}

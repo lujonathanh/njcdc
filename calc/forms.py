@@ -6,9 +6,9 @@ class InputForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
-        fields = ('adults', 'children', 'gasoline_type', 'gasoline_amt', 'gasoline_unit',
+        fields = ('adults', 'children', 'gasoline_type', 'gasoline_amt',
                   'heating_type', 'heating_amt', 'heating_unit',
-                  'elec_type', 'elec_amt',  'elec_unit')
+                  'elec_type', 'elec_amt')
 
 
 class UpdatingInputForm(forms.ModelForm):
@@ -22,3 +22,28 @@ class UpdatingInputForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['gasoline_unit'].queryset = UserProfile.objects.none()
+
+
+class BasicUserForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('adults', 'children')
+
+
+class GasolineForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('gasoline_type', 'gasoline_amt', 'gasoline_unit')
+
+
+class HeatingForm(forms.ModelForm):
+
+    class Meta:
+        model = UserProfile
+        fields = ('heating_type', 'heating_amt', 'heating_unit')
+
+class ElectricityForm(forms.ModelForm):
+
+    class Meta:
+        model = UserProfile
+        fields = ('elec_type', 'elec_amt', 'elec_unit')

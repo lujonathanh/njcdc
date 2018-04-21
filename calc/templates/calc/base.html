@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<!-- Set the page to the width of the device and set the zoon level -->
+<meta name="viewport" content="width = device-width, initial-scale = 1">
+<title>Carbon Dividend Calculator</title>
+
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Carbon Dividend Calculator</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+ <style>
+.container {
+  margin-top: 50px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+     .left {
+      float: left;
+}
+.right {
+       float:right;
+}
+
+.btn {
+      background-color:#666666;
+      color:white;
+}
+.center {
+       float:center;
+     }
+
+.jumbotron {
+  border-radius: 10px;
+  background-color:#2178c1;
+  color:white;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  padding-right: 14px;
+  padding-left: 14px;
+  margin-top:50px;
+  margin-left:300px;
+  margin-right:300px;
+  font-size:18px;
+} 
+
+.jumbotron.jumbotron-small {
+  background-color:white;
+  color:black;
+  padding-bottom: 14px;
+  padding-right: 14px;
+  padding-left: 14px;
+  margin-top:50px;
+  margin-left:200px;
+  margin-right:200px;
+  font-size:18px;
+} 
+@media (max-width: 768px) { 
+  .jumbotron {
+  margin-left:100px;
+  margin-right:100px;
+  }
+}
+@media (max-width: 600px) { 
+  .jumbotron {
+  margin-left:20px;
+  margin-right:20px;
+  }
+}
+@media (min-width: 769px) { 
+  .jumbotron {
+  margin-left:250px;
+  margin-right:250px;
+  }
+}
+
+</style>
+
+<body>
+
+
+
+<header class="bg-primary text-white">
+    <div class="container text-center">
+        <h1>Carbon Dividend Calculator</h1>
+        <p class="lead">Carbon fee and dividend puts a price on carbon and returns the money to households and businesses</p>
+    </div>
+</header>
+
+{% block content %}
+            {% endblock %}
+</body>
+</html>
