@@ -21,8 +21,13 @@ def chart(request):
     context = {}
     return HttpResponse(template.render(context, request))
 
-def about(request):
-    template = loader.get_template('calc/about.html')
+def about_calc(request):
+    template = loader.get_template('calc/about_calc.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
+
+def about_policy(request):
+    template = loader.get_template('calc/about_policy.html')
     context = {}
     return HttpResponse(template.render(context, request))
 

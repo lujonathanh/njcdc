@@ -30,7 +30,10 @@
                     <a href="/calc/input">Calculator</a>
                   </li>
                   <li>
-                    <a href="/calc/about">About</a>
+                    <a href="/calc/about_policy">The Policy</a>
+                  </li>
+                  <li>
+                    <a href="/calc/about_calculator">About the Calculator</a>
                   </li>
               </ul>
           </div>
@@ -40,54 +43,12 @@
 <body>
 
 
- <!--navbar-light bg-light-->
- <!--<div class="d-flex justify-content-between hidden-lg-up">-->
-
-
-<style>
-.container {
-  margin-top: 50px;
-
-}
-.left {
-      float: left;
-}
-.right {
-       float:right;
-}
-
-.btn {
-      background-color:#666666;
-      color:white;
-}
-.center {
-       float:center;
-     }
-
-.jumbotron {
-  border-radius: 10px;
-  background-color:#666666;
-  color:white;
-  padding-top: 14px;
-  padding-bottom: 14px;
-  padding-right: 14px;
-  padding-left: 14px;
-}
-.jumbotron.vertical-center {
-  margin-top:50px;
-  margin-left:300px;
-  margin-right:300px;
-  font-size:18px;
-}
-
-</style>
-
 <div>
 {% block 'content1' %}
 {{ input_form.non_field_errors }}
 <form action="" method = "post" id="userProfile" load-gasoline-units-url="{% url 'ajax_load_gasoline_units' %}" novalidate>
     {% csrf_token %}
-    <div class="jumbotron vertical-center text-center">
+    <div class="jumbotron jumbotron-small text-center">
       Welcome to the Carbon Dividend Calculator! To start, please tell us a little bit about your household, so we can help orient you by providing average expenditure for similar households.
      </div>
     <div class="container text-center">
@@ -111,14 +72,14 @@
     </div>
 
 
-    <div class="jumbotron vertical-center text-center">
+    <div class="jumbotron text-center">
      Please tell us about your gasoline, heating and electricity usage. We filled in average answers for households similar to yours, but the more accurately you'll be able to approximate your spending, the more accurate of a carbon tax impact estimate we will be able to provide.
      </div>
     <div class="container">
         <div class="col-sm-12 col-md-4 col-lg-4">
           <div id="heat_panel" class="text-center">
             <div>
-                <h1><img src="{% static "calc/car.png" %}" width="30" height="30"> Gasoline Usage</h1>
+                <h1><img src="{% static "calc/car.png" %}" width="30" height="30"> Gasoline</h1>
                 </br>
                 <div>
                     <label>What type of gasoline do you normally use?</label>
@@ -162,7 +123,7 @@
             <div id="electricity_panel" class="text-center">
                
                <h1 ><img src="{% static "calc/electricity.png" %}" width="30" height="32">
-                  Electricity Usage</h1>
+                  Electricity </h1>
                </br>
                <div>
                     <label>What is the source of electricity in your household?</label>

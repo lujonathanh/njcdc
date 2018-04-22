@@ -1,122 +1,40 @@
-<!DOCTYPE html>
+{% extends 'calc/base.html' %}
 
-<meta name="viewport" content="width = device-width, initial-scale = 1">
-<title>Carbon Dividend Calculator</title>
+{% block content %}
 
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="navbar_header">
+      <div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/calc/" id="navbar-title">Carbon Dividend Calculator</a>
+        </div>
+
+        <!-- this div hides the items from the navigation bar for smaller screens -->
+          <div id="navbar" class="collapse navbar-collapse">
+            <!-- navbar-right -->
+              <ul class="nav navbar-nav">
+                  <li class="active">
+                    <a href="/calc/">Home</a>
+                  </li>
+                  <li>
+                    <a href="/calc/input">Calculator</a>
+                  </li>
+                  <li>
+                    <a href="/calc/about_policy">The Policy</a>
+                  </li>
+                  <li>
+                    <a href="/calc/about_calculator">About the Calculator</a>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </nav>
 
 <html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>Carbon Dividend Calculator</title>
-
-
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.4.5/js/mdb.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-
-    <style>
-    .table {
-        border-radius: 5px;
-        width: 50%;
-        margin: 0px auto;
-        float: none;
-    }
-
-    .container {
-        margin-top: 50px;
-    }
-
-    .sticky {
-        position: fixed;
-        top: 0;
-        width: 50%;
-        <!--margin: auto;-->
-    }
-
-    .chartcontainer{
-        margin: auto;
-        width: 50%;
-    }
-    @media (max-width: 500px) { 
-      .chartcontainer {
-        width: 100%;
-      }
-    }
-    @media (min-width: 501px) { 
-      .chartcontainer {
-        width: 80%;
-      }
-    }
-
-    @media (min-width: 992px) { 
-      .chartcontainer {
-        width: 50%;
-      }
-    }
-/*    @media (max-width: 992px) { 
-      .chartcontainer {
-      width: 100%;
-      margin-right:100px;
-      }
-    }*/
-/*    @media (min-width: 769px) { 
-      .jumbotron {
-      margin-left:200px;
-      margin-right:200px;
-      }
-    }
-
-    @media (min-width: 992px) { 
-      .jumbotron {
-      margin-left:300px;
-      margin-right:300px;
-      }
-    }*/
-    .chartcontainer.large{
-        margin: auto;
-        width: 80%;
-    }
-
-    .slidecontainer {
-        margin: auto;
-        width: 75%;
-    }
-
-    .slider {
-        -webkit-appearance: none;
-        width: 100%;
-        height: 25px;
-        background: #d3d3d3;
-        outline: none;
-        opacity: 0.7;
-        -webkit-transition: .2s;
-        transition: opacity .2s;
-    }
-
-    .slider:hover {
-        opacity: 1;
-    }
-
-    .slider::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 25px;
-        height: 25px;
-        background: #4CAF50;
-        cursor: pointer;
-    }
-
-    .slider::-moz-range-thumb {
-        width: 25px;
-        height: 25px;
-        background: #4CAF50;
-        cursor: pointer;
-    }
-
-    </style>
-
-</head>
-
 <body>
     <!-- navbar-light bg-light -->
     <!-- <div class="d-flex justify-content-between hidden-lg-up"> -->
@@ -148,16 +66,6 @@
           </div>
       </div>
   </nav>
-
-<header class="bg-primary text-white">
-    <div class="container text-center">
-        <h1>Carbon Dividend Calculator</h1>
-        <p class="lead">Carbon fee and dividend puts a price on carbon and returns the money to households and businesses</p>
-    </div>
-</header>
-
-<section id="info">
-
 
 <div class="container text-center">
     <font size="4">Our calculations show that the current policy will <b id="effect"></b> you <b>$</b><b id="abs_net"></b>.
@@ -593,3 +501,5 @@ Chart.defaults.global.legend.display = false;
 </body>
 
 </html>
+{% endblock %}
+

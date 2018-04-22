@@ -11,29 +11,32 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.4.5/js/mdb.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     </head>
 
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
  <style>
+
 .container {
   margin-top: 50px;
   padding-top: 0px;
   padding-bottom: 0px;
 }
-     .left {
-      float: left;
+.left {
+  float: left;
 }
 .right {
-       float:right;
+  float:right;
 }
 
 .btn {
-      background-color:#666666;
-      color:white;
+  background-color:#2178c1;
+  color:white;
 }
 .center {
-       float:center;
-     }
+  float:center;
+}
 
 .jumbotron {
   border-radius: 10px;
@@ -50,9 +53,8 @@
 } 
 
 .jumbotron.jumbotron-small {
-    background-color:white;
+  background-color:white;
   color:black;
-  padding-top: 14px;
   padding-bottom: 14px;
   padding-right: 14px;
   padding-left: 14px;
@@ -61,6 +63,124 @@
   margin-right:200px;
   font-size:18px;
 } 
+@media (max-width: 768px) { 
+  .jumbotron {
+  margin-left:100px;
+  margin-right:100px;
+  }
+  .jumbotron.jumbotron-small {
+  margin-left:50px;
+  margin-right:50px;
+  }
+}
+@media (max-width: 600px) { 
+  .jumbotron {
+  margin-left:20px;
+  margin-right:20px;
+  }
+  .jumbotron.jumbotron-small {
+  margin-left:20px;
+  margin-right:20px;
+  }
+}
+@media (min-width: 769px) { 
+  .jumbotron {
+  margin-left:200px;
+  margin-right:200px;
+  }
+  .jumbotron.jumbotron-small {
+  margin-left:100px;
+  margin-right:100px;
+  }
+}
+
+@media (min-width: 1100px) { 
+  .jumbotron {
+  margin-left:300px;
+  margin-right:300px;
+}
+  .jumbotron.jumbotron-small {
+  margin-left:200px;
+  margin-right:200px;
+}
+}
+
+.chartcontainer{
+  margin: auto;
+  width: 50%;
+}
+
+@media (max-width: 500px) { 
+  .chartcontainer {
+  width: 100%;
+  }
+}
+
+@media (min-width: 501px) { 
+  .chartcontainer {
+    width: 80%;
+  }
+}
+
+@media (min-width: 992px) { 
+  .chartcontainer {
+    width: 50%;
+  }
+}
+
+.white {
+  color: white;
+}
+
+/*.slidecontainer {
+  margin: auto;
+  width: 75%;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 50%;
+  <!--margin: auto;-->
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 25px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: #4CAF50;
+  cursor: pointer;
+}
+*/
+.table {
+  border-radius: 5px;
+  width: 50%;
+  margin: 0px auto;
+  float: none;
+}
 
 </style>
 
@@ -71,7 +191,7 @@
 <header class="bg-primary text-white">
     <div class="container text-center">
         <h1>Carbon Dividend Calculator</h1>
-        <p class="lead">Carbon fee and dividend puts a price on carbon and returns the money to households and businesses</p>
+        <p class="lead">How will the policy affect you?</p>
     </div>
 </header>
 
