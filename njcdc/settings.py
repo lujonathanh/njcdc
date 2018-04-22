@@ -33,3 +33,11 @@ DATABASES['default'].update(db_from_env)
 django_heroku.settings(locals())
 
 SESSION_COOKIE_DOMAIN = "njcdc.herokuapp.com"
+
+# deployment stuff
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_SECONDS = 300
+DEBUG = False
