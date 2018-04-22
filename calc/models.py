@@ -36,20 +36,28 @@ FEE = 30
 REBATE_PORTION = 0.7
 
 
-PERIOD_CHOICES = (('month', 'Per Month'), )
+PERIOD_CHOICES = (('month', 'Per Month'),)
 
 ELEC_CHOICES = ( ('pseg', 'PSE&G'), ('rockland', 'Orange Rockland Electric'),
                  ('jcpl', 'Jersey Central Power & Light'), ('atlantic', 'Atlantic City Electric'))
 
 ELEC_UNIT_CHOICES = (('kWh', 'kWh'),)
 
+ELEC_INPUT_CHOICES = (('dollars', 'Dollars'),)
+
 HEATING_CHOICES = ( ('gas', 'Natural Gas'), ('fuel', 'Fuel Oil'))
 
 HEATING_UNIT_CHOICES = (('therm', 'therms'), ('gallon', 'gallons'))
 
+HEATING_INPUT_CHOICES = (('dollars', 'Dollars'),)
+
 GASOLINE_CHOICES = (('e10', 'Regular Gasoline'), ('e0', 'Pure Gasoline'), ('diesel', 'Diesel'), ('b20', '20% Biodiesel'))
 
 GASOLINE_UNIT_CHOICES = (('gallon', 'gallons'), )
+
+GASOLINE_INPUT_CHOICES = (('miles', 'Miles'),('dollars', 'Dollars'),('refills','Number of Tank Refills'))
+
+
 # adding the
 
 def get_possible_gasoline_units(gasoline_type):
@@ -75,6 +83,29 @@ def get_possible_heating_units(heating_type):
         return (('kWh', 'kWh'),)
     else:
         raise ValueError("Heating type " + str(heating_type) + " not allowed.")
+
+# def get_possible_gasoline_input(gasoline_type):
+#     if gasoline_type in {'e10', 'e0', 'diesel', 'b20'}:
+#         return (('gallon', 'gallons'),)
+#     else:
+#         raise ValueError("Gasoline type " + str(gasoline_type) + " not allowed.")
+
+
+# def get_possible_elec_input(elec_type):
+#     if elec_type == 'pseg' or elec_type == 'rockland' or elec_type == 'jcpl' or elec_type == 'atlantic':
+#         return (('kWh', 'kWh'),)
+#     else:
+#         raise ValueError("Elec type " + str(elec_type) + " not allowed.")
+
+# def get_possible_heating_input(heating_type):
+#     if heating_type == 'gas':
+#         return (('therm', 'therms'),)
+#     elif heating_type == 'fuel':
+#         return (('gallon', 'gallons'),)
+#     elif heating_type == 'elec':
+#         return (('kWh', 'kWh'),)
+#     else:
+#         raise ValueError("Heating type " + str(heating_type) + " not allowed.")
 
 
 def get_gasoline_co2_conversion(gasoline_type, gasoline_unit):
@@ -278,7 +309,7 @@ class UserProfile(models.Model):
     # eventually would be cool to load default from other models...
 
     fee = models.FloatField(default=FEE, validators=[validate_nonnegative], help_text="Fee, dollars per ton of CO2.")
-    rebate_portion = models.FloatField(default=REBATE_PORTION, validators=[validate_0to1], help_text="Portion of total revenue. The rest goes to sustainableinvestment and relief for vulnerable businesses and communities.")
+    rebate_portion = models.FloatField(default=REBATE_PORTION, validators=[validate_0to1], help_text="Portion of total revenue. The rest goes to sustainable investment and relief for vulnerable businesses and communities.")
     period = models.CharField(choices=PERIOD_CHOICES, default='month', max_length=5, help_text="Time range for calculation.")
 
 
@@ -294,6 +325,8 @@ class UserProfile(models.Model):
     gasoline_type = models.CharField(choices=GASOLINE_CHOICES, default='e10', max_length=40)
     gasoline_unit = models.CharField(choices=GASOLINE_UNIT_CHOICES, default=get_possible_gasoline_units('e10')[0],
                                     max_length=40)
+    gasoline_input = models.CharField(choices=GASOLINE_INPUT_CHOICES, default=(('dollars', 'Dollars'),),
+                                    max_length=40)
 
     ##############    HEATING    ##############
 
@@ -301,6 +334,8 @@ class UserProfile(models.Model):
     heating_amt = models.FloatField(default=164.0, validators=[validate_nonnegative])
     heating_type = models.CharField(choices=HEATING_CHOICES, default='gas', max_length=40)
     heating_unit = models.CharField(choices=HEATING_UNIT_CHOICES, default=get_possible_heating_units('gas')[0],
+                                    max_length=40)
+    heating_input = models.CharField(choices=HEATING_INPUT_CHOICES, default=(('dollars', 'Dollars'),),
                                     max_length=40)
 
     ##############    ELECTRICITY    ##############
@@ -310,6 +345,8 @@ class UserProfile(models.Model):
     elec_amt = models.FloatField(default=9000.0, validators=[validate_nonnegative])
     elec_type = models.CharField(choices=ELEC_CHOICES, default='pseg', max_length=40, help_text="Your electric utility provider.")
     elec_unit = models.CharField(choices=ELEC_UNIT_CHOICES, default=get_possible_elec_units('pseg')[0],
+                                    max_length=40)
+    elec_input = models.CharField(choices=ELEC_INPUT_CHOICES, default=(('dollars', 'Dollars'),),
                                     max_length=40)
 
 

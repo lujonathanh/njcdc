@@ -57,14 +57,14 @@
           <div>
             <label class="text-center">How many adults (age 18+) live in your home?</label>
             <div class="text-center">{{ input_form.adults }}
-              <a href="#" data-toggle="tooltip" data-placement="top" title="The number of adults helps us determine the default values of your carbon emissions, based on other families of a similar size"><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
+              <a href="#" data-toggle="tooltip" data-placement="top" title="The number of adults living at home"><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
             </div>
           </div>
           <br/>
           <div>
             <label>How many children live in your home?</label>
             <div class="text-center">{{ input_form.children }}
-              <a href="#" data-toggle="tooltip" data-placement="top" title="The number of children helps us determine the default values of your carbon emissions, based on other families of a similar size"><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
+              <a href="#" data-toggle="tooltip" data-placement="top" title="The number of children living at home"><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
             </div>
           </div> 
         </div>
@@ -89,6 +89,11 @@
                 </div> 
                 <br/>
                 <div>
+                    <label>Choose input type</label>
+                      <div class="text-center" id="gas_input">{{ input_form.gasoline_input }}</div>
+                </div> 
+                </br>
+                <div>
                     <label>About how much gasoline do you use in a month?</label>
                     <div class="text-center">{{ input_form.gasoline_amt }}{{ input_form.gasoline_unit }}
                         <a href="#" data-toggle="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
@@ -108,6 +113,11 @@
                     <div class="text-center">{{ input_form.heating_type }}
                         <a href="#" data-toggle="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
+                </div> 
+                </br>
+                <div>
+                    <label>Choose input type</label>
+                      <div class="text-center">{{ input_form.heating_input }}</div>
                 </div> 
                 </br>
                 <div>
@@ -133,6 +143,11 @@
                 </div> 
                 </br>
                 <div>
+                    <label>Choose input type</label>
+                      <div class="text-center">{{ input_form.elec_input }}</div>
+                </div> 
+                </br>
+                <div>
                     <label>About how much electricity do you use?</label>
                     <div class="text-center">{{ input_form.elec_amt }}{{ input_form.elec_unit }}
                         <a href="#" data-toggle="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
@@ -147,8 +162,8 @@
     <div class="container"></div>
 </form>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-  <script>
+    
+<script>
     $("#gasoline_unit").change(function () {
       var url = $("#personForm").attr("load-gasoline-units-url");  // get the url of the `load_gasoline_units` view
       var countryId = $(this).val();  // get the selected country ID from the HTML input
@@ -164,7 +179,20 @@
       });
 
     });
-  </script>
+</script>
+
+<script>
+// fetch the variable name for the type that was input
+// then update
+// for all in ["reg_gas, "pure_gas", "diesel", "bio"] {
+//  document.getElementById("reg_gas").style.display = "none";
+
+document.getElementById(name).style.display = "block";
+}
+
+
+
+</script>
 
 
 {% endblock %}

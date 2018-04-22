@@ -6,9 +6,10 @@ class InputForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
-        fields = ('adults', 'children', 'gasoline_type', 'gasoline_amt',
-                  'heating_type', 'heating_amt', 'heating_unit',
-                  'elec_type', 'elec_amt')
+        fields = ('adults', 'children', 
+                  'gasoline_type', 'gasoline_amt', 'gasoline_unit', 'gasoline_input',
+                  'heating_type', 'heating_amt', 'heating_unit', 'heating_input',
+                  'elec_type', 'elec_amt', 'elec_unit', 'elec_input',)
 
 
 class UpdatingInputForm(forms.ModelForm):
