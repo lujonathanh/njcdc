@@ -292,7 +292,7 @@
 </div>
 
 <div class="slidecontainer">
-  <input type="range" min="0" max="1000" value="200" class="slider" id="myRange8">
+  <input type="range" min="0" max="3000" value="200" class="slider" id="myRange8">
   <p>Value: <span id="demo8"></span></p>
 </div>
 
@@ -369,7 +369,7 @@
         if (val >= 0) {
             x = "$" + parseFloat(val).toFixed(2);
         } else {
-            x = "-$" + parseFloat(-1 * val).toFixed(2)
+            x = "-$" + parseFloat(-1 * val).toFixed(2);
         }
         heating_result.innerHTML = x;
         myChart.data.datasets[1].data[1] = parseFloat({{ heat }} - val).toFixed(2);
