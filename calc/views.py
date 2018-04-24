@@ -34,6 +34,7 @@ def about_policy(request):
 def input(request):
 
     if request.method == 'POST':
+        print("if")
         input_form = InputForm(request.POST)
 
         if input_form.is_valid():
