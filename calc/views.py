@@ -83,7 +83,9 @@ def input(request):
         input_form = InputForm()
 
     template = loader.get_template('calc/input.html')
-    context = {'input_form': input_form, 'formtitle': "Input"}
+    context = {'input_form': input_form, 'formtitle': "Input",
+               'gasoline_unit': DEFAULT_GASOLINE_UNIT_CHOICE[1],
+               'elec_unit': DEFAULT_ELEC_UNIT_CHOICE[1]}
     response = HttpResponse(template.render(context, request))
     return response
 
@@ -117,74 +119,28 @@ def load_gasoline_units(request):
 
 def results(request):
     context = {}
+    keys = ['elec', 'gas', 'heat', 'benefit']
 
-    if 'elec' in request.COOKIES:
-        elec = request.COOKIES['elec']
-        context['elec'] = elec
-
-    else:
-        context['elec'] = {}
-
-    if 'gas' in request.COOKIES:
-        gas = request.COOKIES['gas']
-        context['gas'] = gas
-
-    else:
-        context['gas'] = {}
-
-    if 'heat' in request.COOKIES:
-        heat = request.COOKIES['heat']
-        context['heat'] = heat
-
-    else:
-        context['heat'] = {}
-
-    if 'benefit' in request.COOKIES:
-        benefit = request.COOKIES['benefit']
-        context['benefit'] = benefit
-
-    else:
-        context['benefit'] = {}
+    for key in keys:
+        if key in request.COOKIES:
+            context[key] = request.COOKIES[key]
+        else:
+            context[key] = {}
 
     template = loader.get_template('calc/results.html')
 
-    returner = HttpResponse(template.render(context, request))
-
-    return returner
+    return HttpResponse(template.render(context, request))
 
 def actions(request):
     context = {}
+    keys = ['elec', 'gas', 'heat', 'benefit']
 
-    if 'elec' in request.COOKIES:
-        elec = request.COOKIES['elec']
-        context['elec'] = elec
-
-    else:
-        context['elec'] = {}
-
-    if 'gas' in request.COOKIES:
-        gas = request.COOKIES['gas']
-        context['gas'] = gas
-
-    else:
-        context['gas'] = {}
-
-    if 'heat' in request.COOKIES:
-        heat = request.COOKIES['heat']
-        context['heat'] = heat
-
-    else:
-        context['heat'] = {}
-
-    if 'benefit' in request.COOKIES:
-        benefit = request.COOKIES['benefit']
-        context['benefit'] = benefit
-
-    else:
-        context['benefit'] = {}
+    for key in keys:
+        if key in request.COOKIES:
+            context[key] = request.COOKIES[key]
+        else:
+            context[key] = {}
 
     template = loader.get_template('calc/actions.html')
 
-    returner = HttpResponse(template.render(context, request))
-
-    return returner
+    return HttpResponse(template.render(context, request))

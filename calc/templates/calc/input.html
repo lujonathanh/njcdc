@@ -90,7 +90,7 @@
                 <br/>
                 <div>
                     <label>About how much gasoline do you use in a month?</label>
-                    <div class="text-center">{{ input_form.gasoline_amt }}{{ input_form.gasoline_unit }}
+                    <div class="text-center">{{ input_form.gasoline_amt }} {{ gasoline_unit }}
                         <a href="#" data-toggle="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
@@ -134,7 +134,7 @@
                 </br>
                 <div>
                     <label>About how much electricity do you use?</label>
-                    <div class="text-center">{{ input_form.elec_amt }}{{ input_form.elec_unit }}
+                    <div class="text-center">{{ input_form.elec_amt }} {{ elec_unit }}
                         <a href="#" data-toggle="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 

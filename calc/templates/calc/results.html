@@ -60,7 +60,10 @@
                     <a href="/calc/input">Calculator</a>
                   </li>
                   <li>
-                    <a href="/calc/about">About</a>
+                    <a href="/calc/about_policy">Policy</a>
+                  </li>
+                  <li>
+                    <a href="/calc/about_calculator">About</a>
                   </li>
               </ul>
           </div>
@@ -68,7 +71,7 @@
   </nav>
 
 <div class="container text-center">
-    <font size="4">Our calculations show that the current policy will <b id="effect"></b> you <b>$</b><b id="abs_net"></b>.
+    <font size="4">Our calculations show that the current policy will <b id="effect"></b> you <b>$</b><b id="abs_net"></b> per month.
     </font>
 </div>
 
@@ -78,7 +81,7 @@
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 container">
         <br class="visible-md visible-lg"/>
         <br class="visible-md visible-lg"/>
-        <font size="4">With the new tax, you would pay <b>$</b><b id="tot_cost"></b> more in taxes, but you would receive a <b>$</b><b id="benefit"></b> check in your mailbox every month.</font>
+        <font size="4">You'd pay <b>$</b><b id="tot_cost"></b> more in energy costs per month, but would receive a <b>$</b><b id="benefit"></b> tax credit per month.</font>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 chartcontainer">
         <canvas id="Net_chart"></canvas>
@@ -121,7 +124,7 @@
             <tr><td>Benefit</td><td>${{ benefit }}</td></tr>
             <tr><td>Elec Cost</td><td>${{ elec }}</td></tr>
             <tr><td>Gasoline Cost</td><td>${{ gas }}</td></tr>
-            <tr><td>Heating Cost</td><td>${{ heat }}</td></tr>
+            <tr><td>Heating Cost</td><td>${{ heat }}</td></tr
             <tr><td>Total Cost</td><td>$<span id="tot_cost"></span></td></tr>
             <tr><td><b>Net</b></td><td><b>$</b><b id="net"></b></td></tr>
         </table>
@@ -141,9 +144,9 @@
     }
     document.getElementById("net").innerHTML = net;
     document.getElementById("abs_net").innerHTML = Math.abs(net);
-    document.getElementById("heat_percent").innerHTML = parseFloat({{ heat }}/tot_cost*100).toFixed(2);
-    document.getElementById("gas_percent").innerHTML = parseFloat({{ gas }}/tot_cost*100).toFixed(2);
-    document.getElementById("elec_percent").innerHTML = parseFloat({{ elec }}/tot_cost*100).toFixed(2);
+    document.getElementById("heat_percent").innerHTML = parseFloat({{ heat }}/tot_cost*100).toFixed(0);
+    document.getElementById("gas_percent").innerHTML = parseFloat({{ gas }}/tot_cost*100).toFixed(0);
+    document.getElementById("elec_percent").innerHTML = parseFloat({{ elec }}/tot_cost*100).toFixed(0);
 
 </script>
 
@@ -154,11 +157,11 @@ Chart.defaults.global.legend.display = false;
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ["Gasoline", "Electricity", "Heating", "Total"],
+            labels: ["Gasoline", "Heating", "Electricity", "Total"],
             datasets: [
             {
-                label: 'Monthly cost increase without actions',
-                data: [{{ gas }}, {{ elec }}, {{ heat }}, tot_cost],
+                label: 'Monthly cost increase',
+                data: [{{ gas }}, {{ heat }}, {{ elec }}, tot_cost],
                 backgroundColor: [
                     'rgba(250,128,114, 0.2)',
                     'rgba(250,128,114, 0.2)',
@@ -179,7 +182,7 @@ Chart.defaults.global.legend.display = false;
             title: {
                 display: true,
                 fontSize: 15,
-                text: 'Change in Monthly Costs, by Area'
+                text: 'Energy Cost Increases'
             },
             scales: {
                 yAxes: [{
@@ -191,6 +194,11 @@ Chart.defaults.global.legend.display = false;
                             }
                             return '$' + value;
                         }
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Cost per Month',
+                        fontSize: 15,
                     }
                 }],
                 xAxes: [{barPercentage: 0.6}]
@@ -202,20 +210,18 @@ Chart.defaults.global.legend.display = false;
     var Net_chart = new Chart(ctx1, {
         type: 'bar',
         data: {
-            labels:['Cost', 'Benefit', 'Net'],
+            labels:['Benefit', 'Cost',  'Net'],
             datasets: [{
-                label: 'Monthly cost increase without actions',
-                data: [- tot_cost, {{ benefit }}, net],
+                label: 'Monthly',
+                data: [{{ benefit }}, - tot_cost,  net],
                 backgroundColor: [
                     'rgba(54, 162, 235, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(54, 235, 162, 0.2)'
-                    //red:'rgba(250,128,114, 0.2)'
-                    //green: 'rgba(54, 235, 162, 0.2)'
+                    'rgba(250, 128, 114, 0.2)',
+                    'rgba(54, 235, 162, 0.5)'
                 ],
                 borderColor: [
                     'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
+                    'rgba(250, 128, 114, 1)',
                     'rgba(54, 235, 162, 1)'
                 ],
                 borderWidth: 1
@@ -243,6 +249,15 @@ Chart.defaults.global.legend.display = false;
             }
         }
     });
+
+    <!--var bars = Net_chart.datasets[0].bars;-->
+    <!--var color = "orange";-->
+    <!--if (bars[0].value > 0) {-->
+        <!--color = "purple";-->
+    <!--}-->
+    <!--bars[0].fillColor = color;-->
+
+    <!--Net_chart.update();-->
 </script>
 
 <div class="container text-center">
