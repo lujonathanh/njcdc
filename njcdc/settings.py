@@ -23,7 +23,7 @@ DATABASES = {
         'USER': 'dcw3',
         'PASSWORD': '',
         'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '5433',
     }
 }
 

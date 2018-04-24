@@ -154,11 +154,11 @@ Chart.defaults.global.legend.display = false;
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ["Gasoline", "Electricity", "Heating", "Total"],
+            labels: ["Gasoline", "Heating", "Electricity", "Total"],
             datasets: [
             {
                 label: 'Monthly cost increase without actions',
-                data: [{{ gas }}, {{ elec }}, {{ heat }}, tot_cost],
+                data: [{{ gas }}, {{ heat }}, {{ elec }}, tot_cost],
                 backgroundColor: [
                     'rgba(250,128,114, 0.2)',
                     'rgba(250,128,114, 0.2)',
