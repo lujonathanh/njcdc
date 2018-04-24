@@ -3,7 +3,7 @@ from django.template import loader
 from django.contrib import messages
 from django.urls import reverse
 from .forms import InputForm, UpdatingInputForm
-from .models import get_possible_gasoline_units, UserProfile
+from .models import *
 
 
 def index(request):
@@ -28,7 +28,30 @@ def about_calc(request):
 
 def about_policy(request):
     template = loader.get_template('calc/about_policy.html')
-    context = {}
+
+    gasoline_example_type = ('e10', 'Regular Gasoline')
+    gasoline_example_label = gasoline_example_type[1]
+    gasoline_example_unit = 'gallon'
+    gasoline_example_co2 = get_gasoline_co2_conversion(gasoline_example_type,
+                                                       gasoline_example_unit)
+    gasoline_example_amt = 1
+    gasoline_example_fee = get_gasoline_co2(gasoline_example_type, gasoline_example_amt,
+                                        gasoline_example_unit)
+
+
+    household_example_adults = 2
+    household_example_children = 1
+
+
+    admin_cost_label = "3%"
+
+    context = {'fee_label': "$" + str(FEE), 'rebate_label': str(int(REBATE_PORTION * 100)) + "%",
+               'remainder_label': str(int(100 - REBATE_PORTION * 100)) + "%",
+               'gasoline_example_label': gasoline_example_label,
+               'gasoline_example_co2': gasoline_example_co2,
+               'gasoline_example_amt': gasoline_example_amt,
+               'gasoline_example_fee': gasoline_example_fee,
+               'admin_cost_label': admin_cost_label}
     return HttpResponse(template.render(context, request))
 
 def input(request):
