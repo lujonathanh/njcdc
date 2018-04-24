@@ -341,21 +341,37 @@
 
     calculate_light = function() {
         var val = slider.value * slider1.value * slider2.value * 365/1000 * ELEC_PRICE / 12;
-        lights_result.innerHTML = val;
+        if (val >= 0) {
+            x = "$" + parseFloat(val).toFixed(2);
+        } else {
+            x = "-$" + parseFloat(-1 * val).toFixed(2)
+        }
+        lights_result.innerHTML = x;
         myChart.data.datasets[1].data[2] = parseFloat({{ elec }} - val).toFixed(2);
         myChart.update();
     }
 
     calculate_driving = function() {
         var val = (1/slider3.value - 1/slider4.value) * slider5.value * GAS_PRICE * 4.25;
-        driving_result.innerHTML = val;
+        if (val >= 0) {
+            x = "$" + parseFloat(val).toFixed(2);
+        } else {
+            x = "-$" + parseFloat(-1 * val).toFixed(2)
+        }
+        driving_result.innerHTML = x;
         myChart.data.datasets[1].data[0] = parseFloat({{ gas }} - val).toFixed(2);
         myChart.update();
     }
 
     calculate_heating = function() {
         var val = (slider6.value*(10/24) + slider7.value*(8/24))*HEAT_MULTIPLIER*slider8.value / 12;
-        heating_result.innerHTML = val;
+        var x;
+        if (val >= 0) {
+            x = "$" + parseFloat(val).toFixed(2);
+        } else {
+            x = "-$" + parseFloat(-1 * val).toFixed(2)
+        }
+        heating_result.innerHTML = x;
         myChart.data.datasets[1].data[1] = parseFloat({{ heat }} - val).toFixed(2);
         myChart.update();
     }
