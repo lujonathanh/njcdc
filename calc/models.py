@@ -376,5 +376,3 @@ class UserProfile(models.Model):
 
         self.net = int(self.benefit - self.total_cost)
 
-
-

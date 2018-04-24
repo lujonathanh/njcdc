@@ -14,7 +14,6 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.4.5/js/mdb.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     </head>
-
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
  <style>
 
@@ -195,8 +194,8 @@
 
 <div id="content">
 
-<ul{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-<li>{{ message|safe }}</li></ul>
+<!--<ul{% if message.tags %} class="{{ message.tags }}"{% endif %}>-->
+<!--<li>{{ message|safe }}</li></ul>-->
 {% block content %}
             {% endblock %}
 </div>

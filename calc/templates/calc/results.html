@@ -147,7 +147,6 @@
     document.getElementById("heat_percent").innerHTML = parseFloat({{ heat }}/tot_cost*100).toFixed(0);
     document.getElementById("gas_percent").innerHTML = parseFloat({{ gas }}/tot_cost*100).toFixed(0);
     document.getElementById("elec_percent").innerHTML = parseFloat({{ elec }}/tot_cost*100).toFixed(0);
-
 </script>
 
 
@@ -205,7 +204,6 @@ Chart.defaults.global.legend.display = false;
             }
         }
     });
-
     var ctx1 = document.getElementById("Net_chart").getContext('2d');
     var Net_chart = new Chart(ctx1, {
         type: 'bar',
@@ -272,4 +270,3 @@ Chart.defaults.global.legend.display = false;
 
 </html>
 {% endblock %}
-
