@@ -144,7 +144,7 @@
             },
             {
                 label: 'Monthly cost increase with actions',
-                data: [{{ gas }}, {{ heat }}, {{ elec }},tot_cost],
+                data: [{{ gas }}, {{ heat }}, {{ elec }}, tot_cost],
                 backgroundColor: [
                     'rgba(54, 162, 235, .2)',
                     'rgba(54, 162, 235, .2)',
@@ -335,7 +335,8 @@
         for (i = 0; i < 3; i++) {
             tot += myChart.data.datasets[1].data[i];
         }
-        myChart.data.datasets[1].data[3] = parseFloat(tot).toFixed(2);
+        // myChart.data.datasets[1].data[3] = parseFloat(tot).toFixed(2);
+        myChart.data.datasets[1].data[3] = tot;
         myChart.update();
     }
 
