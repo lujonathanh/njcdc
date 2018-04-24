@@ -1,42 +1,10 @@
+
 {% extends 'calc/base.html' %}
 
 {% block content %}
 
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="navbar_header">
-      <div>
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/calc/" id="navbar-title">Carbon Dividend Calculator</a>
-        </div>
 
-        <!-- this div hides the items from the navigation bar for smaller screens -->
-          <div id="navbar" class="collapse navbar-collapse">
-            <!-- navbar-right -->
-              <ul class="nav navbar-nav">
-                  <li class="active">
-                    <a href="/calc/">Home</a>
-                  </li>
-                  <li>
-                    <a href="/calc/input">Calculator</a>
-                  </li>
-                  <li>
-                    <a href="/calc/about_policy">Policy</a>
-                  </li>
-                  <li>
-                    <a href="/calc/about_calculator">About</a>
-                  </li>
-              </ul>
-          </div>
-      </div>
-  </nav>
-
-<html>
-<body>
-    <!-- navbar-light bg-light -->
+<!-- navbar-light bg-light -->
     <!-- <div class="d-flex justify-content-between hidden-lg-up"> -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="navbar_header">
       <div>
@@ -56,214 +24,40 @@
                   <li>
                     <a href="/calc/">Home</a>
                   </li>
-                  <li class="active">
+                  <li>
                     <a href="/calc/input">Calculator</a>
                   </li>
                   <li>
-                    <a href="/calc/about">About</a>
+                    <a href="/calc/about_policy">Policy</a>
+                  </li>
+                  <li class="active">
+                    <a href="/calc/about_calculator">About</a>
                   </li>
               </ul>
           </div>
       </div>
   </nav>
 
-<div class="container text-center">
-    <font size="4">Our calculations show that the current policy will <b id="effect"></b> you <b>$</b><b id="abs_net"></b>.
-    </font>
-</div>
-
-
-<div class="container">
-    <div class="row">
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 container">
-        <br class="visible-md visible-lg"/>
-        <br class="visible-md visible-lg"/>
-        <font size="4">With the new tax, you would pay <b>$</b><b id="tot_cost"></b> more in taxes, but you would receive a <b>$</b><b id="benefit"></b> check in your mailbox every month.</font>
-    </div>
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 chartcontainer">
-        <canvas id="Net_chart"></canvas>
-    </div>
-    </div>
-</div>
-<br/>
-<div class="container">
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 container">
-        <br class="visible-md visible-lg"/>
-        <br class="visible-md visible-lg"/>
-        <font size="4">Based on your inputs, <b id="gas_percent"></b><b>%</b> of your tax would come from
-        <b>Gasoline</b> spending, <b id="heat_percent"></b><b>%</b> would come from your <b>Heat</b> spending and <b id="elec_percent"></b><b>%</b> would come from your <b>Electricity</b> spending.</font>
-        </div>
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 chartcontainer">
-        <canvas id="myChart"></canvas>
-    </div>
-</div>
-</div>
-
-
-
-<script>
-    var tot_cost = {{ heat }} + {{ gas }} + {{ elec }};
-    document.getElementById("tot_cost").innerHTML = tot_cost;
-    var net = {{ benefit }} - tot_cost;
-    document.getElementById("net").innerHTML = net;
-</script>
-
-<div class = "container ">
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 container">
-        <br class="visible-md visible-lg"/>
-        <br class="visible-md visible-lg"/>
-        <font size="4">See the detailed breakdown of your new tax spending here.
-        </font>
-    </div>
-
-    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 container">
-        <table class=" table table-striped table-bordered">
-            <tr><td>Benefit</td><td>${{ benefit }}</td></tr>
-            <tr><td>Elec Cost</td><td>${{ elec }}</td></tr>
-            <tr><td>Gasoline Cost</td><td>${{ gas }}</td></tr>
-            <tr><td>Heating Cost</td><td>${{ heat }}</td></tr>
-            <tr><td>Total Cost</td><td>$<span id="tot_cost"></span></td></tr>
-            <tr><td><b>Net</b></td><td><b>$</b><b id="net"></b></td></tr>
-        </table>
-    </div>
-</div>
-
-<script>
-    tot_cost = {{ heat }} + {{ gas }} + {{ elec }};
-    document.getElementById("tot_cost").innerHTML = tot_cost;
-    net = {{ benefit }} - tot_cost;
-    benefit = {{benefit}};
-    document.getElementById("benefit").innerHTML = benefit;
-    if (net<0) {
-        document.getElementById("effect").innerHTML = "cost";
-    } else { 
-        document.getElementById("effect").innerHTML = "earn";
-    }
-    document.getElementById("net").innerHTML = net;
-    document.getElementById("abs_net").innerHTML = Math.abs(net);
-    document.getElementById("heat_percent").innerHTML = parseFloat({{ heat }}/tot_cost*100).toFixed(2);
-    document.getElementById("gas_percent").innerHTML = parseFloat({{ gas }}/tot_cost*100).toFixed(2);
-    document.getElementById("elec_percent").innerHTML = parseFloat({{ elec }}/tot_cost*100).toFixed(2);
-
-</script>
-
-
-<script>
-Chart.defaults.global.legend.display = false;
-    var ctx = document.getElementById("myChart").getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ["Gasoline", "Electricity", "Heating", "Total"],
-            datasets: [
-            {
-                label: 'Monthly cost increase without actions',
-                data: [{{ gas }}, {{ elec }}, {{ heat }}, tot_cost],
-                backgroundColor: [
-                    'rgba(250,128,114, 0.2)',
-                    'rgba(250,128,114, 0.2)',
-                    'rgba(250,128,114, 0.2)',
-                    'rgba(250,128,114, 0.5)',
-                ],
-                borderColor: [
-                    'rgba(250,128,114, 1)',
-                    'rgba(250,128,114, 1)',
-                    'rgba(250,128,114, 1)',
-                    'rgba(250,128,114, 1)',
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            barPercentage: 0.6,
-            title: {
-                display: true,
-                fontSize: 15,
-                text: 'Change in Monthly Costs, by Area'
-            },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero:true,
-                        callback: function(value, index, values) {
-                            if (value < 0) {
-                                return '-$' + (-1 * value);
-                            }
-                            return '$' + value;
-                        }
-                    }
-                }],
-                xAxes: [{barPercentage: 0.6}]
-            }
-        }
-    });
-
-    var ctx1 = document.getElementById("Net_chart").getContext('2d');
-    var Net_chart = new Chart(ctx1, {
-        type: 'bar',
-        data: {
-            labels:['Cost', 'Benefit', 'Net'],
-            datasets: [{
-                label: 'Monthly cost increase without actions',
-                data: [- tot_cost, {{ benefit }}, net],
-                backgroundColor: [
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(54, 235, 162, 0.2)'
-                    //red:'rgba(250,128,114, 0.2)'
-                    //green: 'rgba(54, 235, 162, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 235, 162, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            title: {
-                display: true,
-                fontSize: 15,
-                text: 'Change in Monthly Costs and Benefits'
-            },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero:true,
-                        callback: function(value, index, values) {
-                            if (value < 0) {
-                                return '-$' + (-1 * value);
-                            }
-                            return '$' + value;
-                        }
-                    }
-                }],
-                xAxes: [{barPercentage: 0.6}]
-            }
-        }
-    });
-</script>
+<html>
+<body>
 
 <div class="container text-center">
-    <font size="4">Wondering what you can do to decrease your tax? Click below to see how changing your energy, gasoline and heating usage habits could help lower your tax.</font>
-    <br/>
-    <br/>
-    <a href="/calc/actions" class = "btn btn-default btn-lg" role="button">Actions</a>
-    <br><br> <!-- hacky way to add white space at bottom -->
+  <h1>About</h1>
 </div>
 
+<div class="jumbotron text-center">
+  Hi! We are a group of four Princeton University Undergraduates. We paired up with the Princeton Student Climate Initiative to provide an intuitive way for New Jersey citizens to learn more about the proposed carbon fee policy in New Jersey.
+</div>
 
 <div class="container text-center">
-    <font size="4">Want to update your inputs?</font>
-    <br/>
-    <br/>
-    <a href="/calc/input" class = "btn btn-default btn-lg" role="button">Go back</a>
-    <br><br> <!-- hacky way to add white space at bottom -->
+<h1>Contact Us</h1>
+  <div class="jumbotron jumbotron-small">
+Got questions or comments? Please contact us at <a href="mailto:carbondividendcalculator@gmail.com">carbondividendcalculator@gmail.com</a>
+<div>
 </div>
 
+</div>
+</div>
 </body>
-
 </html>
 {% endblock %}
-
