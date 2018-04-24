@@ -35,6 +35,25 @@ FEE = 30
 # amount going back to households
 REBATE_PORTION = 0.7
 
+# child multiplier
+CHILD_MULTIPLIER = 0.5
+
+
+# NJ Stats
+# For 2017: https://www.census.gov/data/tables/2017/demo/popest/state-total.html
+# Adult population from: https://www.census.gov/data/tables/2017/demo/popest/state-detail.html
+# Accessed 04-07-2018
+
+TOTALPOPULATION = 9005644
+ADULT_POPULATION = 7026626
+UNDER18_POPULATION = TOTALPOPULATION - ADULT_POPULATION
+
+# In tons per year, 2015
+# U.S. Energy Information Administration | Energy-Related Carbon Dioxide Emissions by State, 2000-2015
+# https://www.eia.gov/environment/emissions/state/analysis/pdf/stateanalysis.pdf Accessed 4/7/2018
+
+ANNUALEMISSIONS = 111.9 * 10**6
+
 
 PERIOD_CHOICES = (('month', 'Per Month'), )
 
@@ -43,6 +62,8 @@ ELEC_CHOICES = ( ('pseg', 'PSE&G'), ('rockland', 'Orange Rockland Electric'),
 
 ELEC_UNIT_CHOICES = (('kWh', 'kWh'),)
 
+DEFAULT_ELEC_UNIT_CHOICE = ('kWh', 'kWh')
+
 HEATING_CHOICES = ( ('gas', 'Natural Gas'), ('fuel', 'Fuel Oil'))
 
 HEATING_UNIT_CHOICES = (('therm', 'therms'), ('gallon', 'gallons'))
@@ -50,29 +71,29 @@ HEATING_UNIT_CHOICES = (('therm', 'therms'), ('gallon', 'gallons'))
 GASOLINE_CHOICES = (('e10', 'Regular Gasoline'), ('e0', 'Pure Gasoline'), ('diesel', 'Diesel'), ('b20', '20% Biodiesel'))
 
 GASOLINE_UNIT_CHOICES = (('gallon', 'gallons'), )
-# adding the
+
+DEFAULT_GASOLINE_UNIT_CHOICE = ('gallon', 'gallons')
+
 
 def get_possible_gasoline_units(gasoline_type):
-    if gasoline_type in {'e10', 'e0', 'diesel', 'b20'}:
+    if gasoline_type in {'e10', 'e0', 'diesel', 'b20'} or gasoline_type in GASOLINE_CHOICES:
         return (('gallon', 'gallons'),)
     else:
         raise ValueError("Gasoline type " + str(gasoline_type) + " not allowed.")
 
 
 def get_possible_elec_units(elec_type):
-    if elec_type == 'pseg' or elec_type == 'rockland' or elec_type == 'jcpl' or elec_type == 'atlantic':
+    if elec_type == 'pseg' or elec_type == 'rockland' or elec_type == 'jcpl' or elec_type == 'atlantic' or elec_type in ELEC_CHOICES:
         return (('kWh', 'kWh'),)
     else:
         raise ValueError("Elec type " + str(elec_type) + " not allowed.")
 
 
 def get_possible_heating_units(heating_type):
-    if heating_type == 'gas':
+    if heating_type == 'gas' or heating_type == ('gas', 'Natural Gas'):
         return (('therm', 'therms'),)
-    elif heating_type == 'fuel':
+    elif heating_type == 'fuel' or heating_type == ('fuel', 'Fuel Oil'):
         return (('gallon', 'gallons'),)
-    elif heating_type == 'elec':
-        return (('kWh', 'kWh'),)
     else:
         raise ValueError("Heating type " + str(heating_type) + " not allowed.")
 
@@ -91,16 +112,16 @@ def get_gasoline_co2_conversion(gasoline_type, gasoline_unit):
     # gallon of gas to metric tons of CO2
     # https://www.eia.gov/tools/faqs/faq.php?id=307&t=11
     # 'e10': 17.6/2204.6, 'e0': 19.6/2204.6, 'diesel': 22.4/2204.6, 'biodiesel': 17.9/2204.6
-    if gasoline_type == 'e10':
+    if gasoline_type == 'e10' or gasoline_type == ('e10', 'Regular Gasoline'):
         if gasoline_unit == 'gallon' or gasoline_unit == ('gallon', 'gallons'):
             return 17.6/2204.6
-    elif gasoline_type == 'e0':
+    elif gasoline_type == 'e0' or gasoline_type == ('e0', 'Pure Gasoline'):
         if gasoline_unit == 'gallon' or gasoline_unit == ('gallon', 'gallons'):
             return 19.6/2204.6
-    elif gasoline_type == 'diesel':
+    elif gasoline_type == 'diesel' or gasoline_type == ('diesel', 'Diesel'):
         if gasoline_unit == 'gallon' or gasoline_unit == ('gallon', 'gallons'):
             return 22.4/2204.6
-    elif gasoline_type == 'b20':
+    elif gasoline_type == 'b20' or gasoline_type == ('b20', '20% Biodiesel'):
         if gasoline_unit == 'gallon' or gasoline_unit == ('gallon', 'gallons'):
             return 17.9/2204.6
 
@@ -149,7 +170,7 @@ def get_elec_co2_conversion(elec_type, elec_unit):
         # PSE&G
         # https://www.pseg.com/info/environment/envirolabel.jsp, accessed 3/31/2018
         # Time Range: June 1, 2016 - May 31, 2017
-        if elec_type == 'pseg':
+        if elec_type == 'pseg' or elec_type == ('pseg', 'PSE&G'):
             fuel_makeup = {'coal': 0.2184,
                            'gas': 0.2247,
                            'nuclear': 0.3953,
@@ -160,7 +181,7 @@ def get_elec_co2_conversion(elec_type, elec_unit):
         # Jersey Central Power & Light
         # https://www.firstenergycorp.com/content/dam/customer/billinserts/8285-NJEnvironmentalLabel1116.pdf, accessed 3/31/2018
         # Time Range: June 2015 - May 2016
-        elif elec_type == 'jcpl':
+        elif elec_type == 'jcpl' or elec_type == ('jcpl', 'Jersey Central Power & Light'):
             fuel_makeup = {'coal': 0.3286,
                            'gas': 0.2476,
                            'nuclear': 0.3688,
@@ -170,7 +191,7 @@ def get_elec_co2_conversion(elec_type, elec_unit):
         # Atlantic City Electric
         # https://www.atlanticcityelectric.com/SiteCollectionDocuments/ACE%20Environ%20Disclosure%20Bill%202017.pdf, accessed 3/31/2018
         # Time Range:  June 1, 2016 to May 31, 2017
-        elif elec_type == 'atlantic':
+        elif elec_type == 'atlantic' or elec_type == ('atlantic', 'Atlantic City Electric'):
             fuel_makeup = {'coal': 0.328,
                            'gas': 0.246,
                            'nuclear': 0.325,
@@ -180,7 +201,7 @@ def get_elec_co2_conversion(elec_type, elec_unit):
         # Rockland Electric
         # https://www.oru.com/_external/orurates/documents/nj/NJElectricityProductLabel.pdf, accessed 3/31/2018
         # Time Range:  January through June 2017
-        elif elec_type == 'rockland':
+        elif elec_type == 'rockland' or elec_type == ('rockland', 'Orange Rockland Electric'):
             fuel_makeup = {'coal': 0.263,
                            'gas': 0.274,
                            'nuclear': 0.364,
@@ -221,7 +242,7 @@ def get_heating_co2_conversion(heating_type, heating_unit):
 
     # Natural Gas CO2/therm: https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references
     # 0.0053 metric tons CO2/therm
-    if heating_type == 'gas':
+    if heating_type == 'gas' or heating_type == ('gas', 'Natural Gas'):
         if heating_unit == 'therm' or heating_unit == ('therm', 'therms'):
             heating_co2_conversion = 0.0053
         else:
@@ -229,7 +250,7 @@ def get_heating_co2_conversion(heating_type, heating_unit):
 
     # Distillate Fuel Oil (Home Heating Fuel) https://www.eia.gov/environment/emissions/co2_vol_mass.php
     # 10.16 kg CO2/gallon * 0.001 metric tons/kg
-    elif heating_type == 'fuel':
+    elif heating_type == 'fuel' or heating_type == ('fuel', 'Fuel Oil'):
         if heating_unit == 'gallon' or heating_unit == ('gallon', 'gallons'):
             heating_co2_conversion = 10.16 * 0.001
         else:
@@ -284,7 +305,6 @@ class UserProfile(models.Model):
 
     adults = models.PositiveIntegerField(default=1, validators=[validate_leq20], help_text="Members of household 18 and older.")
     children = models.PositiveIntegerField(default=0, validators=[validate_leq20], help_text="Members of household under 18.")
-    CHILD_MULTIPLIER = 0.5
 
     ##############    GASOLINE    ##############
 
@@ -292,7 +312,7 @@ class UserProfile(models.Model):
     # we set the 200 gall/month based on average across zipcodes in NJ: 198 gall/month, see data/zipcode_data_nj.txt
     gasoline_amt = models.FloatField(default=70.0, validators=[validate_nonnegative])
     gasoline_type = models.CharField(choices=GASOLINE_CHOICES, default='e10', max_length=40)
-    gasoline_unit = models.CharField(choices=GASOLINE_UNIT_CHOICES, default=get_possible_gasoline_units('e10')[0],
+    gasoline_unit = models.CharField(choices=GASOLINE_UNIT_CHOICES, default=DEFAULT_GASOLINE_UNIT_CHOICE,
                                     max_length=40)
 
     ##############    HEATING    ##############
@@ -309,7 +329,7 @@ class UserProfile(models.Model):
 
     elec_amt = models.FloatField(default=9000.0, validators=[validate_nonnegative])
     elec_type = models.CharField(choices=ELEC_CHOICES, default='pseg', max_length=40, help_text="Your electric utility provider.")
-    elec_unit = models.CharField(choices=ELEC_UNIT_CHOICES, default=get_possible_elec_units('pseg')[0],
+    elec_unit = models.CharField(choices=ELEC_UNIT_CHOICES, default=DEFAULT_ELEC_UNIT_CHOICE,
                                     max_length=40)
 
 
@@ -319,51 +339,40 @@ class UserProfile(models.Model):
         # TODO: update with the correct units
 
 
-        # In tons per year, 2015
-        # U.S. Energy Information Administration | Energy-Related Carbon Dioxide Emissions by State, 2000-2015
-        # https://www.eia.gov/environment/emissions/state/analysis/pdf/stateanalysis.pdf Accessed 4/7/2018
-        TOTALEMISSIONS = 111.9 * 10**6
         if self.period == 'month':
-            TOTALEMISSIONS /= 12.0
+            EMISSIONSPERPERIOD = ANNUALEMISSIONS / 12.0
         elif self.period == 'year':
+            EMISSIONSPERPERIOD = ANNUALEMISSIONS
             pass
         else:
             raise ValueError("Period " + str(self.period) + " not allowed.")
 
-        TOTALREVENUE = TOTALEMISSIONS * self.fee
-
-        # For 2017: https://www.census.gov/data/tables/2017/demo/popest/state-total.html
-        # Adult population from: https://www.census.gov/data/tables/2017/demo/popest/state-detail.html
-        # Accessed 04-07-2018
-        TOTALPOPULATION = 9005644
-        ADULT_POPULATION = 7026626
-        UNDER18_POPULATION = TOTALPOPULATION - ADULT_POPULATION
+        TOTALREVENUE = EMISSIONSPERPERIOD * self.fee
 
 
 
-        REVENUEPERADULT = TOTALREVENUE * 1.0 / (UNDER18_POPULATION * self.CHILD_MULTIPLIER + ADULT_POPULATION)
+
+        REVENUEPERADULT = TOTALREVENUE * 1.0 / (UNDER18_POPULATION * CHILD_MULTIPLIER + ADULT_POPULATION)
 
         self.DIVIDENDPERADULT =  REVENUEPERADULT * self.rebate_portion
-        self.benefit = (self.CHILD_MULTIPLIER * self.children + self.adults) * self.DIVIDENDPERADULT
+        self.benefit = int(round((CHILD_MULTIPLIER * self.children + self.adults) * self.DIVIDENDPERADULT))
 
 
         self.gasoline_co2 = get_gasoline_co2(str(self.gasoline_type), self.gasoline_amt, self.gasoline_unit)
 
-        self.gasoline_cost = self.fee * self.gasoline_co2
+        self.gasoline_cost = int(round(self.fee * self.gasoline_co2))
 
         self.elec_co2 = get_elec_co2(self.elec_type, self.elec_amt, self.elec_unit)
 
-        self.elec_cost = self.fee * self.elec_co2
+        self.elec_cost = int(round(self.fee * self.elec_co2))
 
         self.heating_co2 = get_heating_co2(self.heating_type, self.heating_amt, self.heating_unit)
 
-        self.heating_cost = self.fee * self.heating_co2
+        self.heating_cost = int(round(self.fee * self.heating_co2))
 
 
-        self.total_cost = self.gasoline_cost + self.elec_cost + self.heating_cost
+        self.total_cost = int(round(self.gasoline_cost + self.elec_cost + self.heating_cost))
         self.total_cost_minus = -1*self.total_cost
 
-        self.net = self.benefit - self.total_cost
-
-
+        self.net = int(self.benefit - self.total_cost)
 
