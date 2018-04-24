@@ -144,7 +144,6 @@
     document.getElementById("heat_percent").innerHTML = parseFloat({{ heat }}/tot_cost*100).toFixed(2);
     document.getElementById("gas_percent").innerHTML = parseFloat({{ gas }}/tot_cost*100).toFixed(2);
     document.getElementById("elec_percent").innerHTML = parseFloat({{ elec }}/tot_cost*100).toFixed(2);
-
 </script>
 
 
@@ -197,7 +196,6 @@ Chart.defaults.global.legend.display = false;
             }
         }
     });
-
     var ctx1 = document.getElementById("Net_chart").getContext('2d');
     var Net_chart = new Chart(ctx1, {
         type: 'bar',
@@ -253,17 +251,7 @@ Chart.defaults.global.legend.display = false;
     <br><br> <!-- hacky way to add white space at bottom -->
 </div>
 
-
-<div class="container text-center">
-    <font size="4">Want to update your inputs?</font>
-    <br/>
-    <br/>
-    <a href="/calc/input" class = "btn btn-default btn-lg" role="button">Go back</a>
-    <br><br> <!-- hacky way to add white space at bottom -->
-</div>
-
 </body>
 
 </html>
 {% endblock %}
-
