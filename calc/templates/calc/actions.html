@@ -333,10 +333,9 @@
         var tot = 0;
         var i;
         for (i = 0; i < 3; i++) {
-            tot += myChart.data.datasets[1].data[i];
+            tot += parseFloat(myChart.data.datasets[1].data[i]);
         }
-        // myChart.data.datasets[1].data[3] = parseFloat(tot).toFixed(2);
-        myChart.data.datasets[1].data[3] = tot;
+        myChart.data.datasets[1].data[3] = parseFloat(tot).toFixed(2);
         myChart.update();
     }
 
