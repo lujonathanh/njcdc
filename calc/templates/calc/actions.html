@@ -10,14 +10,8 @@
 
 <style>
 
-    .actions {
-        position: static;
-        margin-top: 200px;
-    }
-
     .sticky {
         position: fixed;
-        <!--top: 51px;-->
     }
 
     .chartcontainer{
@@ -187,7 +181,7 @@
             }
         }
     });
-Chart.defaults.global.legend.display = false;
+    Chart.defaults.global.legend.display = false;
 
     var ctx1 = document.getElementById("Net_chart").getContext('2d');
     var Net_chart = new Chart(ctx1, {
@@ -237,21 +231,24 @@ Chart.defaults.global.legend.display = false;
     var chartcont = document.getElementById("chartcont");
     var sticky = chartcont.offsetTop;
 
-    window.onscroll = function() {
-        if (window.pageYOffset + 51 >= sticky) {
-            chartcont.classList.add("sticky");
+    var header_height = $("#navbar_header").height();
+
+    make_sticky = function() {
+        if (window.pageYOffset + header_height >= sticky) {
+            chartcont.style.position = "fixed";
+            chartcont.style.top = header_height + "px";
+            var chart_height = $("#chartcont").height();
+            document.getElementById("actions").style.marginTop=(chart_height+20)+"px";
         } else {
-            chartcont.classList.remove("sticky");
+            chartcont.style.position="static";
         }
     };
 
-    <!--&lt;!&ndash;document.querySelector('.chartcontainer').style.top = document.querySelector('.navbar').style.bottom + 'px';&ndash;&gt;-->
-    <!--document.querySelector('.chartcontainer').style.top = 1 + 'px';-->
-    <!--alert(document.querySelector('.navbar').style.top)-->
+    window.onscroll = make_sticky;
 
 </script>
 
-<div class="actions">
+<div class="container" id="actions">
 
 <h1>Actions</h1>
 
