@@ -62,6 +62,8 @@ ELEC_CHOICES = ( ('pseg', 'PSE&G'), ('rockland', 'Orange Rockland Electric'),
 
 ELEC_UNIT_CHOICES = (('kWh', 'kWh'),)
 
+DEFAULT_ELEC_UNIT_CHOICE = ('kWh', 'kWh')
+
 HEATING_CHOICES = ( ('gas', 'Natural Gas'), ('fuel', 'Fuel Oil'))
 
 HEATING_UNIT_CHOICES = (('therm', 'therms'), ('gallon', 'gallons'))
@@ -69,7 +71,9 @@ HEATING_UNIT_CHOICES = (('therm', 'therms'), ('gallon', 'gallons'))
 GASOLINE_CHOICES = (('e10', 'Regular Gasoline'), ('e0', 'Pure Gasoline'), ('diesel', 'Diesel'), ('b20', '20% Biodiesel'))
 
 GASOLINE_UNIT_CHOICES = (('gallon', 'gallons'), )
-# adding the
+
+DEFAULT_GASOLINE_UNIT_CHOICE = ('gallon', 'gallons')
+
 
 def get_possible_gasoline_units(gasoline_type):
     if gasoline_type in {'e10', 'e0', 'diesel', 'b20'} or gasoline_type in GASOLINE_CHOICES:
@@ -301,7 +305,6 @@ class UserProfile(models.Model):
 
     adults = models.PositiveIntegerField(default=1, validators=[validate_leq20], help_text="Members of household 18 and older.")
     children = models.PositiveIntegerField(default=0, validators=[validate_leq20], help_text="Members of household under 18.")
-    CHILD_MULTIPLIER = 0.5
 
     ##############    GASOLINE    ##############
 
@@ -309,7 +312,7 @@ class UserProfile(models.Model):
     # we set the 200 gall/month based on average across zipcodes in NJ: 198 gall/month, see data/zipcode_data_nj.txt
     gasoline_amt = models.FloatField(default=70.0, validators=[validate_nonnegative])
     gasoline_type = models.CharField(choices=GASOLINE_CHOICES, default='e10', max_length=40)
-    gasoline_unit = models.CharField(choices=GASOLINE_UNIT_CHOICES, default=get_possible_gasoline_units('e10')[0],
+    gasoline_unit = models.CharField(choices=GASOLINE_UNIT_CHOICES, default=DEFAULT_GASOLINE_UNIT_CHOICE,
                                     max_length=40)
 
     ##############    HEATING    ##############
@@ -326,7 +329,7 @@ class UserProfile(models.Model):
 
     elec_amt = models.FloatField(default=9000.0, validators=[validate_nonnegative])
     elec_type = models.CharField(choices=ELEC_CHOICES, default='pseg', max_length=40, help_text="Your electric utility provider.")
-    elec_unit = models.CharField(choices=ELEC_UNIT_CHOICES, default=get_possible_elec_units('pseg')[0],
+    elec_unit = models.CharField(choices=ELEC_UNIT_CHOICES, default=DEFAULT_ELEC_UNIT_CHOICE,
                                     max_length=40)
 
 
@@ -349,26 +352,27 @@ class UserProfile(models.Model):
 
 
 
-        REVENUEPERADULT = TOTALREVENUE * 1.0 / (UNDER18_POPULATION * self.CHILD_MULTIPLIER + ADULT_POPULATION)
+        REVENUEPERADULT = TOTALREVENUE * 1.0 / (UNDER18_POPULATION * CHILD_MULTIPLIER + ADULT_POPULATION)
 
         self.DIVIDENDPERADULT =  REVENUEPERADULT * self.rebate_portion
-        self.benefit = (self.CHILD_MULTIPLIER * self.children + self.adults) * self.DIVIDENDPERADULT
+        self.benefit = int(round((CHILD_MULTIPLIER * self.children + self.adults) * self.DIVIDENDPERADULT))
 
 
         self.gasoline_co2 = get_gasoline_co2(str(self.gasoline_type), self.gasoline_amt, self.gasoline_unit)
 
-        self.gasoline_cost = self.fee * self.gasoline_co2
+        self.gasoline_cost = int(round(self.fee * self.gasoline_co2))
 
         self.elec_co2 = get_elec_co2(self.elec_type, self.elec_amt, self.elec_unit)
 
-        self.elec_cost = self.fee * self.elec_co2
+        self.elec_cost = int(round(self.fee * self.elec_co2))
 
         self.heating_co2 = get_heating_co2(self.heating_type, self.heating_amt, self.heating_unit)
 
-        self.heating_cost = self.fee * self.heating_co2
+        self.heating_cost = int(round(self.fee * self.heating_co2))
 
 
-        self.total_cost = self.gasoline_cost + self.elec_cost + self.heating_cost
+        self.total_cost = int(round(self.gasoline_cost + self.elec_cost + self.heating_cost))
         self.total_cost_minus = -1*self.total_cost
 
-        self.net = self.benefit - self.total_cost
+        self.net = int(self.benefit - self.total_cost)
+

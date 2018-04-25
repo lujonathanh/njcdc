@@ -118,7 +118,7 @@
             datasets: [
             {
                 label: 'Monthly cost increase without actions',
-                data: [{{ gas }}, {{ elec }}, {{ heat }}, tot_cost],
+                data: [{{ gas }}, {{ heat }},{{ elec }}, tot_cost],
                 backgroundColor: [
                     'rgba(250,128,114, 0.2)',
                     'rgba(250,128,114, 0.2)',
@@ -135,7 +135,7 @@
             },
             {
                 label: 'Monthly cost increase with actions',
-                data: [{{ gas }}, {{ elec }}, {{ heat }}, tot_cost],
+                data: [{{ gas }}, {{ heat }}, {{ elec }}, tot_cost],
                 backgroundColor: [
                     'rgba(54, 162, 235, .2)',
                     'rgba(54, 162, 235, .2)',
@@ -252,17 +252,17 @@
 
 <div class="slidecontainer">
   <input type="range" min="10" max="100" value="23" class="slider" id="myRange3">
-  <p>Value: <span id="demo3"></span></p>
+  <p>Previously <b>a</b> miles per gallon: <span id="demo3"></span></p>
 </div>
 
 <div class="slidecontainer">
   <input type="range" min="10" max="100" value="50" class="slider" id="myRange4">
-  <p>Value: <span id="demo4"></span></p>
+  <p>Now <b>b</b> miles per gallon: <span id="demo4"></span></p>
 </div>
 
 <div class="slidecontainer">
   <input type="range" min="0" max="1500" value="0" class="slider" id="myRange5">
-  <p>Value: <span id="demo5"></span></p>
+  <p><b>m</b> miles per week: <span id="demo5"></span></p>
 </div>
 
 <p style="text-align:center;"> Money saved on driving: <span id="driving"></span> </p>
@@ -275,17 +275,17 @@
 
 <div class="slidecontainer">
   <input type="range" min="0" max="10" value="0" class="slider" id="myRange6">
-  <p>Value: <span id="demo6"></span></p>
+  <p><b>d</b> degrees: <span id="demo6"></span></p>
 </div>
 
 <div class="slidecontainer">
   <input type="range" min="0" max="10" value="0" class="slider" id="myRange7">
-  <p>Value: <span id="demo7"></span></p>
+  <p><b>n</b> degrees: <span id="demo7"></span></p>
 </div>
 
 <div class="slidecontainer">
-  <input type="range" min="0" max="1000" value="200" class="slider" id="myRange8">
-  <p>Value: <span id="demo8"></span></p>
+  <input type="range" min="0" max="3000" value="500" class="slider" id="myRange8">
+  <p><b>h</b> dollars per year: <span id="demo8"></span></p>
 </div>
 
 <p style="text-align:center;"> Money saved on heating: <span id="heating"></span> </p>
@@ -297,17 +297,17 @@
 
 <div class="slidecontainer">
   <input type="range" min="0" max="10" value="0" class="slider" id="myRange">
-  <p><b>n</b>: <span id="demo"></span></p>
+  <p><b>n</b> lights: <span id="demo"></span></p>
 </div>
 
 <div class="slidecontainer">
   <input type="range" min="5" max="150" value="50" class="slider" id="myRange1">
-  <p><b>w</b>: <span id="demo1"></span></p>
+  <p><b>w</b> watts per light: <span id="demo1"></span></p>
 </div>
 
 <div class="slidecontainer">
   <input type="range" min="1" max="24" value="4" class="slider" id="myRange2">
-  <p><b>h</b>: <span id="demo2"></span></p>
+  <p><b>h</b> hours per day: <span id="demo2"></span></p>
 </div>
 
 <p style="text-align:center;"> Money saved on lighting: <span id="lights"></span> </p>
@@ -316,15 +316,16 @@
 <br/>
 <script>
 
-    ELEC_PRICE = .1572;
-    GAS_PRICE = 2.5;
-    HEAT_MULTIPLIER = .02;
+    ELEC_PRICE = .13;  // electricity costs around 13 cents / kWh
+    GAS_PRICE = 3;  // gas costs around $3
+    HEAT_MULTIPLIER = .02;  // natural gas costs around 60 cents / therm
+    // but .02 because we estimate heating bill decreases by 2% per degree-day turned down
 
     calculate_tot = function() {
         var tot = 0;
         var i;
         for (i = 0; i < 3; i++) {
-            tot += myChart.data.datasets[1].data[i];
+            tot += parseFloat(myChart.data.datasets[1].data[i]);
         }
         myChart.data.datasets[1].data[3] = parseFloat(tot).toFixed(2);
         myChart.update();
@@ -332,21 +333,37 @@
 
     calculate_light = function() {
         var val = slider.value * slider1.value * slider2.value * 365/1000 * ELEC_PRICE / 12;
-        lights_result.innerHTML = val;
+        if (val >= 0) {
+            x = "$" + parseFloat(val).toFixed(2);
+        } else {
+            x = "-$" + parseFloat(-1 * val).toFixed(2)
+        }
+        lights_result.innerHTML = x;
         myChart.data.datasets[1].data[2] = parseFloat({{ elec }} - val).toFixed(2);
         myChart.update();
     }
 
     calculate_driving = function() {
         var val = (1/slider3.value - 1/slider4.value) * slider5.value * GAS_PRICE * 4.25;
-        driving_result.innerHTML = val;
+        if (val >= 0) {
+            x = "$" + parseFloat(val).toFixed(2);
+        } else {
+            x = "-$" + parseFloat(-1 * val).toFixed(2)
+        }
+        driving_result.innerHTML = x;
         myChart.data.datasets[1].data[0] = parseFloat({{ gas }} - val).toFixed(2);
         myChart.update();
     }
 
     calculate_heating = function() {
         var val = (slider6.value*(10/24) + slider7.value*(8/24))*HEAT_MULTIPLIER*slider8.value / 12;
-        heating_result.innerHTML = val;
+        var x;
+        if (val >= 0) {
+            x = "$" + parseFloat(val).toFixed(2);
+        } else {
+            x = "-$" + parseFloat(-1 * val).toFixed(2);
+        }
+        heating_result.innerHTML = x;
         myChart.data.datasets[1].data[1] = parseFloat({{ heat }} - val).toFixed(2);
         myChart.update();
     }
