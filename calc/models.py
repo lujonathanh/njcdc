@@ -237,9 +237,6 @@ def get_heating_co2_conversion(heating_type, heating_unit):
             heating_co2_conversion (metric tons of CO2/unit)
     """
 
-    # if heating_type not in HEATING_CHOICES:
-    #     raise ValueError("Heating type " + str(heating_type) + " is not valid!")
-
     # Natural Gas CO2/therm: https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references
     # 0.0053 metric tons CO2/therm
     if heating_type == 'gas' or heating_type == ('gas', 'Natural Gas'):
@@ -255,16 +252,6 @@ def get_heating_co2_conversion(heating_type, heating_unit):
             heating_co2_conversion = 10.16 * 0.001
         else:
             raise ValueError("Heating Unit " + str(heating_unit) + " not allowed for heating type " + str(heating_type))
-
-
-    # Electricity
-    # Simply return CO2 content of electricity
-    # elif heating_type == 'elec':
-    #     if heating_unit == 'kWh' or (isinstance(heating_unit, tuple) and 'kWh' in heating_unit):
-    #         heating_co2_conversion = get_elec_co2_conversion(elec_type, heating_unit) # modified CW 4/12/18
-    #     else:
-    #         raise ValueError("Heating Unit " + str(heating_unit) + " not allowed for heating type " + str(heating_type))
-
     else:
         raise ValueError("Heating type " + str(heating_type) + " not in heating choices")
 
@@ -290,6 +277,71 @@ def get_heating_co2(heating_type, heating_amt, heating_unit):
     """
     heating_co2_conversion = get_heating_co2_conversion(heating_type, heating_unit)
     return heating_amt * heating_co2_conversion
+
+
+def get_benefit_per_adult(emissions, fee, rebate_portion, adult_population, child_population, child_multiplier):
+    """
+    :param emissions: Total CO2 Emissions (tons)
+    :param fee: Fee per ton CO2 ($)
+    :param rebate_portion: % of total revenue to be returned to households
+    :param adult_population: # adults in state
+    :param child_population: # children in state
+    :param child_multiplier: portion of adult revenue a child should get
+    :return: benefit_per_adult
+    """
+    if (emissions < 0):
+        raise ValueError("Can't have negative emissions amount: " + str(emissions))
+    if (fee < 0):
+        raise ValueError("Can't have negative fee amount: " + str(fee))
+    if (rebate_portion < 0 or rebate_portion > 1):
+        raise ValueError("Rebate amount " + str(rebate_portion) + " Must be between 0 and 1")
+    if (adult_population < 0):
+        raise ValueError("Can't have negative adults: " + str(adult_population))
+    if (child_population < 0):
+        raise ValueError("Can't have negative children: " + str(child_population))
+    if (child_multiplier < 0 or child_multiplier > 1):
+        raise ValueError("Child multiplier " + str(child_multiplier) + " Must be between 0 and 1")
+
+    total_revenue = emissions * fee
+    total_rebate = total_revenue * rebate_portion
+    total_adults = adult_population + child_population * child_multiplier
+
+    benefit_per_adult = total_rebate * 1.0 / total_adults
+
+    return benefit_per_adult
+
+
+
+def get_benefit_for_household(emissions, fee, rebate_portion, adult_population, child_population, child_multiplier, household_adults,
+                              household_children):
+    """
+    :param emissions: Total CO2 Emissions (tons)
+    :param fee: Fee per ton CO2 ($)
+    :param rebate_portion: % of total revenue to be returned to households
+    :param adult_population: # adults in state
+    :param child_population: # children in state
+    :param child_multiplier: portion of adult revenue a child should get
+    :param household_adults: # in household
+    :param household_children: # in household
+    :return: benefit_for_household, benefit_per_adult
+    """
+    if (child_multiplier < 0 or child_multiplier > 1):
+        raise ValueError("Child multiplier " + str(child_multiplier) + " Must be between 0 and 1")
+    if (household_adults < 0):
+        raise ValueError("Can't have negative adults: " + str(household_adults))
+    if (household_children < 0):
+        raise ValueError("Can't have negative children: " + str(household_children))
+
+    benefit_per_adult = get_benefit_per_adult(emissions=emissions, fee=fee, rebate_portion=rebate_portion,
+                                              adult_population=adult_population, child_population=child_population,
+                                              child_multiplier=child_multiplier)
+
+    total_household_adults = household_adults + child_multiplier * household_children
+
+    benefit_for_household = benefit_per_adult * total_household_adults
+
+    return benefit_for_household, benefit_per_adult
+
 
 
 #################         MODELS         #################
@@ -347,16 +399,16 @@ class UserProfile(models.Model):
         else:
             raise ValueError("Period " + str(self.period) + " not allowed.")
 
-        TOTALREVENUE = EMISSIONSPERPERIOD * self.fee
+        self.benefit, BENEFITPERADULT = get_benefit_for_household(emissions=EMISSIONSPERPERIOD,
+                                                                   fee=self.fee,
+                                                                   rebate_portion=self.rebate_portion,
+                                                                   adult_population=ADULT_POPULATION,
+                                                                   child_population=UNDER18_POPULATION,
+                                                                   child_multiplier=CHILD_MULTIPLIER,
+                                                                   household_adults=self.adults,
+                                                                   household_children=self.children)
 
-
-
-
-        REVENUEPERADULT = TOTALREVENUE * 1.0 / (UNDER18_POPULATION * CHILD_MULTIPLIER + ADULT_POPULATION)
-
-        self.DIVIDENDPERADULT =  REVENUEPERADULT * self.rebate_portion
-        self.benefit = int(round((CHILD_MULTIPLIER * self.children + self.adults) * self.DIVIDENDPERADULT))
-
+        self.benefit = int(round(self.benefit))
 
         self.gasoline_co2 = get_gasoline_co2(str(self.gasoline_type), self.gasoline_amt, self.gasoline_unit)
 

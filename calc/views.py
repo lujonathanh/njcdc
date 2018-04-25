@@ -35,23 +35,37 @@ def about_policy(request):
     gasoline_example_co2 = get_gasoline_co2_conversion(gasoline_example_type,
                                                        gasoline_example_unit)
     gasoline_example_amt = 1
-    gasoline_example_fee = get_gasoline_co2(gasoline_example_type, gasoline_example_amt,
-                                        gasoline_example_unit)
+    gasoline_example_fee = round(FEE * get_gasoline_co2(gasoline_example_type, gasoline_example_amt,
+                                        gasoline_example_unit), 2)
 
 
     household_example_adults = 2
-    household_example_children = 1
+    household_example_children = 2
+
+    household_example_benefit, benefit_per_adult = get_benefit_for_household(emissions=ANNUALEMISSIONS/12.0,
+                                                                             fee=FEE,
+                                                                             rebate_portion=REBATE_PORTION,
+                                                                             adult_population=ADULT_POPULATION,
+                                                                             child_population=UNDER18_POPULATION,
+                                                                             child_multiplier=CHILD_MULTIPLIER,
+                                                                             household_adults=household_example_adults,
+                                                                             household_children=household_example_children)
 
 
     admin_cost_label = "3%"
 
     context = {'fee_label': "$" + str(FEE), 'rebate_label': str(int(REBATE_PORTION * 100)) + "%",
                'remainder_label': str(int(100 - REBATE_PORTION * 100)) + "%",
+               'CHILD_MULTIPLIER': CHILD_MULTIPLIER,
                'gasoline_example_label': gasoline_example_label,
-               'gasoline_example_co2': gasoline_example_co2,
-               'gasoline_example_amt': gasoline_example_amt,
+               'gasoline_example_co2': '%.1E' % gasoline_example_co2,
+               'gasoline_example_unit': gasoline_example_unit,
                'gasoline_example_fee': gasoline_example_fee,
-               'admin_cost_label': admin_cost_label}
+               'household_example_adults': household_example_adults,
+               'household_example_children': household_example_children,
+               'household_example_benefit': "$" + str(int(round(household_example_benefit))),
+               'benefit_per_adult': "$" + str(int(round(benefit_per_adult)))
+               }
     return HttpResponse(template.render(context, request))
 
 def input(request):
