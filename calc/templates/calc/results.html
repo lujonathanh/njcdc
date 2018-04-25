@@ -166,7 +166,22 @@
 
 
 <script>
-Chart.defaults.global.legend.display = false;
+    function color_as_value(val, bold=0) {
+        if (val<0) {
+            if (bold == 1) {var color = 'rgba(250,128,114, 1)'; }
+            else {var color = 'rgba(250,128,114, 0.2)'; }
+        }
+        else {
+            if (bold == 1) {var color = 'rgba(54, 235, 162, 1)'; }
+            else {var color = 'rgba(54, 235, 162, 0.2)'; }
+        }
+        return color;
+    }
+
+    var benefit_color = color_as_value(benefit);
+    var cost_color =  color_as_value(-tot_cost);
+    var net_color = color_as_value(net, bold = 1);
+    Chart.defaults.global.legend.display = false;
     var ctx = document.getElementById("myChart").getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'bar',
@@ -180,13 +195,13 @@ Chart.defaults.global.legend.display = false;
                     'rgba(250,128,114, 0.2)',
                     'rgba(250,128,114, 0.2)',
                     'rgba(250,128,114, 0.2)',
-                    'rgba(250,128,114, 0.5)',
+                    'rgba(250,128,114, 1)',
                 ],
                 borderColor: [
-                    'rgba(250,128,114, 1)',
-                    'rgba(250,128,114, 1)',
-                    'rgba(250,128,114, 1)',
-                    'rgba(250,128,114, 1)',
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(0, 0, 0, 1)',
                 ],
                 borderWidth: 1
             }]
@@ -226,16 +241,16 @@ Chart.defaults.global.legend.display = false;
             labels:['Benefit', 'Cost',  'Net'],
             datasets: [{
                 label: 'Monthly',
-                data: [{{ benefit }}, - tot_cost,  net],
+                data: [benefit, - tot_cost,  net],
                 backgroundColor: [
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(250, 128, 114, 0.2)',
-                    'rgba(54, 235, 162, 0.5)'
+                    benefit_color,
+                    cost_color,
+                    net_color,
                 ],
                 borderColor: [
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(250, 128, 114, 1)',
-                    'rgba(54, 235, 162, 1)'
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(0, 0, 0, 1)',
                 ],
                 borderWidth: 1
             }]

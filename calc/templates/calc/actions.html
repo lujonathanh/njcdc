@@ -12,11 +12,11 @@
     .sticky {
         position: fixed;
     }
-    .chartcontainer{
+/*    .chartcontainer{
         z-index:10;
         background-color: rgba(255,255,255,1.0);
         width: 100%;
-    }
+    }*/
     .slidecontainer {
         margin: auto;
         width: 75%;
@@ -108,7 +108,7 @@
 </script>
 
 <body>
-  <div class = "chartcontainer" id="chartcont">
+  <div class = "chartcontainer actions" id="chartcont">
     <div class="col-sm-6">
      <canvas id="Net_chart"></canvas>
     </div>
@@ -131,13 +131,13 @@
                     'rgba(250,128,114, 0.2)',
                     'rgba(250,128,114, 0.2)',
                     'rgba(250,128,114, 0.2)',
-                    'rgba(250,128,114, 0.5)',
+                    'rgba(250,128,114, 1)',
                 ],
                 borderColor: [
-                    'rgba(250,128,114, 1)',
-                    'rgba(250,128,114, 1)',
-                    'rgba(250,128,114, 1)',
-                    'rgba(250,128,114, 1)',
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(0, 0, 0, 1)',
                 ],
                 borderWidth: 1
             },
@@ -151,10 +151,10 @@
                     'rgba(54, 162, 235, .5)',
                 ],
                 borderColor: [
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(0, 0, 0, 1)',
                 ],
                 borderWidth: 1
             }]
@@ -180,28 +180,42 @@
             }
         }
     });
+
+    function color_as_value(val, bold=0) {
+        if (val<0) {
+            if (bold == 1) {var color = 'rgba(250,128,114, 1)'; }
+            else {var color = 'rgba(250,128,114, 0.2)'; }
+        }
+        else {
+            if (bold == 1) {var color = 'rgba(54, 235, 162, 1)'; }
+            else {var color = 'rgba(54, 235, 162, 0.2)'; }
+        }
+        return color;
+    }
+    var benefit = {{benefit}};
+    var benefit_color = color_as_value(benefit);
+    var cost_color =  color_as_value(-tot_cost);
+    var net_color = color_as_value(net, bold = 1);
+
     Chart.defaults.global.legend.display = false;
     
-    var red_var = 'rgba(250,128,114, 0.2)';
     var ctx1 = document.getElementById("Net_chart").getContext('2d');
     var Net_chart = new Chart(ctx1, {
         type: 'bar',
         data: {
-            labels:['Cost', 'Benefit', 'Net'],
+            labels:['Benefit', 'Cost',  'Net'],
             datasets: [{
-                label: 'Monthly cost increase without actions',
-                data: [- tot_cost, {{ benefit }}, net],
+                label: 'Monthly',
+                data: [benefit, - tot_cost,  net],
                 backgroundColor: [
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    red_var //'rgba(54, 235, 162, 0.2)'
-                    //red:'rgba(250,128,114, 0.2)'
-                    //green: 'rgba(54, 235, 162, 0.2)'
+                    benefit_color,
+                    cost_color,
+                    net_color,
                 ],
                 borderColor: [
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 235, 162, 1)'
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(0, 0, 0, 1)',
+                    'rgba(0, 0, 0, 1)',
                 ],
                 borderWidth: 1
             }]
@@ -223,7 +237,8 @@
                             return '$' + value;
                         }
                     }
-                }]
+                }],
+                xAxes: [{barPercentage: 0.6}]
             }
         }
     });
