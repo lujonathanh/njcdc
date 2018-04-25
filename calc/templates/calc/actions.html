@@ -87,7 +87,7 @@
   </nav>
 
 <div class="container text-center">
-    <font size="4">Our calculations show that the current policy will cost/benefit you <b>$</b><b id="abs_net"></b>.
+    <font size="4">Our calculations show that the current policy will <b id="effect"></b>   you <b>$</b><b id="abs_net"></b>.
         <br/>
         <br/>
         <p>Move the sliders below to see how changing your energy, gasoline and heating usage habits could help lower your tax.</p>
@@ -98,6 +98,13 @@
     var tot_cost = {{ heat }} + {{ gas }} + {{ elec }};
     var net = {{ benefit }} - tot_cost;
     document.getElementById("abs_net").innerHTML = Math.abs(net);
+    if (net<0) {
+        document.getElementById("effect").innerHTML = "cost";
+        document.getElementById("dollar_net").innerHTML = "$" + net;
+    } else {
+        document.getElementById("effect").innerHTML = "earn";
+        document.getElementById("dollar_net").innerHTML = "-$" + (-1 * net);
+    }
 </script>
 
 <body>
@@ -174,6 +181,8 @@
         }
     });
     Chart.defaults.global.legend.display = false;
+    
+    var red_var = 'rgba(250,128,114, 0.2)';
     var ctx1 = document.getElementById("Net_chart").getContext('2d');
     var Net_chart = new Chart(ctx1, {
         type: 'bar',
@@ -185,7 +194,7 @@
                 backgroundColor: [
                     'rgba(54, 162, 235, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
-                    'rgba(54, 235, 162, 0.2)'
+                    red_var //'rgba(54, 235, 162, 0.2)'
                     //red:'rgba(250,128,114, 0.2)'
                     //green: 'rgba(54, 235, 162, 0.2)'
                 ],

@@ -102,6 +102,7 @@
 </div>
 </div>
 
+<!-- <<<<<<< HEAD
 
 
 <script>
@@ -118,6 +119,8 @@
     // document.getElementById("net_w_dollar").innerHTML = net_w_dollar;
 </script>
 
+=======
+>>>>>>> fabfd9e7ecaa089f915748bc00cd0da3a99405dd -->
 <div class = "container ">
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 container">
         <br class="visible-md visible-lg"/>
@@ -132,24 +135,29 @@
             <tr><td>Elec Cost</td><td>${{ elec }}</td></tr>
             <tr><td>Gasoline Cost</td><td>${{ gas }}</td></tr>
             <tr><td>Heating Cost</td><td>${{ heat }}</td></tr>
-            <tr><td>Heating Cost</td><td>${{ total_cost }}</td></tr>
-            <tr><td>Total Cost</td><td>$</b>{{total_cost}}</b></td></tr>
+            <tr><td>Total Cost</td><td>$<span id="tot_cost1"></span></td></tr>
             <tr><td><b>Net</b></td><td><b>$</b><b id="net"></b></td></tr>
         </table>
     </div>
 </div>
 
 <script>
-    tot_cost = {{ heat }} + {{ gas }} + {{ elec }};
-    document.getElementById("tot_cost").innerHTML = {{ heat }} + {{ gas }} + {{ elec }};
-    net = {{ benefit }} - tot_cost;
-    benefit = {{benefit}};
-    document.getElementById("benefit").innerHTML = benefit;
+
+    var tot_cost = {{ heat }} + {{ gas }} + {{ elec }};
+    var net = {{ benefit }} - tot_cost;
+    var benefit = {{benefit}};
+
+    document.getElementById("tot_cost1").innerHTML = tot_cost;
+    document.getElementById("net").innerHTML = net;
     if (net<0) {
         document.getElementById("effect").innerHTML = "cost";
-    } else { 
+        document.getElementById("dollar_net").innerHTML = "$" + net;
+    } else {
         document.getElementById("effect").innerHTML = "earn";
+        document.getElementById("dollar_net").innerHTML = "-$" + (-1 * net);
     }
+    document.getElementById("benefit").innerHTML = benefit;
+    document.getElementById("tot_cost").innerHTML = tot_cost;
     document.getElementById("net").innerHTML = net;
     document.getElementById("abs_net").innerHTML = Math.abs(net);
     document.getElementById("heat_percent").innerHTML = parseFloat({{ heat }}/tot_cost*100).toFixed(0);
