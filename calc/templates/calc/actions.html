@@ -14,12 +14,6 @@
         position: fixed;
     }
 
-    .chartcontainer{
-        z-index:10;
-        background-color: rgba(255,255,255,1.0);
-        width: 100%;
-    }
-
     .slidecontainer {
         margin: auto;
         width: 75%;
@@ -109,14 +103,11 @@
 </script>
 
 <body>
-  <div class = "chartcontainer" id="chartcont">
-    <div class="col-sm-6">
-     <canvas id="Net_chart"></canvas>
-    </div>
-    <div class="col-sm-6">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 chartcontainer" id="chartcont">
+        <canvas id="Net_chart"></canvas>
         <canvas id="myChart"></canvas>
     </div>
-  </div>
+
 
 <script>
     var ctx = document.getElementById("myChart").getContext('2d');
@@ -238,6 +229,7 @@
             chartcont.style.position = "fixed";
             chartcont.style.top = header_height + "px";
             var chart_height = $("#chartcont").height();
+            chartcont.style.height = "50px";
             document.getElementById("actions").style.marginTop=(chart_height+20)+"px";
         } else {
             chartcont.style.position="static";
