@@ -109,6 +109,13 @@
     document.getElementById("tot_cost").innerHTML = {{ heat }} + {{ gas }} + {{ elec }};
     net = {{ benefit }} - tot_cost;
     document.getElementById("net").innerHTML = net;
+    // var net_w_dollar = "";
+    // if (net >= 0) {
+    //     net_w_dollar = "$" + net
+    // } else {
+    //     net_w_dollar = "-$" + (-1 * net)
+    // }
+    // document.getElementById("net_w_dollar").innerHTML = net_w_dollar;
 </script>
 
 <div class = "container ">
