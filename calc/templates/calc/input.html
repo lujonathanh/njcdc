@@ -57,14 +57,14 @@
           <div>
             <label class="text-center">How many adults (age 18+) live in your home?</label>
             <div class="text-center">{{ input_form.adults }}
-              <a href="#" data-toggle="tooltip" data-placement="top" title="The number of adults living at home"><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
+              <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="The number of adults living at home"><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
             </div>
           </div>
           <br/>
           <div>
             <label>How many children live in your home?</label>
             <div class="text-center">{{ input_form.children }}
-              <a href="#" data-toggle="tooltip" data-placement="top" title="The number of children living at home"><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
+              <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="The number of children living at home"><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
             </div>
           </div> 
         </div>
@@ -84,7 +84,7 @@
                 <div>
                     <label>What type of gasoline do you normally use?</label>
                     <div class="text-center">{{ input_form.gasoline_type }}
-                        <a href="#" data-toggle="tooltip" data-placement="top" title="Different gasoline types produce different amounts of carbon emissions when burned."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
+                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="Different gasoline types produce different amounts of carbon emissions when burned."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
                 <br/>
@@ -96,7 +96,7 @@
                 <div>
                     <label>About how much gasoline do you use in a month?</label>
                     <div class="text-center">{{ input_form.gasoline_amt }} {{ gasoline_unit }}
-                        <a href="#" data-toggle="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
+                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
           </div>
@@ -111,7 +111,7 @@
                 <div >
                     <label>What do you use to heat your house?</label>
                     <div class="text-center">{{ input_form.heating_type }}
-                        <a href="#" data-toggle="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
+                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
                 </br>
@@ -123,7 +123,7 @@
                 <div>
                     <label>About how much do you use in a month?</label>
                     <div class="text-center">{{ input_form.heating_amt }}{{ input_form.heating_unit }}
-                        <a href="#" data-toggle="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
+                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
             </div>
@@ -138,7 +138,7 @@
                <div>
                     <label>What is the source of electricity in your household?</label>
                     <div class="text-center">{{ input_form.elec_type }}
-                        <a href="#" data-toggle="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
+                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
                 </br>
@@ -150,7 +150,7 @@
                 <div>
                     <label>About how much electricity do you use?</label>
                     <div class="text-center">{{ input_form.elec_amt }} {{ elec_unit }}
-                        <a href="#" data-toggle="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
+                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
             </div>
@@ -179,6 +179,7 @@
       });
 
     });
+   $('a#tooltip').on('click', function(e) {e.preventDefault(); return true;});
 </script>
 
 <script>
