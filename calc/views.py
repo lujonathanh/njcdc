@@ -73,6 +73,7 @@ def input(request):
             response.set_cookie('gas', round(user.gasoline_cost,2))
             response.set_cookie('heat', round(user.heating_cost,2))
             response.set_cookie('benefit', round(user.benefit,2))
+            response.set_cookie('total_cost', round(user.total_cost,2))
 
             # delete user profile immediately
             UserProfile.objects.filter(id=user.id).delete()
