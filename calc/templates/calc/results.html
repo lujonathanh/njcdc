@@ -143,34 +143,24 @@
     document.getElementById("gas_percent").innerHTML = parseFloat({{ gas }}/tot_cost*100).toFixed(0);
     document.getElementById("elec_percent").innerHTML = parseFloat({{ elec }}/tot_cost*100).toFixed(0);
 
-    // // net_w_dollar
-    // if (net < 0) {
-    //     document.getElementById("net_w_dollar").innerHTML = "-$" + String(-1*net);
-    //     alert("onion1");
-    // } else {
-    //     document.getElementById("net_w_dollar").innerHTML = "$" + String(net);
-    //     alert("onion2");
-    // }
-
 </script>
 
 
 <script>
     function color_as_value(val, bold=0) {
         if (val<0) {
-            if (bold == 1) {var color = 'rgba(250,128,114, 1)'; }
+            if (bold == 1) {var color = 'rgba(250,128,114, 0.5)'; }
+            else if (bold ==2) {var color = 'rgba(250,128,114, 1)'; }
             else {var color = 'rgba(250,128,114, 0.2)'; }
         }
         else {
-            if (bold == 1) {var color = 'rgba(54, 235, 162, 1)'; }
+            if (bold == 1) {var color = 'rgba(54, 235, 162, 0.5)'; }
+            else if (bold ==2) {var color = 'rgba(54, 235, 162, 1)'; }
             else {var color = 'rgba(54, 235, 162, 0.2)'; }
         }
         return color;
     }
 
-    var benefit_color = color_as_value(benefit);
-    var cost_color =  color_as_value(-tot_cost);
-    var net_color = color_as_value(net, bold = 1);
     Chart.defaults.global.legend.display = false;
     var ctx = document.getElementById("myChart").getContext('2d');
     var myChart = new Chart(ctx, {
@@ -185,13 +175,13 @@
                     'rgba(250,128,114, 0.2)',
                     'rgba(250,128,114, 0.2)',
                     'rgba(250,128,114, 0.2)',
-                    'rgba(250,128,114, 1)',
+                    'rgba(250,128,114, 0.5)',
                 ],
                 borderColor: [
-                    'rgba(0, 0, 0, 1)',
-                    'rgba(0, 0, 0, 1)',
-                    'rgba(0, 0, 0, 1)',
-                    'rgba(0, 0, 0, 1)',
+                    'rgba(250,128,114, 1)',
+                    'rgba(250,128,114, 1)',
+                    'rgba(250,128,114, 1)',
+                    'rgba(250,128,114, 1)',
                 ],
                 borderWidth: 1
             }]
@@ -224,6 +214,7 @@
             }
         }
     });
+
     var ctx1 = document.getElementById("Net_chart").getContext('2d');
     var Net_chart = new Chart(ctx1, {
         type: 'bar',
@@ -233,14 +224,14 @@
                 label: 'Monthly',
                 data: [benefit, - tot_cost,  net],
                 backgroundColor: [
-                    benefit_color,
-                    cost_color,
-                    net_color,
+                    color_as_value(benefit),
+                    color_as_value(-tot_cost),
+                    color_as_value(net, bold=1),
                 ],
                 borderColor: [
-                    'rgba(0, 0, 0, 1)',
-                    'rgba(0, 0, 0, 1)',
-                    'rgba(0, 0, 0, 1)',
+                    color_as_value(benefit, bold=2),
+                    color_as_value(-tot_cost, bold=2),
+                    color_as_value(net, bold=2),
                 ],
                 borderWidth: 1
             }]
