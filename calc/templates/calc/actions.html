@@ -182,7 +182,7 @@
         }
     });
     Chart.defaults.global.legend.display = false;
-
+    var red_var = 'rgba(250,128,114, 0.2)'
     var ctx1 = document.getElementById("Net_chart").getContext('2d');
     var Net_chart = new Chart(ctx1, {
         type: 'bar',
@@ -194,7 +194,7 @@
                 backgroundColor: [
                     'rgba(54, 162, 235, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
-                    'rgba(54, 235, 162, 0.2)'
+                    red_var //'rgba(54, 235, 162, 0.2)'
                     //red:'rgba(250,128,114, 0.2)'
                     //green: 'rgba(54, 235, 162, 0.2)'
                 ],
