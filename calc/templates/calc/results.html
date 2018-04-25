@@ -102,15 +102,6 @@
 </div>
 </div>
 
-
-
-<script>
-    var tot_cost = {{ heat }} + {{ gas }} + {{ elec }};
-    document.getElementById("tot_cost").innerHTML = tot_cost;
-    var net = {{ benefit }} - tot_cost;
-    document.getElementById("net").innerHTML = net;
-</script>
-
 <div class = "container ">
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 container">
         <br class="visible-md visible-lg"/>
@@ -125,23 +116,26 @@
             <tr><td>Elec Cost</td><td>${{ elec }}</td></tr>
             <tr><td>Gasoline Cost</td><td>${{ gas }}</td></tr>
             <tr><td>Heating Cost</td><td>${{ heat }}</td></tr>
-            <tr><td>Total Cost</td><td>$<span id="tot_cost"></span></td></tr>
+            <tr><td>Total Cost</td><td>$<span id="tot_cost1"></span></td></tr>
             <tr><td><b>Net</b></td><td><b>$</b><b id="net"></b></td></tr>
         </table>
     </div>
 </div>
 
 <script>
-    tot_cost = {{ heat }} + {{ gas }} + {{ elec }};
-    document.getElementById("tot_cost").innerHTML = tot_cost;
-    net = {{ benefit }} - tot_cost;
-    benefit = {{benefit}};
-    document.getElementById("benefit").innerHTML = benefit;
+    var tot_cost = {{ heat }} + {{ gas }} + {{ elec }};
+    var net = {{ benefit }} - tot_cost;
+    var benefit = {{benefit}};
+
+    document.getElementById("tot_cost1").innerHTML = tot_cost;
+    document.getElementById("net").innerHTML = net;
     if (net<0) {
         document.getElementById("effect").innerHTML = "cost";
-    } else { 
+    } else {
         document.getElementById("effect").innerHTML = "earn";
     }
+    document.getElementById("benefit").innerHTML = benefit;
+    document.getElementById("tot_cost").innerHTML = tot_cost;
     document.getElementById("net").innerHTML = net;
     document.getElementById("abs_net").innerHTML = Math.abs(net);
     document.getElementById("heat_percent").innerHTML = parseFloat({{ heat }}/tot_cost*100).toFixed(0);
