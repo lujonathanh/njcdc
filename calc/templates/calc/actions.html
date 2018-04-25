@@ -9,22 +9,18 @@
 <html>
 
 <style>
-
     .sticky {
         position: fixed;
     }
-
     .chartcontainer{
         z-index:10;
         background-color: rgba(255,255,255,1.0);
         width: 100%;
     }
-
     .slidecontainer {
         margin: auto;
         width: 75%;
     }
-
     .slider {
         -webkit-appearance: none;
         width: 100%;
@@ -36,11 +32,9 @@
         -webkit-transition: .2s;
         transition: opacity .2s;
     }
-
     .slider:hover {
         opacity: 1;
     }
-
     .slider::-webkit-slider-thumb {
         -webkit-appearance: none;
         appearance: none;
@@ -50,7 +44,6 @@
         background: #2178c1;
         cursor: pointer;
     }
-
     .slider::-moz-range-thumb {
         width: 25px;
         height: 25px;
@@ -58,7 +51,6 @@
         background: #4CAF50;
         cursor: pointer;
     }
-
 </style>
 
 <body>
@@ -182,6 +174,7 @@
         }
     });
     Chart.defaults.global.legend.display = false;
+    
     var red_var = 'rgba(250,128,114, 0.2)'
     var ctx1 = document.getElementById("Net_chart").getContext('2d');
     var Net_chart = new Chart(ctx1, {
@@ -227,12 +220,9 @@
             }
         }
     });
-
     var chartcont = document.getElementById("chartcont");
     var sticky = chartcont.offsetTop;
-
     var header_height = $("#navbar_header").height();
-
     make_sticky = function() {
         if (window.pageYOffset + header_height >= sticky) {
             chartcont.style.position = "fixed";
@@ -243,9 +233,7 @@
             chartcont.style.position="static";
         }
     };
-
     window.onscroll = make_sticky;
-
 </script>
 
 <div class="container" id="actions">
@@ -323,12 +311,10 @@
 <br/>
 <br/>
 <script>
-
     ELEC_PRICE = .13;  // electricity costs around 13 cents / kWh
     GAS_PRICE = 3;  // gas costs around $3
     HEAT_MULTIPLIER = .02;  // natural gas costs around 60 cents / therm
     // but .02 because we estimate heating bill decreases by 2% per degree-day turned down
-
     calculate_tot = function() {
         var tot = 0;
         var i;
@@ -338,7 +324,6 @@
         myChart.data.datasets[1].data[3] = parseFloat(tot).toFixed(2);
         myChart.update();
     }
-
     calculate_light = function() {
         var val = slider.value * slider1.value * slider2.value * 365/1000 * ELEC_PRICE / 12;
         if (val >= 0) {
@@ -350,7 +335,6 @@
         myChart.data.datasets[1].data[2] = parseFloat({{ elec }} - val).toFixed(2);
         myChart.update();
     }
-
     calculate_driving = function() {
         var val = (1/slider3.value - 1/slider4.value) * slider5.value * GAS_PRICE * 4.25;
         if (val >= 0) {
@@ -362,7 +346,6 @@
         myChart.data.datasets[1].data[0] = parseFloat({{ gas }} - val).toFixed(2);
         myChart.update();
     }
-
     calculate_heating = function() {
         var val = (slider6.value*(10/24) + slider7.value*(8/24))*HEAT_MULTIPLIER*slider8.value / 12;
         var x;
@@ -375,107 +358,85 @@
         myChart.data.datasets[1].data[1] = parseFloat({{ heat }} - val).toFixed(2);
         myChart.update();
     }
-
     var slider = document.getElementById("myRange");
     var output = document.getElementById("demo");
     output.innerHTML = slider.value;
-
     var slider1 = document.getElementById("myRange1");
     var output1 = document.getElementById("demo1");
     output1.innerHTML = slider1.value;
-
     var slider2 = document.getElementById("myRange2");
     var output2 = document.getElementById("demo2");
     output2.innerHTML = slider2.value;
-
     var slider3 = document.getElementById("myRange3");
     var output3 = document.getElementById("demo3");
     output3.innerHTML = slider3.value;
-
     var slider4 = document.getElementById("myRange4");
     var output4 = document.getElementById("demo4");
     output4.innerHTML = slider4.value;
-
     var slider5 = document.getElementById("myRange5");
     var output5 = document.getElementById("demo5");
     output5.innerHTML = slider5.value;
-
     var slider6 = document.getElementById("myRange6");
     var output6 = document.getElementById("demo6");
     output6.innerHTML = slider6.value;
-
     var slider7 = document.getElementById("myRange7");
     var output7 = document.getElementById("demo7");
     output7.innerHTML = slider7.value;
-
     var slider8 = document.getElementById("myRange8");
     var output8 = document.getElementById("demo8");
     output8.innerHTML = slider8.value;
-
     slider.oninput = function() {
       calculate_light();
       calculate_tot();
       output.innerHTML = this.value;
     }
-
     slider1.oninput = function() {
       calculate_light();
       calculate_tot();
       output1.innerHTML = this.value;
     }
-
     slider2.oninput = function() {
       calculate_light();
       calculate_tot();
       output2.innerHTML = this.value;
     }
-
     slider3.oninput = function() {
       calculate_driving();
       calculate_tot();
       output3.innerHTML = this.value;
     }
-
     slider4.oninput = function() {
       calculate_driving();
       calculate_tot();
       output4.innerHTML = this.value;
     }
-
     slider5.oninput = function() {
       calculate_driving();
       calculate_tot();
       output5.innerHTML = this.value;
     }
-
     slider6.oninput = function() {
       calculate_heating();
       calculate_tot();
       output6.innerHTML = this.value;
     }
-
     slider7.oninput = function() {
       calculate_heating();
       calculate_tot();
       output7.innerHTML = this.value;
     }
-
     slider8.oninput = function() {
       calculate_heating();
       calculate_tot();
       output8.innerHTML = this.value;
     }
-
     var lights_result = document.getElementById("lights");
     var driving_result = document.getElementById("driving");
     var heating_result = document.getElementById("heating");
-
     calculate_light();
     calculate_driving();
     calculate_heating();
-
     calculate_tot();
-
 </script>
 </body>
 
