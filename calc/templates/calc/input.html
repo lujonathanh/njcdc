@@ -84,14 +84,14 @@ form.input {
      </div>
     <div class="container">
         <div class="col-sm-12 col-md-4 col-lg-4">
-          <div id="heat_panel" class="text-center">
+          <div class="text-center">
             <div>
                 <h1><img src="{% static "calc/car.png" %}" width="30" height="30"> Gasoline</h1>
                 </br>
                 <div>
                     <label>What type of gasoline do you normally use?</label>
                     <div class="text-center input">{{ input_form.gasoline_type }}
-                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="Different gasoline types produce different amounts of carbon emissions when burned."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
+                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="Different gasoline types produce different amounts of carbon emissions when burned. "><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
                 <br/>
@@ -130,7 +130,7 @@ form.input {
                 <div>
                     <label>About how much do you use in a month?</label>
                     <div class="text-center input">{{ input_form.heating_amt }}{{ input_form.heating_unit }}
-                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
+                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="Keep in mind summer vs winter energy use."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
             </div>

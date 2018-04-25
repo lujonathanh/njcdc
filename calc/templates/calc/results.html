@@ -147,6 +147,7 @@
     var net = {{ benefit }} - tot_cost;
     var benefit = {{benefit}};
 
+
     document.getElementById("tot_cost1").innerHTML = tot_cost;
     document.getElementById("net").innerHTML = net;
     if (net<0) {
@@ -161,7 +162,6 @@
     document.getElementById("heat_percent").innerHTML = parseFloat({{ heat }}/tot_cost*100).toFixed(0);
     document.getElementById("gas_percent").innerHTML = parseFloat({{ gas }}/tot_cost*100).toFixed(0);
     document.getElementById("elec_percent").innerHTML = parseFloat({{ elec }}/tot_cost*100).toFixed(0);
-    document.getElementById("benefit").innerHTML = {{ heat }} + {{ gas }} + {{ elec }};
 </script>
 
 
