@@ -141,14 +141,6 @@
     document.getElementById("heat_percent").innerHTML = parseFloat({{ heat }}/tot_cost*100).toFixed(0);
     document.getElementById("gas_percent").innerHTML = parseFloat({{ gas }}/tot_cost*100).toFixed(0);
     document.getElementById("elec_percent").innerHTML = parseFloat({{ elec }}/tot_cost*100).toFixed(0);
-
-    // net_w_dollar
-    var net_w_dollar;
-    if (net < 0) {
-        document.getElementById("net_w_dollar").innerHTML = "-$" + (-1 * net);
-    } else {
-        document.getElementById("net_w_dollar").innerHTML = "$" + (-1 * net);
-    }
 </script>
 
 
