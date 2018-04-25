@@ -109,6 +109,13 @@
     document.getElementById("tot_cost").innerHTML = tot_cost;
     var net = {{ benefit }} - tot_cost;
     document.getElementById("net").innerHTML = net;
+    var net_w_dollar = "";
+    if (net >= 0) {
+        net_w_dollar = "$" + net
+    } else {
+        net_w_dollar = "-$" + (-1 * net)
+    }
+    document.getElementById("net_w_dollar").innerHTML = net_w_dollar;
 </script>
 
 <div class = "container ">
@@ -126,7 +133,7 @@
             <tr><td>Gasoline Cost</td><td>${{ gas }}</td></tr>
             <tr><td>Heating Cost</td><td>${{ heat }}</td></tr>
             <tr><td>Total Cost</td><td>$<span id="tot_cost"></span></td></tr>
-            <tr><td><b>Net</b></td><td><b>$</b><b id="net"></b></td></tr>
+            <tr><td><b>Net</b></td><td><b></b><b id="net_w_dollar"></b></td></tr>
         </table>
     </div>
 </div>
