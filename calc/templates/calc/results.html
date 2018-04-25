@@ -126,7 +126,7 @@
     var tot_cost = {{ heat }} + {{ gas }} + {{ elec }};
     var net = {{ benefit }} - tot_cost;
     var benefit = {{benefit}};
-    var net_w_dollar;
+    var net_w_dollar = "";
 
     document.getElementById("tot_cost1").innerHTML = tot_cost;
     document.getElementById("net").innerHTML = net;
@@ -145,9 +145,9 @@
 
     // net_w_dollar
     if (net < 0) {
-        document.getElementById("net_w_dollar").innerHTML = "-$" + (-1 * net);
+        document.getElementById("net_w_dollar").innerHTML = "-$" + (-1 * parseFloat(net)).toFixed(0);
     } else {
-        document.getElementById("net_w_dollar").innerHTML = "-$" + (-1 * net);
+        document.getElementById("net_w_dollar").innerHTML = "-$" + (-1 * parseFloat(net)).toFixed(0);
     }
 </script>
 
