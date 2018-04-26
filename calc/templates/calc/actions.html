@@ -1,9 +1,6 @@
 {% extends 'calc/base.html' %}
 
-
 {% block content %}
-
-  {% load static %}
 
 <meta name="viewport" content="width = device-width, initial-scale = 1">
 <title>Carbon Dividend Calculator</title>
@@ -18,6 +15,7 @@
     .chartcontainer{
         z-index:10;
         background-color: rgba(255,255,255,1.0);
+        width: 100%;
     }
     .slidecontainer {
         margin: auto;
@@ -89,7 +87,7 @@
   </nav>
 
 <div class="container text-center">
-    <font size="4">Our calculations show that the current policy will cost/benefit you <b>$</b><b id="abs_net"></b>.
+    <font size="4">Our calculations show that the current policy will <b id="effect"></b> you <b>$</b><b id="abs_net"></b>.
         <br/>
         <br/>
         <p>Move the sliders below to see how changing your energy, gasoline and heating usage habits could help lower your tax.</p>
@@ -100,10 +98,15 @@
     var tot_cost = {{ heat }} + {{ gas }} + {{ elec }};
     var net = {{ benefit }} - tot_cost;
     document.getElementById("abs_net").innerHTML = Math.abs(net);
+    if (net<0) {
+        document.getElementById("effect").innerHTML = "cost";
+    } else {
+        document.getElementById("effect").innerHTML = "earn";
+    }
 </script>
 
 <body>
-  <div class = "container chartcontainer actions" id="chartcont">
+  <div class = "chartcontainer" id="chartcont">
     <div class="col-sm-6">
      <canvas id="Net_chart"></canvas>
     </div>
@@ -128,7 +131,6 @@
     }
     
     var benefit = {{benefit}};
-
     var ctx = document.getElementById("myChart").getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'bar',
@@ -191,9 +193,7 @@
             }
         }
     });
-
     Chart.defaults.global.legend.display = false;
-
     var ctx1 = document.getElementById("Net_chart").getContext('2d');
     var Net_chart = new Chart(ctx1, {
         type: 'bar',
