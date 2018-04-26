@@ -10,6 +10,7 @@ urlpatterns = [
 
     path('actions/', views.actions, name='actions'),
     path('results/', views.results, name='results'),
+    path('results0/', views.results0, name='results0'),
 
     path('about_calculator/', views.about_calc, name='about_calc'),
     path('about_policy/', views.about_policy, name='about_policy'),

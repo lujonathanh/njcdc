@@ -87,7 +87,7 @@
   </nav>
 
 <div class="container text-center">
-    <font size="4">Our calculations show that the current policy will cost/benefit you <b>$</b><b id="abs_net"></b>.
+    <font size="4">Our calculations show that the current policy will <b id="effect"></b> you <b>$</b><b id="abs_net"></b> per month.
         <br/>
         <br/>
         <p>Move the sliders below to see how changing your energy, gasoline and heating usage habits could help lower your tax.</p>
@@ -99,6 +99,11 @@
     var benefit = {{ benefit }};
     var net = benefit - tot_cost;
     document.getElementById("abs_net").innerHTML = Math.abs(net);
+    if (net<0) {
+        document.getElementById("effect").innerHTML = "cost";
+    } else {
+        document.getElementById("effect").innerHTML = "earn";
+    }
 </script>
 
 <body>
@@ -112,6 +117,14 @@
   </div>
 
 <script>
+    if (net<0) {
+        document.getElementById("effect").innerHTML = "cost";
+    } else {
+        document.getElementById("effect").innerHTML = "earn";
+    }
+
+
+
     function color_as_value(val, bold=0) {
         if (val<0) {
             if (bold == 1) {var color = 'rgba(250,128,114, 0.5)'; }
@@ -125,7 +138,8 @@
         }
         return color;
     }
-
+    
+    var benefit = {{benefit}};
     var ctx = document.getElementById("myChart").getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'bar',
@@ -188,9 +202,7 @@
             }
         }
     });
-
     Chart.defaults.global.legend.display = false;
-
     var ctx1 = document.getElementById("Net_chart").getContext('2d');
     var Net_chart = new Chart(ctx1, {
         type: 'bar',

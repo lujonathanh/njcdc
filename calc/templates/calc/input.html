@@ -42,10 +42,32 @@
 
 <body>
 
+<style>
+form.input {
+  -moz-appearance: none;
+   -webkit-appearance: none;
+   appearance: none;
+}
+</style>
 
 <div>
 {% block 'content1' %}
-{{ input_form.non_field_errors }}
+{% if input_form.errors %}
+    <div class=" text-center">
+    <div class="alert alert-danger">
+                <strong>There were errors. Please try again.</strong>
+            </div>
+    {% for error in input_form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+        </div>
+{% endif %}
+
+
+
+
 <form action="" method = "post" id="userProfile" load-gasoline-units-url="{% url 'ajax_load_gasoline_units' %}" novalidate>
     {% csrf_token %}
     <div class="jumbotron jumbotron-small text-center">
@@ -56,6 +78,13 @@
         <div id="basic_info_panel">
           <div>
             <label class="text-center">How many adults (age 18+) live in your home?</label>
+              {% if input_form.adults.errors %}
+                {% for error in input_form.adults.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+              {% endif %}
             <div class="text-center">{{ input_form.adults }}
               <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="The number of adults living at home"><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
             </div>
@@ -63,7 +92,14 @@
           <br/>
           <div>
             <label>How many children live in your home?</label>
-            <div class="text-center">{{ input_form.children }}
+              {% if input_form.children.errors %}
+                {% for error in input_form.children.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+              {% endif %}
+            <div class="text-center input">{{ input_form.children }}
               <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="The number of children living at home"><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
             </div>
           </div> 
@@ -77,12 +113,19 @@
      </div>
     <div class="container">
         <div class="col-sm-12 col-md-4 col-lg-4">
-          <div id="heat_panel" class="text-center">
+          <div class="text-center">
             <div>
                 <h1><img src="{% static "calc/car.png" %}" width="30" height="30"> Gasoline</h1>
                 </br>
                 <div>
                     <label>What type of gasoline do you normally use?</label>
+                    {% if input_form.gasoline_type.errors %}
+                    {% for error in input_form.gasoline_type.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                  {% endif %}
                     <div class="text-center">{{ input_form.gasoline_type }}
                         <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="Different gasoline types produce different amounts of carbon emissions when burned."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
@@ -95,7 +138,14 @@
                 </br>
                 <div>
                     <label>About how much gasoline do you use in a month?</label>
-                    <div class="text-center">{{ input_form.gasoline_amt }} {{ gasoline_unit }}
+                    {% if input_form.gasoline_amt.errors %}
+                    {% for error in input_form.gasoline_amt.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                  {% endif %}
+                    <div class="text-center input">{{ input_form.gasoline_amt }} {{ gasoline_unit }}
                         <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
@@ -110,7 +160,15 @@
            </br>
                 <div >
                     <label>What do you use to heat your house?</label>
-                    <div class="text-center">{{ input_form.heating_type }}
+                    If you use electricity, just list 0 here.
+                    {% if input_form.heating_type.errors %}
+                    {% for error in input_form.heating_type.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                  {% endif %}
+                    <div class="text-center input">{{ input_form.heating_type }}
                         <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
@@ -122,8 +180,15 @@
                 </br>
                 <div>
                     <label>About how much do you use in a month?</label>
-                    <div class="text-center">{{ input_form.heating_amt }}{{ input_form.heating_unit }}
-                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
+                    {% if input_form.heating_amt.errors %}
+                    {% for error in input_form.heating_amt.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                  {% endif %}
+                    <div class="text-center input">{{ input_form.heating_amt }}{{ input_form.heating_unit }}
+                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="Keep in mind summer vs winter energy use."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
             </div>
@@ -137,7 +202,14 @@
                </br>
                <div>
                     <label>What is the source of electricity in your household?</label>
-                    <div class="text-center">{{ input_form.elec_type }}
+                   {% if input_form.elec_type.errors %}
+                    {% for error in input_form.elec_type.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                  {% endif %}
+                    <div class="text-center input">{{ input_form.elec_type }}
                         <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
@@ -149,7 +221,14 @@
                 </br>
                 <div>
                     <label>About how much electricity do you use?</label>
-                    <div class="text-center">{{ input_form.elec_amt }} {{ elec_unit }}
+                    {% if input_form.elec_amt.errors %}
+                    {% for error in input_form.elec_amt.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                  {% endif %}
+                    <div class="text-center input">{{ input_form.elec_amt }} {{ elec_unit }}
                         <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 

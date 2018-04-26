@@ -82,11 +82,18 @@ def input(request):
             # request.session.modified = True
             messages.success(request, "Thank you for entering")
 
-            response = HttpResponseRedirect(reverse('results'))
+            if user.total_cost == 0:
+                response = HttpResponseRedirect(reverse('results0'))
+                response.set_cookie('total_cost', user.total_cost)
+                response.set_cookie('net', int(user.net))
+            else:
+                response = HttpResponseRedirect(reverse('results'))
+
             response.set_cookie('elec', round(user.elec_cost,2))
             response.set_cookie('gas', round(user.gasoline_cost,2))
             response.set_cookie('heat', round(user.heating_cost,2))
             response.set_cookie('benefit', round(user.benefit,2))
+            response.set_cookie('total_cost', round(user.total_cost,2))
 
             # delete user profile immediately
             UserProfile.objects.filter(id=user.id).delete()
@@ -145,6 +152,22 @@ def results(request):
     template = loader.get_template('calc/results.html')
 
     return HttpResponse(template.render(context, request))
+
+
+def results0(request):
+    context = {}
+    keys = ['elec', 'gas', 'heat', 'benefit', 'total_cost', 'net']
+
+    for key in keys:
+        if key in request.COOKIES:
+            context[key] = request.COOKIES[key]
+        else:
+            context[key] = {}
+
+    template = loader.get_template('calc/results0.html')
+
+    return HttpResponse(template.render(context, request))
+
 
 def actions(request):
     context = {}
