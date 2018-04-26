@@ -48,36 +48,34 @@
 <div class="jumbotron jumbotron-small">
   <h2>The Policy</h2>
     <p>
-      The proposed policy puts a fee of $30 per metric ton of carbon dioxide at the point of entry to New Jersey.
+      The proposed policy puts a fee of {{ fee_label }} per metric ton of carbon dioxide on fossil fuels in New Jersey.
 
-      For example, 10% ethanol gasoline outputs up to 17.6 pounds of carbon dioxide per gallon,
-      so the fee on a gallon of gas is 17.6 pounds CO2 * (1 metric ton / 2205 pounds) * ($30/ 1 metric ton) = <b>$0.24</b>.
+      For example, {{ gasoline_example_label }} outputs about {{ gasoline_example_co2 }} tons of CO2 per {{ gasoline_example_unit }},
+      so the fee increase on a {{ gasoline_example_unit }} of {{ gasoline_example_label }} is  {{ gasoline_example_co2 }} * {{ fee_label }} = ${{ gasoline_example_fee }}.
     </p>
-  <h2>The Cost</h2>
+  <h2>Who pays?</h2>
   <p>
-  This fee is paid by energy producers and sellers. For example, companies like ExxonMobil or BP
-  would pay the fee as gasoline is shipped into New Jersey.
-  </p>
-  <p>
-  While ordinary citizens won't directly pay the fee, companies almost surely will have to increase the
+  This fee is paid at the first point of sale of fuels into New Jersey; the company importing the fuel would pay. This ensures that all fuels are covered in a simple way.
+
+      While ordinary citizens won't directly pay the fee, companies almost surely will have to increase the
   price of affected products. In our calculator, we make the conservative assumption that the entire
   burden of the fee gets passed along to consumers. For example, because the fee is around $0.24 per gallon of gasoline, we assume that the price of gasoline will rise by $0.24 per gallon.
   </p>
-  <h2>Returning revenue back to New Jersey</h2>
+    <h2>Who gets money back?</h2>
   <p>
-  70% of the fee's revenue will be returned equally to all NJ citizens in the form of a check.
-  The remaining will go to subsidizing vulnerable businesses who, for example, face competition outside of NJ which
-  won't be affected by this policy. The final 3% will go to administrative costs.
-  </p>
-</div>
+    {{rebate_label}} of the fee's revenue will be returned equally to all NJ citizens in the form of a tax credit.
 
-<div class="container text-center">
-  <h1>Contact Us</h1>
-  <div class="jumbotron jumbotron-small">
-    <p>
-      Got questions or comments? Please contact us at <a href="mailto:carbondividendcalculator@gmail.com">carbondividendcalculator@gmail.com</a>
-    </p>
-  </div>
+      The amount is based on the number of adults in the household, where children (under 18) receive {{ CHILD_MULTIPLIER }} times of what the adult receives.</p> <p>
+      We estimate an adult would receive {{ benefit_per_adult }} per month. For example, a house with {{ household_example_adults }} adults and {{ household_example_children}} children
+      would receive {{ household_example_benefit }} per month.
+
+  </p>
+  <h2>What about the rest of the money?</h2>
+  <p>
+
+  The remaining {{ remainder_label }} will go to investments in sustainable infrastructure, as well as providing transitional assistance to vulnerable,
+      energy-intensive businesses.
+  </p>
 </div>
 
 </body>
