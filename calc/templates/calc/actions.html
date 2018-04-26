@@ -96,7 +96,8 @@
 
 <script>
     var tot_cost = {{ heat }} + {{ gas }} + {{ elec }};
-    var net = {{ benefit }} - tot_cost;
+    var benefit = {{ benefit }};
+    var net = benefit - tot_cost;
     document.getElementById("abs_net").innerHTML = Math.abs(net);
     if (net<0) {
         document.getElementById("effect").innerHTML = "cost";
@@ -201,7 +202,7 @@
             labels:['Benefit', 'Cost',  'Net'],
             datasets: [{
                 label: 'Monthly',
-                data: [benefit, - tot_cost,  net],
+                data: [benefit, -tot_cost,  net],
                 backgroundColor: [
                     color_as_value(benefit),
                     color_as_value(-tot_cost),
@@ -237,6 +238,7 @@
             }
         }
     });
+
     var chartcont = document.getElementById("chartcont");
     var sticky = chartcont.offsetTop;
     var header_height = $("#navbar_header").height();
@@ -251,6 +253,7 @@
         }
     };
     window.onscroll = make_sticky;
+
 </script>
 
 <div class="container" id="actions">
@@ -259,7 +262,7 @@
 
 <div>
     <h1>Gasoline</h1>
-    <p>My previous vehicle got <b>a</b> mpg, and will replace it with a vehicle that gets <b>b</b> mpg.
+    <p>My previous vehicle got <b>a</b> mpg, and I will replace it with a vehicle that gets <b>b</b> mpg.
         I will drive this vehicle for <b>m</b> miles/week.</p>
 </div>
 
@@ -340,6 +343,13 @@
         }
         myChart.data.datasets[1].data[3] = parseFloat(tot).toFixed(2);
         myChart.update();
+        Net_chart.data.datasets[0].data[1] = -parseFloat(tot).toFixed(2);
+        Net_chart.data.datasets[0].backgroundColor[1] = color_as_value(-tot, bold=0);
+        Net_chart.data.datasets[0].borderColor[1] = color_as_value(-tot, bold=2);
+        Net_chart.data.datasets[0].data[2] = benefit - tot;
+        Net_chart.data.datasets[0].backgroundColor[2] = color_as_value(benefit-tot, bold=0);
+        Net_chart.data.datasets[0].borderColor[2] = color_as_value(benefit-tot, bold=2);
+        Net_chart.update();
     }
     calculate_light = function() {
         var val = slider.value * slider1.value * slider2.value * 365/1000 * ELEC_PRICE / 12;
