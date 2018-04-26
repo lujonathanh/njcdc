@@ -42,6 +42,13 @@
 
 <body>
 
+<style>
+form.input {
+  -moz-appearance: none;
+   -webkit-appearance: none;
+   appearance: none;
+}
+</style>
 
 <div>
 {% block 'content1' %}
@@ -92,7 +99,7 @@
                     </div>
                 {% endfor %}
               {% endif %}
-            <div class="text-center">{{ input_form.children }}
+            <div class="text-center input">{{ input_form.children }}
               <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="The number of children living at home"><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
             </div>
           </div> 
@@ -106,7 +113,7 @@
      </div>
     <div class="container">
         <div class="col-sm-12 col-md-4 col-lg-4">
-          <div id="heat_panel" class="text-center">
+          <div class="text-center">
             <div>
                 <h1><img src="{% static "calc/car.png" %}" width="30" height="30"> Gasoline</h1>
                 </br>
@@ -138,7 +145,7 @@
                         </div>
                     {% endfor %}
                   {% endif %}
-                    <div class="text-center">{{ input_form.gasoline_amt }} {{ gasoline_unit }}
+                    <div class="text-center input">{{ input_form.gasoline_amt }} {{ gasoline_unit }}
                         <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
@@ -161,7 +168,7 @@
                         </div>
                     {% endfor %}
                   {% endif %}
-                    <div class="text-center">{{ input_form.heating_type }}
+                    <div class="text-center input">{{ input_form.heating_type }}
                         <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
@@ -180,8 +187,8 @@
                         </div>
                     {% endfor %}
                   {% endif %}
-                    <div class="text-center">{{ input_form.heating_amt }}{{ input_form.heating_unit }}
-                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
+                    <div class="text-center input">{{ input_form.heating_amt }}{{ input_form.heating_unit }}
+                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="Keep in mind summer vs winter energy use."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
             </div>
@@ -202,7 +209,7 @@
                         </div>
                     {% endfor %}
                   {% endif %}
-                    <div class="text-center">{{ input_form.elec_type }}
+                    <div class="text-center input">{{ input_form.elec_type }}
                         <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
@@ -221,7 +228,7 @@
                         </div>
                     {% endfor %}
                   {% endif %}
-                    <div class="text-center">{{ input_form.elec_amt }} {{ elec_unit }}
+                    <div class="text-center input">{{ input_form.elec_amt }} {{ elec_unit }}
                         <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
