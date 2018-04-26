@@ -22,6 +22,13 @@
   padding-top: 0px;
   padding-bottom: 0px;
 }
+
+.gray {
+  background-color:#eeeeee;
+  padding-right: 3%;
+  padding-bottom: 1%;
+  text-align:right;
+}
 .left {
   float: left;
 }
@@ -146,49 +153,6 @@
   color: white;
 }
 
-/*.slidecontainer {
-  margin: auto;
-  width: 75%;
-}
-
-.sticky {
-  position: fixed;
-  top: 0;
-  width: 50%;
-  <!--margin: auto;-->
-}
-
-.slider {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 25px;
-  background: #d3d3d3;
-  outline: none;
-  opacity: 0.7;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
-}
-
-.slider:hover {
-  opacity: 1;
-}
-
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 25px;
-  height: 25px;
-  background: #4CAF50;
-  cursor: pointer;
-}
-
-.slider::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
-  background: #4CAF50;
-  cursor: pointer;
-}
-*/
 .table {
   border-radius: 5px;
   width: 50%;
@@ -196,6 +160,22 @@
   float: none;
 }
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  margin-bottom: 20px; /* Margin bottom by footer height */
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 20px; /* Set the fixed height of the footer here */
+  line-height: 20px; /* Vertically center the text there */
+  background-color: #f5f5f5;
+  font-size:20px;
+}
 </style>
 
 <body>
@@ -209,19 +189,20 @@
 
 <div id="content">
 
-<!--<ul{% if message.tags %} class="{{ message.tags }}"{% endif %}>-->
-<!--<li>{{ message|safe }}</li></ul>-->
 {% block content %}
-            {% endblock %}
+{% endblock %}
+
 </div>
 
-<<<<<<< HEAD
-=======
+
 <footer class="footer">
-      <div class="container">
-        <span class="text-muted">Questions or comments? Please contact us at <a href="mailto:carbondividendcalculator@gmail.com">carbondividendcalculator@gmail.com</a></span>
-      </div>
-    </footer>
->>>>>>> 3d5a5be4ff74449f8968a22bd17a667f981c02e6
+    <div class=" gray">
+      <br>
+      <br>
+        <span class="text-muted">Questions or comments? <br><a href="mailto:carbondividendcalculator@gmail.com"><b>carbondividendcalculator@gmail.com</b></a></span>
+        <br>
+        <br>
+    </div>
+</footer>
 </body>
 </html>
