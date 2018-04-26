@@ -44,14 +44,13 @@
   <h1>About</h1>
 </div>
 
-
 <div class="jumbotron jumbotron-small">
   <h2>The Policy</h2>
     <p>
       The proposed policy puts a fee of {{ fee_label }} per metric ton of carbon dioxide on fossil fuels in New Jersey.
 
-      For example, {{ gasoline_example_label }} outputs about {{ gasoline_example_co2 }} tons of CO2 per {{ gasoline_example_unit }},
-      so the fee increase on a {{ gasoline_example_unit }} of {{ gasoline_example_label }} is  {{ gasoline_example_co2 }} * {{ fee_label }} = ${{ gasoline_example_fee }}.
+        For example, {{ gasoline_example_label }} outputs about <span id="tons_CO2_1"></span> tons of CO2 per {{ gasoline_example_unit }},
+      so the fee increase on a {{ gasoline_example_unit }} of {{ gasoline_example_label }} is  <span id="tons_CO2_2"></span> * {{ fee_label }} = ${{ gasoline_example_fee }}.
     </p>
   <h2>Who pays?</h2>
   <p>
@@ -77,6 +76,12 @@
       energy-intensive businesses.
   </p>
 </div>
+
+<script>
+    var temp = {{ gasoline_example_co2 }};
+    document.getElementById("tons_CO2_1").innerHTML = temp;
+    document.getElementById("tons_CO2_2").innerHTML = temp;
+</script>
 
 </body>
 </html>
