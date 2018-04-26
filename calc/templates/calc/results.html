@@ -2,38 +2,6 @@
 
 {% block content %}
 
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="navbar_header">
-      <div>
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/calc/" id="navbar-title">Carbon Dividend Calculator</a>
-        </div>
-
-        <!-- this div hides the items from the navigation bar for smaller screens -->
-          <div id="navbar" class="collapse navbar-collapse">
-            <!-- navbar-right -->
-              <ul class="nav navbar-nav">
-                  <li class="active">
-                    <a href="/calc/">Home</a>
-                  </li>
-                  <li>
-                    <a href="/calc/input">Calculator</a>
-                  </li>
-                  <li>
-                    <a href="/calc/about_policy">Policy</a>
-                  </li>
-                  <li>
-                    <a href="/calc/about_calculator">About</a>
-                  </li>
-              </ul>
-          </div>
-      </div>
-  </nav>
-
 <html>
 <body>
     <!-- navbar-light bg-light -->
@@ -90,23 +58,25 @@
 </div>
 <br/>
 <div class="container">
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 container">
-        <br class="visible-md visible-lg"/>
-        <br class="visible-md visible-lg"/>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 container">
+                <br class="visible-md visible-lg"/>
+            <br class="visible-md visible-lg"/>
         <font size="4">Based on your inputs, <b id="gas_percent"></b><b>%</b> of your tax would come from
         <b>Gasoline</b> spending, <b id="heat_percent"></b><b>%</b> would come from your <b>Heat</b> spending and <b id="elec_percent"></b><b>%</b> would come from your <b>Electricity</b> spending.</font>
         </div>
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 chartcontainer">
         <canvas id="myChart"></canvas>
     </div>
-</div>
-</div>
+    </div>
+
+
+
 
 <div class = "container ">
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 container">
         <br class="visible-md visible-lg"/>
         <br class="visible-md visible-lg"/>
-        <font size="4">See the detailed breakdown of your new tax spending here.
+        <font size="4">See the detailed breakdown of the policy's impact on you.
         </font>
     </div>
 

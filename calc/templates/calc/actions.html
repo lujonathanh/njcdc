@@ -87,7 +87,7 @@
   </nav>
 
 <div class="container text-center">
-    <font size="4">Our calculations show that the current policy will cost/benefit you <b>$</b><b id="abs_net"></b>.
+    <font size="4">Our calculations show that the current policy will <b id="effect"></b> you <b>$</b><b id="abs_net"></b> per month.
         <br/>
         <br/>
         <p>Move the sliders below to see how changing your energy, gasoline and heating usage habits could help lower your tax.</p>
@@ -111,6 +111,14 @@
   </div>
 
 <script>
+    if (net<0) {
+        document.getElementById("effect").innerHTML = "cost";
+    } else {
+        document.getElementById("effect").innerHTML = "earn";
+    }
+
+
+
     function color_as_value(val, bold=0) {
         if (val<0) {
             if (bold == 1) {var color = 'rgba(250,128,114, 0.5)'; }
