@@ -86,7 +86,7 @@ form.input {
                 {% endfor %}
               {% endif %}
             <div class="text-center">{{ input_form.adults }}
-              <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="The number of adults living at home"><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
+              <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="Your monthly dividend is proportional to the number of people in your household."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
             </div>
           </div>
           <br/>
@@ -100,7 +100,7 @@ form.input {
                 {% endfor %}
               {% endif %}
             <div class="text-center input">{{ input_form.children }}
-              <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="The number of children living at home"><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
+              <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="Your monthly dividend is proportional to the number of people in your household. Children count as half an adult. For example, a household with 1 adult and 2 children would get the same monthly dividend as a household with 2 adults and 0 children."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
             </div>
           </div> 
         </div>
@@ -127,7 +127,7 @@ form.input {
                     {% endfor %}
                   {% endif %}
                     <div class="text-center">{{ input_form.gasoline_type }}
-                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="Different gasoline types produce different amounts of carbon emissions when burned."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
+                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="Different gas types produce different amounts of carbon emissions when burned."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
                 <br/>
@@ -146,7 +146,7 @@ form.input {
                     {% endfor %}
                   {% endif %}
                     <div class="text-center input">{{ input_form.gasoline_amt }} {{ gasoline_unit }}
-                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
+                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="Depending on the type of gas you use, the price would increase by around 25 to 29 cents per gallon."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
           </div>
@@ -158,9 +158,9 @@ form.input {
 <!--                 <div class="form-heat-type">Please tell us about your heat usage</div> -->
                <h1 ><img src="{% static "calc/house.png" %}" width="30" height="32">       Heating</h1>
            </br>
-                <div >
+                <div>
                     <label>What do you use to heat your house?</label>
-                    If you use electricity or firewood, just list 0 here.
+                    <div style = "color:gray;">If you use electricity or firewood, just list 0 here.</div>
                     {% if input_form.heating_type.errors %}
                     {% for error in input_form.heating_type.errors %}
                         <div class="alert alert-danger">
