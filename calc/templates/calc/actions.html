@@ -207,7 +207,7 @@
     var Net_chart = new Chart(ctx1, {
         type: 'bar',
         data: {
-            labels:['Benefit', 'Cost',  'Net'],
+            labels:['Dividend', 'Cost',  'Net'],
             datasets: [{
                 label: 'Monthly',
                 data: [benefit, -tot_cost,  net],
@@ -228,7 +228,7 @@
             title: {
                 display: true,
                 fontSize: 15,
-                text: 'Change in Monthly Costs and Benefits'
+                text: 'Monthly Dividend and Change in Monthly Costs'
             },
             scales: {
                 yAxes: [{
