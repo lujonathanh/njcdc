@@ -393,7 +393,7 @@ class UserProfile(models.Model):
 
     # the fundamental unit: electricity in kWh per month
 
-    elec_amt = models.FloatField(default=9000.0, validators=[validate_nonnegative])
+    elec_amt = models.FloatField(default=900.0, validators=[validate_nonnegative])
     elec_type = models.CharField(choices=ELEC_CHOICES, default='pseg', max_length=40, help_text="Your electric utility provider.")
     elec_unit = models.CharField(choices=ELEC_UNIT_CHOICES, default=DEFAULT_ELEC_UNIT_CHOICE,
                                     max_length=40)
