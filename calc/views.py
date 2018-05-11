@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.contrib import messages
 from django.urls import reverse
-from .forms import InputForm, UpdatingInputForm
+from .forms import InputForm
 from .models import *
 
 
@@ -130,11 +130,11 @@ def input(request):
 #     context = {'input_form': input_form, 'formtitle': "Input"}
 #     return HttpResponse(template.render(context, request))
 
-def load_gasoline_units(request):
-    possible_units = get_possible_gasoline_units(request.GET.get('gasoline_type'))
-    template = loader.get_template('calc/gasoline_unit_dropdown.html')
-    context = {'units': possible_units}
-    return HttpResponse(template.render(context, request))
+# def load_gasoline_units(request):
+#     possible_units = get_possible_gasoline_units(request.GET.get('gasoline_type'))
+#     template = loader.get_template('calc/gasoline_unit_dropdown.html')
+#     context = {'units': possible_units}
+#     return HttpResponse(template.render(context, request))
 
 # def results(request):
 #     up = request.session["user"]
@@ -182,3 +182,17 @@ def actions(request):
     template = loader.get_template('calc/actions.html')
 
     return HttpResponse(template.render(context, request))
+
+
+# def handler404(request):
+#     response = render_to_response('404.html', {},
+#                                   context_instance=RequestContext(request))
+#     response.status_code = 404
+#     return response
+#
+#
+# def handler500(request):
+#     response = render_to_response('500.html', {},
+#                                   context_instance=RequestContext(request))
+#     response.status_code = 500
+#     return response

@@ -68,7 +68,7 @@ form.input {
 
 
 
-<form action="" method = "post" id="userProfile" load-gasoline-units-url="{% url 'ajax_load_gasoline_units' %}" novalidate>
+<form action="" method = "post" id="userProfile" novalidate>
     {% csrf_token %}
     <div class="jumbotron jumbotron-small text-center">
       Welcome to the Carbon Dividend Calculator! To start, please tell us a little bit about your household, so we can help orient you by providing average expenditure for similar households.
@@ -187,6 +187,13 @@ form.input {
                         </div>
                     {% endfor %}
                   {% endif %}
+                    {% if input_form.heating_unit.errors %}
+                    {% for error in input_form.heating_unit.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                  {% endif %}
                     <div class="text-center input">{{ input_form.heating_amt }}{{ input_form.heating_unit }}
                         <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="Keep in mind summer vs winter energy use."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
@@ -242,38 +249,38 @@ form.input {
 </form>
 
     
-<script>
-    $("#gasoline_unit").change(function () {
-      var url = $("#personForm").attr("load-gasoline-units-url");  // get the url of the `load_gasoline_units` view
-      var countryId = $(this).val();  // get the selected country ID from the HTML input
+<!--<script>-->
+    <!--$("#gasoline_unit").change(function () {-->
+      <!--var url = $("#personForm").attr("load-gasoline-units-url");  // get the url of the `load_gasoline_units` view-->
+      <!--var countryId = $(this).val();  // get the selected country ID from the HTML input-->
 
-      $.ajax({                       // initialize an AJAX request
-        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
-        data: {
-          'country': countryId       // add the country id to the GET parameters
-        },
-        success: function (data) {   // `data` is the return of the `load_cities` view function
-          $("#id_city").html(data);  // replace the contents of the city input with the data that came from the server
-        }
-      });
+      <!--$.ajax({                       // initialize an AJAX request-->
+        <!--url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)-->
+        <!--data: {-->
+          <!--'country': countryId       // add the country id to the GET parameters-->
+        <!--},-->
+        <!--success: function (data) {   // `data` is the return of the `load_cities` view function-->
+          <!--$("#id_city").html(data);  // replace the contents of the city input with the data that came from the server-->
+        <!--}-->
+      <!--});-->
 
-    });
-   $('a#tooltip').on('click', function(e) {e.preventDefault(); return true;});
-</script>
+    <!--});-->
+   <!--$('a#tooltip').on('click', function(e) {e.preventDefault(); return true;});-->
+<!--</script>-->
 
-<script>
-//fetch the variable name for the type that was input
-var document.getElementById("gas_input")
-// then update
-// for all in ["reg_gas, "pure_gas", "diesel", "bio"] {
-//  document.getElementById("reg_gas").style.display = "none";
+<!--<script>-->
+<!--//fetch the variable name for the type that was input-->
+<!--var document.getElementById("gas_input")-->
+<!--// then update-->
+<!--// for all in ["reg_gas, "pure_gas", "diesel", "bio"] {-->
+<!--//  document.getElementById("reg_gas").style.display = "none";-->
 
-document.getElementById(name).style.display = "block";
-}
+<!--document.getElementById(name).style.display = "block";-->
+<!--}-->
 
 
 
-</script>
+<!--</script>-->
 
 
 {% endblock %}

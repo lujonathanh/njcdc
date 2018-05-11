@@ -15,5 +15,5 @@ urlpatterns = [
     path('about_calculator/', views.about_calc, name='about_calc'),
     path('about_policy/', views.about_policy, name='about_policy'),
     path('chart/', views.chart, name='chart'),
-    path('ajax/load-gasoline-units/', views.load_gasoline_units, name='ajax_load_gasoline_units'),
+    #path('ajax/load-gasoline-units/', views.load_gasoline_units, name='ajax_load_gasoline_units'),
 ]
