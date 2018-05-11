@@ -90,9 +90,11 @@ def get_possible_elec_units(elec_type):
 
 
 def get_possible_heating_units(heating_type):
-    if heating_type == 'gas' or heating_type == ('gas', 'Natural Gas'):
+    if heating_type == 'gas' or heating_type == ('gas', 'Natural Gas')\
+        or heating_type == "('gas', 'Natural Gas')":
         return (('therm', 'therms'),)
-    elif heating_type == 'fuel' or heating_type == ('fuel', 'Fuel Oil'):
+    elif heating_type == 'fuel' or heating_type == ('fuel', 'Fuel Oil')\
+        or heating_type == "('fuel', 'Fuel Oil')":
         return (('gallon', 'gallons'),)
     else:
         raise ValueError("Heating type " + str(heating_type) + " not allowed.")
@@ -112,17 +114,25 @@ def get_gasoline_co2_conversion(gasoline_type, gasoline_unit):
     # gallon of gas to metric tons of CO2
     # https://www.eia.gov/tools/faqs/faq.php?id=307&t=11
     # 'e10': 17.6/2204.6, 'e0': 19.6/2204.6, 'diesel': 22.4/2204.6, 'biodiesel': 17.9/2204.6
-    if gasoline_type == 'e10' or gasoline_type == ('e10', 'Regular Gasoline'):
-        if gasoline_unit == 'gallon' or gasoline_unit == ('gallon', 'gallons'):
+    if gasoline_type == 'e10' or gasoline_type == ('e10', 'Regular Gasoline')\
+        or gasoline_type == "('e10', 'Regular Gasoline')":
+        if gasoline_unit == 'gallon' or gasoline_unit == ('gallon', 'gallons')\
+         or gasoline_unit == "('gallon', 'gallons')":
             return 17.6/2204.6
-    elif gasoline_type == 'e0' or gasoline_type == ('e0', 'Pure Gasoline'):
-        if gasoline_unit == 'gallon' or gasoline_unit == ('gallon', 'gallons'):
+    elif gasoline_type == 'e0' or gasoline_type == ('e0', 'Pure Gasoline')\
+        or gasoline_type == "('e0', 'Pure Gasoline')":
+        if gasoline_unit == 'gallon' or gasoline_unit == ('gallon', 'gallons')\
+         or gasoline_unit == "('gallon', 'gallons')":
             return 19.6/2204.6
-    elif gasoline_type == 'diesel' or gasoline_type == ('diesel', 'Diesel'):
-        if gasoline_unit == 'gallon' or gasoline_unit == ('gallon', 'gallons'):
+    elif gasoline_type == 'diesel' or gasoline_type == ('diesel', 'Diesel')\
+        or gasoline_type == "('diesel', 'Diesel')":
+        if gasoline_unit == 'gallon' or gasoline_unit == ('gallon', 'gallons')\
+         or gasoline_unit == "('gallon', 'gallons')":
             return 22.4/2204.6
-    elif gasoline_type == 'b20' or gasoline_type == ('b20', '20% Biodiesel'):
-        if gasoline_unit == 'gallon' or gasoline_unit == ('gallon', 'gallons'):
+    elif gasoline_type == 'b20' or gasoline_type == ('b20', '20% Biodiesel')\
+        or gasoline_type == "('b20', '20% Biodiesel')":
+        if gasoline_unit == 'gallon' or gasoline_unit == ('gallon', 'gallons')\
+         or gasoline_unit == "('gallon', 'gallons')":
             return 17.9/2204.6
 
     raise ValueError("Gasoline Unit " + str(gasoline_unit) + " not allowed for gasoline type " + str(gasoline_type))
@@ -135,7 +145,7 @@ def get_elec_co2_conversion(elec_type, elec_unit):
     :return: elc_unit (the unit of electricity, e.g. therm),
             elec_co2_conversion (metric tons of CO2/unit)
     """
-    if elec_unit == 'kWh' or elec_unit == ('kWh', 'kWh'):
+    if elec_unit == 'kWh' or elec_unit == ('kWh', 'kWh') or elec_unit == "('kWh', 'kWh')":
         # tons of CO2 per elec_unit
         fuel_co2_conversions = {
             'coal': 10045./3412. * 0.0034095 * 26.05 * 11./3 * 0.001,
@@ -170,7 +180,7 @@ def get_elec_co2_conversion(elec_type, elec_unit):
         # PSE&G
         # https://www.pseg.com/info/environment/envirolabel.jsp, accessed 3/31/2018
         # Time Range: June 1, 2016 - May 31, 2017
-        if elec_type == 'pseg' or elec_type == ('pseg', 'PSE&G'):
+        if elec_type == 'pseg' or elec_type == ('pseg', 'PSE&G') or elec_type == "('pseg', 'PSE&G')":
             fuel_makeup = {'coal': 0.2184,
                            'gas': 0.2247,
                            'nuclear': 0.3953,
@@ -181,7 +191,7 @@ def get_elec_co2_conversion(elec_type, elec_unit):
         # Jersey Central Power & Light
         # https://www.firstenergycorp.com/content/dam/customer/billinserts/8285-NJEnvironmentalLabel1116.pdf, accessed 3/31/2018
         # Time Range: June 2015 - May 2016
-        elif elec_type == 'jcpl' or elec_type == ('jcpl', 'Jersey Central Power & Light'):
+        elif elec_type == 'jcpl' or elec_type == ('jcpl', 'Jersey Central Power & Light') or elec_type == "('jcpl', 'Jersey Central Power & Light')":
             fuel_makeup = {'coal': 0.3286,
                            'gas': 0.2476,
                            'nuclear': 0.3688,
@@ -191,7 +201,7 @@ def get_elec_co2_conversion(elec_type, elec_unit):
         # Atlantic City Electric
         # https://www.atlanticcityelectric.com/SiteCollectionDocuments/ACE%20Environ%20Disclosure%20Bill%202017.pdf, accessed 3/31/2018
         # Time Range:  June 1, 2016 to May 31, 2017
-        elif elec_type == 'atlantic' or elec_type == ('atlantic', 'Atlantic City Electric'):
+        elif elec_type == 'atlantic' or elec_type == ('atlantic', 'Atlantic City Electric') or elec_type == "('atlantic', 'Atlantic City Electric')":
             fuel_makeup = {'coal': 0.328,
                            'gas': 0.246,
                            'nuclear': 0.325,
@@ -201,7 +211,7 @@ def get_elec_co2_conversion(elec_type, elec_unit):
         # Rockland Electric
         # https://www.oru.com/_external/orurates/documents/nj/NJElectricityProductLabel.pdf, accessed 3/31/2018
         # Time Range:  January through June 2017
-        elif elec_type == 'rockland' or elec_type == ('rockland', 'Orange Rockland Electric'):
+        elif elec_type == 'rockland' or elec_type == ('rockland', 'Orange Rockland Electric') or elec_type == "('rockland', 'Orange Rockland Electric')":
             fuel_makeup = {'coal': 0.263,
                            'gas': 0.274,
                            'nuclear': 0.364,
@@ -239,16 +249,20 @@ def get_heating_co2_conversion(heating_type, heating_unit):
 
     # Natural Gas CO2/therm: https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references
     # 0.0053 metric tons CO2/therm
-    if heating_type == 'gas' or heating_type == ('gas', 'Natural Gas'):
-        if heating_unit == 'therm' or heating_unit == ('therm', 'therms'):
+    if heating_type == 'gas' or heating_type == ('gas', 'Natural Gas')\
+        or heating_type == "('gas', 'Natural Gas')":
+        if heating_unit == 'therm' or heating_unit == ('therm', 'therms')\
+            or heating_unit == "('therm', 'therms')":
             heating_co2_conversion = 0.0053
         else:
             raise ValueError("Heating Unit " + str(heating_unit) + " not allowed for heating type " + str(heating_type))
 
     # Distillate Fuel Oil (Home Heating Fuel) https://www.eia.gov/environment/emissions/co2_vol_mass.php
     # 10.16 kg CO2/gallon * 0.001 metric tons/kg
-    elif heating_type == 'fuel' or heating_type == ('fuel', 'Fuel Oil'):
-        if heating_unit == 'gallon' or heating_unit == ('gallon', 'gallons'):
+    elif heating_type == 'fuel' or heating_type == ('fuel', 'Fuel Oil')\
+        or heating_type == "('fuel', 'Fuel Oil')":
+        if heating_unit == 'gallon' or heating_unit == ('gallon', 'gallons')\
+            or heating_unit == "('gallon', 'gallons')":
             heating_co2_conversion = 10.16 * 0.001
         else:
             raise ValueError("Heating Unit " + str(heating_unit) + " not allowed for heating type " + str(heating_type))
@@ -379,7 +393,7 @@ class UserProfile(models.Model):
 
     # the fundamental unit: electricity in kWh per month
 
-    elec_amt = models.FloatField(default=9000.0, validators=[validate_nonnegative])
+    elec_amt = models.FloatField(default=900.0, validators=[validate_nonnegative])
     elec_type = models.CharField(choices=ELEC_CHOICES, default='pseg', max_length=40, help_text="Your electric utility provider.")
     elec_unit = models.CharField(choices=ELEC_UNIT_CHOICES, default=DEFAULT_ELEC_UNIT_CHOICE,
                                     max_length=40)
@@ -395,7 +409,6 @@ class UserProfile(models.Model):
             EMISSIONSPERPERIOD = ANNUALEMISSIONS / 12.0
         elif self.period == 'year':
             EMISSIONSPERPERIOD = ANNUALEMISSIONS
-            pass
         else:
             raise ValueError("Period " + str(self.period) + " not allowed.")
 
