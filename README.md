@@ -1,15 +1,21 @@
 ## NJ Carbon Dividend Calculator
-By the year 2100, climate change could force 100s of thousands of NJ citizens to evacuate the coastline. 
+By the year 2100, climate change could force 100s of thousands of NJ citizens to evacuate the coa\
+stline.
 
-20 students at Princeton are working with state legislators to put a price on carbon in New Jersey. 
-The policy is to place a fee on fossil fuels, The majority of revenue returned to households as dividends to handle the increased energy costs. Economists and politicans of both parties support this policy.
+20 students at Princeton are working with state legislators to put a price on carbon in New Jerse\
+y.
+The policy places a fee on fossil fuels. The majority of revenue is returned to households as div\
+idends to handle the increased energy costs. Economists and politicans of both parties support th\
+is policy.
 
-How would this policy affect your family? Estimating an individual’s net monetary gain or loss is a technical and laborious process that the average NJ citizen might not have the time for.
+How would this policy affect your family? Estimating an individual’s net monetary gain or loss is\
+ a technical and laborious process that the average NJ citizen might not have the time for.
 This is where our project, the Carbon Dividend Calculator, comes in.
 
 Our simple web app takes in user energy information and outputs the impact on their bottom line.
-We provide personalized information in a transparent and nonpartisan way. 
-Our vision is a clear, intuitive app that empowers thousands of users to better understand and adapt to this new carbon policy.
+We provide personalized information in a transparent and nonpartisan way.
+Our vision is a clear, intuitive app that empowers thousands of users to better understand and ad\
+apt to this new carbon policy.
 
 ### Project Link
 Simply visit [http://njcdc.herokuapp.com/calc](http://njcdc.herokuapp.com/calc)!
@@ -22,8 +28,10 @@ Simply visit [http://njcdc.herokuapp.com/calc](http://njcdc.herokuapp.com/calc)!
 
 **TA** Ashley Kling
 
-### Design Document
-Check out our Design Document [here](https://docs.google.com/document/d/1fbyBMIPSoOc2NCIeDV0IEIyHV9j41kQMEy9_4SR4y1I/edit?usp=sharing).
+### Product Guide
+See our	[Product	Guide](https://docs.google.com/document/d/1b9GlpMpetm37wphGDw4mb_3Azij19XAqfeeWU\
+xk9RPg/edit?usp=sharing) and [Design Document](https://docs.google.com/document/d/1sv3MZDi_xgblEW\
+WQ9fWndEvr\kxYzvYnJwBo3Je24WTc/edit?usp=sharing).
 
 ## Download guide:
 1. Create a new directory, start a virtualenv (make sure you're using Python3!)
