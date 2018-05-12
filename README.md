@@ -25,64 +25,35 @@ Simply visit [http://njcdc.herokuapp.com/calc](http://njcdc.herokuapp.com/calc)!
 ### Design Document
 Check out our Design Document [here](https://docs.google.com/document/d/1fbyBMIPSoOc2NCIeDV0IEIyHV9j41kQMEy9_4SR4y1I/edit?usp=sharing).
 
-### Timeline
-#### All deadlines are at 11:59 PM Eastern, on Sunday.
+## Download guide:
+1. Create a new directory, start a virtualenv (make sure you're using Python3!)
+```
+mkdir ~/njcdc_calc
+virtualenv njcdc
+source njcdc/bin/activate
+```
+To ensure you are using Python 3.6, you can run
+```
+virtualenv njcdc -p /usr/bin/python3.6 njcdc
+```
+2. Clone this directory
+```
+git clone git@github.com:lujonathanh/njcdc
+```
+3. Install dependencies
+```
+pip install Django==2.0.5
+```
+4. Run manage.py
+```
+cd ~/njcdc_calc/njcdc
+python manage.py runserver 8000
+```
+This will activate the website on the chosen port 8000 (you can change this number)
 
-March 11th-- Learning Languages + User Feedback Plan
-Tasks:
-* Successful Git Repository with Django Tutorial
-* Successful Push + Pull + Branch on Heroku
-* Set up basic bootstrap 
-
-March 18th-- Pipes Working
-Tasks:
-* Git Push-Pull to Server
-* Hello World! On website
-Overhead:
-* Signing up for accounts; learning git commands
-
-March 25th (end of spring break)-- Project Prototype
-Tasks:
-* Basic Features Implemented: Info, Results, Actions
-* Website Live Walkthrough
-Overhead:
-* Learning Bootstrap
-* Creating and Customizing Views
-* Prototyping and Iterating on View Designs
-* Actions Impacts
-
-April 1st: User Feedback 1, Begin Advanced Features
-Tasks:
-* Design User Feedback From
-* Get feedback from team contacts, environmental groups
-* Implement Google Analytics
-Overhead:
-* Meeting with other groups and giving tutorial on app
-* Learning Google Analytics
-
-April 8th: Advanced Features
-Tasks:
-* Top Energy-Saving Options
-* Adaptive Updates to The Actions Tab
-* Customized Style using Less
-Overhead:
-* Learning Less
-* Researching Energy-Saving Options and estimating net impact on household costs
-
-April 15th: User Feedback 2
-Tasks:
-* Implement widespread survey of other groups, including New Jersey citizens, community members, and others
-* Finalize Advanced Updates
-Overhead:
-* Contacting many community members and getting them to attempt the app
-
-April 22nd: Project Submission
-* Submit final project early, so that seniors can focus on theses
-
-April 29th: Demo Plan
-* Plan Demo and project presentation
-* Have 3 sample use stories as videos/illustrations
-
-May 7-9th: Demos
-
-May 13th: Project Due
+5. To deploy your website, fork this directory
+```
+git remote add my-fork git@github...my-fork.git
+git fetch my-fork
+git push my-fork
+```
