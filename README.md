@@ -38,22 +38,29 @@ virtualenv njcdc -p /usr/bin/python3.6 njcdc
 ```
 2. Clone this directory
 ```
-git clone git@github.com:lujonathanh/njcdc
+git clone git@github.com:lujonathanh/njcdc.git
 ```
 3. Install dependencies
 ```
 pip install Django==2.0.5
+pip install whitenoise
 ```
-4. Run manage.py
+4. Move local settings to a settings file
+```
+cd ~/njcdc_calc/njcdc 
+mv njcdc/settings.py njcdc/settings_original.py
+mv njcdc/settings_local_template.py njcdc/settings.py
+```
+5. Run manage.py
 ```
 cd ~/njcdc_calc/njcdc
+python manage.py migrate
 python manage.py runserver 8000
 ```
 This will activate the website on the chosen port 8000 (you can change this number)
 
-5. To deploy your website, fork this directory
+You can now access the site at your local browser by pasting
 ```
-git remote add my-fork git@github...my-fork.git
-git fetch my-fork
-git push my-fork
+http://127.0.0.1:8000/
 ```
+
