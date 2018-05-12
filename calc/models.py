@@ -30,15 +30,6 @@ def validate_leq20(value):
                               params={'value': value},
                               )
 
-PERIOD_CHOICES = (('month', 'Per Month'), )
-
-
-ELEC_UNIT_CHOICES = (('kWh', 'kWh'),)
-
-HEATING_UNIT_CHOICES = (('therm', 'therms'), ('gallon', 'gallons'))
-
-GASOLINE_UNIT_CHOICES = (('gallon', 'gallons'), )
-
 
 def get_possible_gasoline_units(gasoline_type):
     if gasoline_type in {'e10', 'e0', 'diesel', 'b20'} or gasoline_type in GASOLINE_CHOICES:
@@ -173,7 +164,7 @@ def get_heating_co2_conversion(heating_type, heating_unit):
         or heating_type == "('fuel', 'Fuel Oil')":
         if heating_unit == 'gallon' or heating_unit == ('gallon', 'gallons')\
             or heating_unit == "('gallon', 'gallons')":
-            heating_co2_conversion = fuel_oil_ton_co2_per_therm
+            heating_co2_conversion = fuel_oil_ton_co2_per_gallon
         else:
             raise ValueError("Heating Unit " + str(heating_unit) + " not allowed for heating type " + str(heating_type))
     else:

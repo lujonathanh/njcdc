@@ -1,5 +1,6 @@
-
+##################################
 ###### POLICY PARAMETERS #########
+##################################
 
 # per ton CO2
 FEE = 30
@@ -10,16 +11,27 @@ REBATE_PORTION = 0.7
 # child multiplier
 CHILD_MULTIPLIER = 0.5
 
+# period of question. DO NOT MODIFY!!! FUNCTIONALITY NOT BUILT IN.
+PERIOD_CHOICES = (('month', 'Per Month'), )
 
-##########  ENERGY PARAMETERS ****#
+
+##################################
+#####  ENERGY PARAMETERS #########
+##################################
+
+
+######################################################
+## GASOLINE
+######################################################
 
 
 ###### GASOLINE CHOICES
 
 GASOLINE_CHOICES = (('e10', 'Regular Gasoline'), ('e0', 'Pure Gasoline'), ('diesel', 'Diesel'), ('b20', '20% Biodiesel'))
 
+GASOLINE_UNIT_CHOICES = (('gallon', 'gallons'), )
 
-###### GASOLINE PARAMETERS
+###### GASOLINE CO2 PARAMETERS
 e10_ton_co2_per_gallon = 17.6/2204.6
 # https://www.eia.gov/tools/faqs/faq.php?id=307&t=11
 
@@ -31,13 +43,18 @@ b20_ton_co2_per_gallon = 17.9/2204.6
 
 
 
-
+######################################################
 ## HEATING
+######################################################
+
 
 ######## HEATING CHOICES
+
 HEATING_CHOICES = ( ('gas', 'Natural Gas'), ('fuel', 'Fuel Oil'))
 
-######## HEATING PARAMETERS
+HEATING_UNIT_CHOICES = (('therm', 'therms'), ('gallon', 'gallons'))
+
+######## HEATING CO2 PARAMETERS
 
 natural_gas_ton_co2_per_therm = 0.0053
 # Natural Gas CO2/therm: https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references
@@ -48,7 +65,23 @@ fuel_oil_ton_co2_per_gallon = 10.16 * 0.001
 # 10.16 kg CO2/gallon * 0.001 metric tons/kg
 
 
+
+
+######################################################
 ## ELECTRIC
+######################################################
+
+
+######## ELECTRIC UTILITY CHOICES
+
+ELEC_CHOICES = ( ('pseg', 'PSE&G'), ('rockland', 'Orange Rockland Electric'),
+                 ('jcpl', 'Jersey Central Power & Light'), ('atlantic', 'Atlantic City Electric'))
+
+
+ELEC_UNIT_CHOICES = (('kWh', 'kWh'),)
+
+
+######## ELECTRIC CO2 PARAMETERS
 
 elec_coal_ton_co2_per_kwh = 10045./3412. * 0.0034095 * 26.05 * 11./3 * 0.001
 # kwH of Coal per kwH generated is the average heat rate, 10045, divided by 3412
@@ -78,17 +111,7 @@ elec_nuclear_ton_co2_per_kwh = 0
 elec_clean_ton_co2_per_kwh = 0
 
 
-
-## ELECTRIC UTILITY
-
-######## UTILITY CHOICES
-
-ELEC_CHOICES = ( ('pseg', 'PSE&G'), ('rockland', 'Orange Rockland Electric'),
-                 ('jcpl', 'Jersey Central Power & Light'), ('atlantic', 'Atlantic City Electric'))
-
-
-######## UTILITY PARAMETERS
-
+######## UTILITY PORTIONS OF FUELS
 
 ### YOU MUST DEFINE A DICTIONARY WITH the relative proportions of:
 #  'coal', 'gas', 'nuclear', 'oil', 'clean'
@@ -136,8 +159,9 @@ rockland_fuel_makeup = {'coal': 0.263,
 
 
 
-
+##########################################
 ###### STATE-SPECIFIC PARAMETERS #########
+##########################################
 
 # NOTE THAT THE ENERGY PARAMETERS MAY BE STATE-SPECIFIC AS WELL
 
@@ -158,7 +182,12 @@ UNDER18_POPULATION = TOTALPOPULATION - ADULT_POPULATION
 ANNUALEMISSIONS = 111.9 * 10**6
 
 
-########## INPUT DEFAULTS
+
+
+
+##########################################
+##########    INPUT DEFAULTS #############
+##########################################
 
 DEFAULT_ADULTS = 1
 DEFAULT_CHILDREN = 0
