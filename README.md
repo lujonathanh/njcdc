@@ -29,9 +29,8 @@ Simply visit [http://njcdc.herokuapp.com/calc](http://njcdc.herokuapp.com/calc)!
 **TA** Ashley Kling
 
 ### Product Guide
-See our	[Product	Guide](https://docs.google.com/document/d/1b9GlpMpetm37wphGDw4mb_3Azij19XAqfeeWU\
-xk9RPg/edit?usp=sharing) and [Design Document](https://docs.google.com/document/d/1sv3MZDi_xgblEW\
-WQ9fWndEvr\kxYzvYnJwBo3Je24WTc/edit?usp=sharing).
+See our	[Product Guide](https://docs.google.com/document/d/1b9GlpMpetm37wphGDw4mb_3Azij19XAqfeeWU\xk9RPg/edit?usp=sharing)
+and [Design Document](https://docs.google.com/document/d/1sv3MZDi_xgblEW\WQ9fWndEvr\kxYzvYnJwBo3Je24WTc/edit?usp=sharing).
 
 ## Download guide:
 1. Create a new directory, start a virtualenv (make sure you're using Python3!)

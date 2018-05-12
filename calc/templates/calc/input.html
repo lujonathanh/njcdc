@@ -100,7 +100,7 @@ form.input {
                 {% endfor %}
               {% endif %}
             <div class="text-center input">{{ input_form.children }}
-              <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="Your monthly dividend is proportional to the number of people in your household. Children count as half an adult. For example, a household with 1 adult and 2 children would get the same monthly dividend as a household with 2 adults and 0 children."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
+              <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="Children count as half an adult in the policy's calculation. For example, a household with 1 adult and 2 children would get the same monthly dividend as a household with 2 adults and 0 children."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
             </div>
           </div> 
         </div>
@@ -127,7 +127,7 @@ form.input {
                     {% endfor %}
                   {% endif %}
                     <div class="text-center">{{ input_form.gasoline_type }}
-                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="Different gas types produce different amounts of carbon emissions when burned."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
+                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="Different gas types will have different price increases."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
                 <br/>
@@ -146,7 +146,7 @@ form.input {
                     {% endfor %}
                   {% endif %}
                     <div class="text-center input">{{ input_form.gasoline_amt }} {{ gasoline_unit }}
-                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="Depending on the type of gas you use, the price would increase by around 24 to 29 cents per gallon."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
+                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="Smaller cars generally hold about 12 gallons of gas, while larger cars use 15-16 gallons. So you can multiply one of these numbers by the number of times you fill up per month."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
           </div>
@@ -169,7 +169,7 @@ form.input {
                     {% endfor %}
                   {% endif %}
                     <div class="text-center input">{{ input_form.heating_type }}
-                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
+                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="If you have electric heating, the price increase will be reflected in the Electricity section."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
                 </br>
@@ -217,7 +217,7 @@ form.input {
                     {% endfor %}
                   {% endif %}
                     <div class="text-center input">{{ input_form.elec_type }}
-                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
+                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="Go to http://www.njcleanenergy.com/files/image/electric_map.gif to see a map of coverage areas of the utility companies."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
                 </br>
@@ -236,7 +236,7 @@ form.input {
                     {% endfor %}
                   {% endif %}
                     <div class="text-center input">{{ input_form.elec_amt }} {{ elec_unit }}
-                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="This will help us estimate your carbon emissions."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
+                        <a href="#" data-toggle="tooltip" id="tooltip" data-placement="top" title="Your electricity bill should give you this value."><img src="{% static "calc/question.png" %}" width="15" height="15"></a>
                     </div>
                 </div> 
             </div>
