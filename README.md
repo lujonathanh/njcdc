@@ -59,7 +59,7 @@ python manage.py runserver 8000
 ```
 This will activate the website on the chosen port 8000 (you can change this number)
 
-You can now access the site at your local browser by pasting
+You can now access the local copy of the site at your local browser by pasting
 ```
 http://127.0.0.1:8000/
 ```
