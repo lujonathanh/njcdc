@@ -77,7 +77,7 @@ form.input {
       <div class=" text-center">
         <div id="basic_info_panel">
           <div>
-            <label class="text-center">How many adults (age 18+) live in your home?</label>
+            <label class="text-center">How many adults (age 18+) live in your home for the majority of the year?</label>
               {% if input_form.adults.errors %}
                 {% for error in input_form.adults.errors %}
                     <div class="alert alert-danger">
@@ -91,7 +91,7 @@ form.input {
           </div>
           <br/>
           <div>
-            <label>How many children live in your home?</label>
+            <label>How many children live in your home for the majority of the year?</label>
               {% if input_form.children.errors %}
                 {% for error in input_form.children.errors %}
                     <div class="alert alert-danger">
