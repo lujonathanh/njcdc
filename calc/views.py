@@ -111,6 +111,7 @@ def input(request):
     response = HttpResponse(template.render(context, request))
     return response
 
+# BELOW COMMENTED IS DEPRECATED, DO NOT UNCOMMENT!!!!!!!!!!!!!!!!!!!!!!
 # def updating_input(request):
 #     if request.method == 'POST':
 #         input_form = UpdatingInputForm(request.POST)
@@ -155,6 +156,12 @@ def results(request):
 
 
 def results0(request):
+    """
+    Handles the edge case where zeros are entered for all energy inputs, which causes a bunch of NaN values.
+    If someone uses no energy they are absolutely fine.
+    :param request:
+    :return:
+    """
     context = {}
     keys = ['elec', 'gas', 'heat', 'benefit', 'total_cost', 'net']
 
