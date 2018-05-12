@@ -51,10 +51,17 @@ cd ~/njcdc_calc/njcdc
 mv njcdc/settings.py njcdc/settings_original.py
 mv njcdc/settings_local_template.py njcdc/settings.py
 ```
-5. Run manage.py
+
+5. To populate your database with data for NJ zip codes, run
+
+```
+python manage.py migrate
+python manage.py shell < data/populate_database.py
+```
+
+6. Run manage.py
 ```
 cd ~/njcdc_calc/njcdc
-python manage.py migrate
 python manage.py runserver 8000
 ```
 This will activate the website on the chosen port 8000 (you can change this number)
