@@ -32,6 +32,7 @@ GASOLINE_CHOICES = (('e10', 'Regular Gasoline'), ('e0', 'Pure Gasoline'), ('dies
 GASOLINE_UNIT_CHOICES = (('gallon', 'gallons'), )
 
 ###### GASOLINE CO2 PARAMETERS
+
 e10_ton_co2_per_gallon = 17.6/2204.6
 # https://www.eia.gov/tools/faqs/faq.php?id=307&t=11
 
