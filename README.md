@@ -29,7 +29,7 @@ Simply visit [http://njcdc.herokuapp.com/calc](http://njcdc.herokuapp.com/calc)!
 **TA** Ashley Kling
 
 ### Product Guide
-See our	[Product Guide](https://docs.google.com/document/d/1b9GlpMpetm37wphGDw4mb_3Azij19XAqfeeWU\xk9RPg/edit?usp=sharing)
+See our	[Product Guide](productguide.pdf), [Final Report](report.pdf),
 and [Design Document](https://docs.google.com/document/d/1sv3MZDi_xgblEW\WQ9fWndEvr\kxYzvYnJwBo3Je24WTc/edit?usp=sharing).
 
 ## Download guide:
